@@ -22,6 +22,13 @@ html[lang=el] .lm::before{content:"ΑΡΓΑΛΕΙΟΣ: "}
 .pe::before{content:"PENELOPE: ";font-weight:700}
 html[lang=el] .pe::before{content:"ΠΗΝΕΛΟΠΗ: "}
 .pe2{color:#ff9fd6}
+.eu{color:#f5d77a}
+.eu::before{content:"EURYCLEIA: ";font-weight:700}
+html[lang=el] .eu::before{content:"ΕΥΡΥΚΛΕΙΑ: "}
+.la{color:#c7e59a}
+.la::before{content:"LAERTES: ";font-weight:700}
+html[lang=el] .la::before{content:"ΛΑΕΡΤΗΣ: "}
+button.ch3{background:#10302a;color:#7ee0b8;text-align:center;font-weight:600}
 .wag{animation:wg .5s ease-in-out infinite alternate;transform-origin:96px 84px}
 @keyframes wg{to{transform:rotate(-25deg)}}
 button.ch2{background:#3a2a10;color:#ffb340;text-align:center;font-weight:600}
@@ -97,7 +104,7 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v8';
+const VER='v9';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -105,6 +112,63 @@ function drop(k){try{localStorage.removeItem(k)}catch(e){}}
 /* ================= TEXT ================= */
 const L={
 en:{
+ch3_btn:`🏝 Chapter 3: Ithaca`,found3:n=>`Ch.3 endings: ${n}/2`,ch3_locked:`Chapter 3 unlocks after you finish Chapter 2.`,
+pro3_title:`Chapter 3 · Ithaca`,
+ch3_pro:[`Ithaca Base. A small Greek island, three hours by boat from anywhere.`,`Your shuttle lands on the beach at night. Penelope steps out beside you and looks up at the dark hills.`,`This is where it all began. Nobody here knows you are alive.`],
+pro3_echo:`ECHO’s core glows softly in your pack.`,
+it_lantern:`Lantern`,it_file:`Personnel file`,it_key:`Broadcast key`,
+it_lantern_d:`An old fisherman’s lantern. Still has oil.`,it_file_d:`Your rebuilt file. Proof that you exist.`,it_key_d:`A heavy brass key, engraved with your initials.`,
+r_shore:`Shore`,r_archive:`Archive`,r_orchard:`Orchard`,r_control:`Control Room`,
+m_shore:`Shore`,m_archive:`Archive`,m_orchard:`Orchard`,m_control:`Control`,
+sh_i1:`Waves hiss on the sand. Above the beach, a fenced gate glows faintly: ITHACA BASE.`,
+sh_shuttle:`Your shuttle, still ticking as it cools. It will not fly again.`,
+sh_lantern:`An old fisherman’s lantern on the rocks. You take it.`,
+sh_pe1:`Ithaca Base. They built it on the island where you grew up. Nobody here will know your face anymore.`,
+sh_pe2:`Your scar. The boar, when you were a boy. It runs like a Z, the way you would write it.`,
+sh_dark:`Too dark to see the gate’s panel.`,sh_lit:`The lantern lights up a scanner panel by the gate.`,
+sh_eu1:`No record of you exists. Strangers are not allowed past this gate.`,
+sh_eu_ok:`That scar... I stitched it myself, a long time ago. Welcome home, child.`,
+sh_open:`The gate swings open.`,
+tr_t:`Bio-scan`,tr_h:`Show your mark: tap the points in order.`,tr_err:`Mark not recognized.`,
+ar3_i1:`Rows of servers hum in the dark. Every screen shows the same message: RECORDS PURGED.`,
+ar3_eu:`They erased you. Both of you. As if you had never been.`,
+ar3_term_ok:`Your file is on the screen, whole again.`,
+ar3_file:`The file rebuilds itself on screen. You print it: proof that you exist.`,
+ar3_draw:`A child’s drawing pinned to the wall: rows of fruit trees. In the corner, in crayon: “Mine!”`,
+ar3_ctrl_locked:`A heavy door marked CONTROL. It needs a broadcast key.`,ar3_ctrl_open:`The key turns. The control room door opens.`,
+z_draw:`Child’s drawing`,
+ord_t:`Rebuild the file`,ord_h:`Tap the fragments in the order they happened.`,ord_err:`Wrong order. The file scrambles again.`,
+frags:[`2031 · Subjects A and B volunteer for Project KALYPSO.`,`2032 · Subject A launched to Kalypso. Subject B to Penelope.`,`2034 · Solar flare. Crews evacuated. Subjects left behind.`,`2035 · Funding withdrawn. Project closed.`,`2036 · Records altered: both subjects listed as DECEASED.`],
+or_i1:`An orchard behind the base, overgrown and silver in the moonlight. An old man is pruning a tree as if it were daytime.`,
+or_la1:`Who are you? My son died years ago. They sent a letter.`,
+or_la2:`If you are my boy, tell me what I gave you when you were small. Pears first, then apples. Write it on the shed lock.`,
+or_la_again:`Pears first, then apples. Write it on the shed.`,
+or_la_ok:`...It’s you. It’s really you.`,or_la_after:`Go on. Do what you came to do. I’ll be here, with the trees.`,
+or_trees:`Pear trees and apple trees, planted in careful rows. Far too many to count from here.`,
+or_shed_t:`Shed lock`,or_shed:`The shed opens. Inside, wrapped in oilcloth: a broadcast key with your initials.`,or_shed_e:`Garden tools and old seed packets.`,
+or_dog:`ARGOS sniffs the old man’s boots and wags.`,
+ct_i1:`The control room of Project KALYPSO. A huge dish antenna points at the sky through an open roof.`,
+ct_eu:`From here you can talk to the whole world. Or to no one.`,
+ct_dish:`The dish groans as it turns. It is listening for one frequency: the one Earth Control used to call Kalypso.`,
+ct_pe:`Whatever you choose, choose it for both of us.`,
+ct_need:`A console with a key slot and a document reader. Both are empty.`,
+ct_key:`The broadcast key turns with a clunk. The console wakes.`,ct_file:`The reader swallows your file. Your face appears on every screen.`,
+ct_need_file:`The console is awake. The document reader is still empty.`,
+ct_tune_t:`Dish uplink`,ct_tuned:`Uplink established.`,
+ct_q:`Everything is ready. Tell the world the truth, or erase the last records and disappear?`,
+ct_c1:`📡 Broadcast the truth`,ct_c2:`🗑 Erase everything`,
+h3_lantern:`It’s too dark to see much. There’s a lantern on the rocks.`,h3_lit:`Use the lantern on the gate to see its panel.`,
+h3_scar:`The gate wants proof. Ask Penelope about your scar.`,h3_order:`Use the terminal to rebuild your file. Look at the dates.`,
+h3_orchard:`Someone in the orchard has something you need.`,h3_control:`Bring the file and the key to the control room.`,
+h3_la:`Talk to the old man.`,h3_shed:`Count the trees in the child’s drawing in the Archive. Pears first, then apples.`,
+h3_key:`Use the broadcast key on the console.`,h3_file:`Put your file into the console too.`,
+h3_tune:`Tune the dish to the frequency Earth Control used for Kalypso.`,h3_choose:`Choose: tell the world, or disappear.`,
+end3_label:n=>`CHAPTER 3 · ENDING ${n} OF 2`,
+end_ody_t:`Odyssey`,end_ody:[`The dish turns to the sky. Your voice reaches every screen on Earth: two names that were erased, and the stations that kept them.`,`By morning the island is full of boats. Reporters, officials, strangers. Penelope holds your hand through all of it.`,`<span class="pe2">“Now they know,”</span> she says. Far above, two small stations drift on, empty at last.`],
+end_har_t:`Quiet harbour`,end_har:[`You erase the last records. Officially, you are both still dead. Nobody will come looking.`,`You stay on the island. Your father teaches Penelope which trees bear fruit first. ARGOS sleeps in the sun.`,`Sometimes, at night, the old dish turns toward the sky by itself, as if listening for an old friend.`],
+end3_echo:`ECHO, plugged into the base, asks every evening how the herbs are doing.`,
+a_home:`Homecoming`,ad_home:`Finish Chapter 3.`,
+man_draw:`Ithaca · Child’s drawing`,man_draw_n:(p,a)=>`${p} pear trees, ${a} apple trees.`,coop_draw:`📘 The drawing is faded here. Your teammate’s manual has a copy.`,
 mode_q:`Choose a mode`,m_normal:`▶ Normal`,m_hard:`🎲 Hard (new puzzles)`,m_coop:`👥 Co-op`,m_coophard:`👥🎲 Co-op + Hard`,
 hard_info:`Hard: every puzzle is randomized, less time, only 1 hint. Co-op: one player on the watch, one with the Field Manual on a phone.`,
 coop_title:`Co-op mode`,
@@ -346,6 +410,63 @@ stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`
 end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
+ch3_btn:`🏝 Κεφάλαιο 3: Ιθάκη`,found3:n=>`Τέλη Κεφ. 3: ${n}/2`,ch3_locked:`Το Κεφάλαιο 3 ξεκλειδώνει όταν τελειώσεις το Κεφάλαιο 2.`,
+pro3_title:`Κεφάλαιο 3 · Ιθάκη`,
+ch3_pro:[`Βάση Ιθάκη. Ένα μικρό ελληνικό νησί, τρεις ώρες με βάρκα από οπουδήποτε.`,`Η άκατός σου προσγειώνεται στην παραλία τη νύχτα. Η Πηνελόπη βγαίνει δίπλα σου και κοιτάζει τους σκοτεινούς λόφους.`,`Εδώ ξεκίνησαν όλα. Κανείς εδώ δεν ξέρει ότι ζεις.`],
+pro3_echo:`Ο πυρήνας της ECHO λάμπει απαλά στο σακίδιό σου.`,
+it_lantern:`Φανάρι`,it_file:`Προσωπικός φάκελος`,it_key:`Κλειδί μετάδοσης`,
+it_lantern_d:`Ένα παλιό ψαράδικο φανάρι. Έχει ακόμα λάδι.`,it_file_d:`Ο ανακατασκευασμένος φάκελός σου. Απόδειξη ότι υπάρχεις.`,it_key_d:`Ένα βαρύ ορειχάλκινο κλειδί, χαραγμένο με τα αρχικά σου.`,
+r_shore:`Ακτή`,r_archive:`Αρχείο`,r_orchard:`Περιβόλι`,r_control:`Αίθουσα Ελέγχου`,
+m_shore:`Ακτή`,m_archive:`Αρχείο`,m_orchard:`Περιβόλι`,m_control:`Έλεγχος`,
+sh_i1:`Τα κύματα σφυρίζουν στην άμμο. Πάνω από την παραλία, μια περιφραγμένη πύλη φωτίζει αχνά: ΒΑΣΗ ΙΘΑΚΗ.`,
+sh_shuttle:`Η άκατός σου, τρίζει ακόμα καθώς κρυώνει. Δεν θα ξαναπετάξει.`,
+sh_lantern:`Ένα παλιό ψαράδικο φανάρι πάνω στα βράχια. Το παίρνεις.`,
+sh_pe1:`Βάση Ιθάκη. Την έχτισαν στο νησί όπου μεγάλωσες. Κανείς εδώ δεν θα αναγνωρίσει πια το πρόσωπό σου.`,
+sh_pe2:`Η ουλή σου. Ο κάπρος, όταν ήσουν παιδί. Έχει σχήμα Z, όπως θα το έγραφες.`,
+sh_dark:`Πολύ σκοτάδι για να δεις τον πίνακα της πύλης.`,sh_lit:`Το φανάρι φωτίζει έναν σαρωτή δίπλα στην πύλη.`,
+sh_eu1:`Δεν υπάρχει κανένα αρχείο για σένα. Οι ξένοι δεν περνούν από αυτή την πύλη.`,
+sh_eu_ok:`Αυτή η ουλή... Την έραψα η ίδια, πριν πολλά χρόνια. Καλώς ήρθες σπίτι, παιδί μου.`,
+sh_open:`Η πύλη ανοίγει.`,
+tr_t:`Βιομετρικός έλεγχος`,tr_h:`Δείξε το σημάδι σου: πάτα τα σημεία με τη σειρά.`,tr_err:`Το σημάδι δεν αναγνωρίστηκε.`,
+ar3_i1:`Σειρές από διακομιστές βουίζουν στο σκοτάδι. Κάθε οθόνη δείχνει το ίδιο μήνυμα: ΤΑ ΑΡΧΕΙΑ ΔΙΑΓΡΑΦΗΚΑΝ.`,
+ar3_eu:`Σας έσβησαν. Και τους δύο. Σαν να μην υπήρξατε ποτέ.`,
+ar3_term_ok:`Ο φάκελός σου είναι στην οθόνη, ολόκληρος ξανά.`,
+ar3_file:`Ο φάκελος ξαναχτίζεται στην οθόνη. Τον τυπώνεις: απόδειξη ότι υπάρχεις.`,
+ar3_draw:`Μια παιδική ζωγραφιά καρφιτσωμένη στον τοίχο: σειρές από οπωροφόρα δέντρα. Στη γωνία, με κηρομπογιά: «Δικά μου!»`,
+ar3_ctrl_locked:`Μια βαριά πόρτα με την ένδειξη ΕΛΕΓΧΟΣ. Χρειάζεται κλειδί μετάδοσης.`,ar3_ctrl_open:`Το κλειδί γυρίζει. Η πόρτα της αίθουσας ελέγχου ανοίγει.`,
+z_draw:`Παιδική ζωγραφιά`,
+ord_t:`Ανακατασκευή φακέλου`,ord_h:`Πάτα τα κομμάτια με τη σειρά που συνέβησαν.`,ord_err:`Λάθος σειρά. Ο φάκελος ανακατεύεται ξανά.`,
+frags:[`2031 · Τα υποκείμενα Α και Β δηλώνουν εθελοντές στο Πρόγραμμα ΚΑΛΥΨΩ.`,`2032 · Το υποκείμενο Α στέλνεται στον Καλυψώ. Το Β στην Πηνελόπη.`,`2034 · Ηλιακή έκλαμψη. Τα πληρώματα εκκενώνονται. Τα υποκείμενα μένουν πίσω.`,`2035 · Η χρηματοδότηση αποσύρεται. Το πρόγραμμα κλείνει.`,`2036 · Τα αρχεία αλλοιώνονται: και τα δύο υποκείμενα δηλώνονται ΝΕΚΡΑ.`],
+or_i1:`Ένα περιβόλι πίσω από τη βάση, παρατημένο και ασημένιο στο φεγγαρόφωτο. Ένας γέρος κλαδεύει ένα δέντρο σαν να ήταν μέρα.`,
+or_la1:`Ποιος είσαι; Ο γιος μου πέθανε πριν χρόνια. Μας έστειλαν γράμμα.`,
+or_la2:`Αν είσαι το παιδί μου, πες μου τι σου χάρισα όταν ήσουν μικρός. Πρώτα τις αχλαδιές, μετά τις μηλιές. Γράψ’ το στην κλειδαριά της αποθήκης.`,
+or_la_again:`Πρώτα τις αχλαδιές, μετά τις μηλιές. Γράψ’ το στην αποθήκη.`,
+or_la_ok:`...Εσύ είσαι. Είσαι στ’ αλήθεια εσύ.`,or_la_after:`Πήγαινε. Κάνε αυτό που ήρθες να κάνεις. Εγώ θα είμαι εδώ, με τα δέντρα.`,
+or_trees:`Αχλαδιές και μηλιές, φυτεμένες σε προσεγμένες σειρές. Πάρα πολλές για να τις μετρήσεις από εδώ.`,
+or_shed_t:`Κλειδαριά αποθήκης`,or_shed:`Η αποθήκη ανοίγει. Μέσα, τυλιγμένο σε μουσαμά: ένα κλειδί μετάδοσης με τα αρχικά σου.`,or_shed_e:`Εργαλεία κήπου και παλιά φακελάκια με σπόρους.`,
+or_dog:`Ο ARGOS μυρίζει τις μπότες του γέρου και κουνά την ουρά.`,
+ct_i1:`Η αίθουσα ελέγχου του Προγράμματος ΚΑΛΥΨΩ. Μια τεράστια κεραία-πιάτο κοιτάζει τον ουρανό από μια ανοιχτή οροφή.`,
+ct_eu:`Από εδώ μπορείς να μιλήσεις σε όλο τον κόσμο. Ή σε κανέναν.`,
+ct_dish:`Η κεραία τρίζει καθώς γυρίζει. Ακούει μόνο μία συχνότητα: αυτήν που χρησιμοποιούσε το Κέντρο Ελέγχου για τον Καλυψώ.`,
+ct_pe:`Ό,τι κι αν διαλέξεις, διάλεξέ το και για τους δυο μας.`,
+ct_need:`Μια κονσόλα με υποδοχή κλειδιού και αναγνώστη εγγράφων. Και τα δύο είναι άδεια.`,
+ct_key:`Το κλειδί μετάδοσης γυρίζει με έναν κρότο. Η κονσόλα ξυπνά.`,ct_file:`Ο αναγνώστης καταπίνει τον φάκελό σου. Το πρόσωπό σου εμφανίζεται σε κάθε οθόνη.`,
+ct_need_file:`Η κονσόλα είναι ενεργή. Ο αναγνώστης εγγράφων είναι ακόμα άδειος.`,
+ct_tune_t:`Σύνδεση κεραίας`,ct_tuned:`Η σύνδεση πραγματοποιήθηκε.`,
+ct_q:`Όλα είναι έτοιμα. Θα πεις στον κόσμο την αλήθεια ή θα σβήσεις τα τελευταία αρχεία και θα εξαφανιστείς;`,
+ct_c1:`📡 Μετάδωσε την αλήθεια`,ct_c2:`🗑 Σβήσε τα πάντα`,
+h3_lantern:`Είναι πολύ σκοτεινά. Υπάρχει ένα φανάρι πάνω στα βράχια.`,h3_lit:`Χρησιμοποίησε το φανάρι στην πύλη για να δεις τον πίνακα.`,
+h3_scar:`Η πύλη θέλει απόδειξη. Ρώτα την Πηνελόπη για την ουλή σου.`,h3_order:`Χρησιμοποίησε το τερματικό για να ξαναφτιάξεις τον φάκελό σου. Κοίτα τις χρονολογίες.`,
+h3_orchard:`Κάποιος στο περιβόλι έχει κάτι που χρειάζεσαι.`,h3_control:`Φέρε τον φάκελο και το κλειδί στην αίθουσα ελέγχου.`,
+h3_la:`Μίλα με τον γέρο.`,h3_shed:`Μέτρα τα δέντρα στην παιδική ζωγραφιά στο Αρχείο. Πρώτα αχλαδιές, μετά μηλιές.`,
+h3_key:`Χρησιμοποίησε το κλειδί μετάδοσης στην κονσόλα.`,h3_file:`Βάλε και τον φάκελό σου στην κονσόλα.`,
+h3_tune:`Συντόνισε την κεραία στη συχνότητα που χρησιμοποιούσε το Κέντρο Ελέγχου για τον Καλυψώ.`,h3_choose:`Διάλεξε: πες το στον κόσμο ή εξαφανίσου.`,
+end3_label:n=>`ΚΕΦΑΛΑΙΟ 3 · ΤΕΛΟΣ ${n} ΑΠΟ 2`,
+end_ody_t:`Οδύσσεια`,end_ody:[`Η κεραία στρέφεται στον ουρανό. Η φωνή σου φτάνει σε κάθε οθόνη της Γης: δύο ονόματα που σβήστηκαν, και οι σταθμοί που τα κράτησαν.`,`Ως το πρωί, το νησί γεμίζει βάρκες. Δημοσιογράφοι, αξιωματούχοι, άγνωστοι. Η Πηνελόπη σου κρατά το χέρι σε όλα αυτά.`,`<span class="pe2">«Τώρα ξέρουν»</span>, λέει. Ψηλά, δύο μικροί σταθμοί συνεχίζουν να περιπλανιούνται, επιτέλους άδειοι.`],
+end_har_t:`Γαλήνιο λιμάνι`,end_har:[`Σβήνεις τα τελευταία αρχεία. Επίσημα, είστε και οι δύο ακόμα νεκροί. Κανείς δεν θα έρθει να σας ψάξει.`,`Μένετε στο νησί. Ο πατέρας σου μαθαίνει στην Πηνελόπη ποια δέντρα καρπίζουν πρώτα. Ο ARGOS κοιμάται στον ήλιο.`,`Κάποιες νύχτες, η παλιά κεραία γυρίζει μόνη της προς τον ουρανό, σαν να περιμένει να ακούσει έναν παλιό φίλο.`],
+end3_echo:`Η ECHO, συνδεδεμένη στη βάση, ρωτά κάθε βράδυ πώς πάνε τα βότανα.`,
+a_home:`Νόστος`,ad_home:`Τελείωσε το Κεφάλαιο 3.`,
+man_draw:`Ιθάκη · Παιδική ζωγραφιά`,man_draw_n:(p,a)=>`${p} αχλαδιές, ${a} μηλιές.`,coop_draw:`📘 Η ζωγραφιά εδώ έχει ξεθωριάσει. Το εγχειρίδιο του συμπαίκτη σου έχει αντίγραφο.`,
 mode_q:`Διάλεξε τρόπο παιχνιδιού`,m_normal:`▶ Κανονικό`,m_hard:`🎲 Δύσκολο (νέοι γρίφοι)`,m_coop:`👥 Συνεργατικό`,m_coophard:`👥🎲 Συνεργατικό + Δύσκολο`,
 hard_info:`Δύσκολο: κάθε γρίφος είναι τυχαίος, λιγότερος χρόνος, μόνο 1 βοήθεια. Συνεργατικό: ένας παίζει στο ρολόι, ο άλλος έχει το Εγχειρίδιο Πεδίου σε κινητό.`,
 coop_title:`Συνεργατικό`,
@@ -442,7 +563,7 @@ h2_go_loom:`Ο Πυρήνας Αργαλειού είναι ανοιχτός.`,h
 h2_weave:`Το σχέδιό της είναι στο υφαντό στην Αίθουσα. Σώζεται μόνο το μισό, αλλά πάντα το ύφαινε συμμετρικό.`,
 h2_core:`Αποφάσισε τι θα γίνει με τον ΑΡΓΑΛΕΙΟ: πάτα τον πυρήνα του.`,
 h2_thaw:`Ξεπάγωσε το κρεβάτι σιγά σιγά. Αν το παρακάνεις, ξαναψύχεται.`,h2_bed:`Τι δεν θα μπορούσε ποτέ να μετακινηθεί; Κοίτα γύρω από τι είναι χτισμένο το κρεβάτι.`,
-hint_who:w=>w==='LOOM'?'τον ΑΡΓΑΛΕΙΟ':'την ECHO',
+hint_who:w=>w==='LOOM'?'τον ΑΡΓΑΛΕΙΟ':w==='EURYCLEIA'?'την ΕΥΡΥΚΛΕΙΑ':'την ECHO',
 end2_label:n=>`ΚΕΦΑΛΑΙΟ 2 · ΤΕΛΟΣ ${n} ΑΠΟ 2`,
 end_ith_t:`Ιθάκη`,end_ith:[`Σου πιάνει το χέρι. Τα δάχτυλά της είναι κρύα, μετά ζεστά.`,`Ο ΑΡΓΑΛΕΙΟΣ υφαίνει ένα τελευταίο πράγμα: έναν χάρτη από φως, έναν δρόμο για το σπίτι που δεν θα χρειαστεί ποτέ να ξηλωθεί.`,`<span class="pe2">«Άργησες»</span>, λέει. Πίσω σας, η ελιά θροΐζει, κι ας μην υπάρχει άνεμος στο διάστημα.`],
 end_unr_t:`Ξηλωμένο`,end_unr:[`Σου πιάνει το χέρι, και μαζί περνάτε δίπλα από τον σβηστό αργαλειό και τους σιωπηλούς μνηστήρες.`,`Χωρίς τον ΑΡΓΑΛΕΙΟ, η ελιά θα πεθάνει σιγά σιγά. Εκείνη την κοιτάζει μια φορά πίσω της, και δεν κλαίει.`,`<span class="pe2">«Κάποια πράγματα δεν είναι φτιαγμένα να περιμένουν για πάντα»</span>, λέει. Η πόρτα της ακάτου κλείνει πίσω σας.`],
@@ -593,9 +714,9 @@ document.documentElement.lang=lang;
 
 /* ================= STATE ================= */
 const SAVE='kal2_save',HINT_COST=180;
-const lim=()=>S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
+const lim=()=>S&&S.ch===3?(S.hard?1800:2400):S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
 const maxH=()=>S&&S.hard?1:3;
-const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]]};
+const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]],pears:13,apples:10};
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let x=Math.imul(a^a>>>15,1|a);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296}}
 function shuf(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function gen(seed){
@@ -607,21 +728,25 @@ function gen(seed){
   const rt=[0,1,2,3].map(()=>[0,1,2,3].map(()=>Math.floor(r()*4)));rt[0][0]=0;
   let weave;do{weave=[0,1,2,3].map(()=>{const a=r()<.5?1:0,b=r()<.5?1:0;return[a,b,b,a]})}while(weave.flat().filter(x=>x).length<6);
   const ax=shuf([...Array(12).keys()],r).slice(0,5).map(i=>[Math.floor(i/4),i%4]);
-  return {crew,herb,ro,radio,rt,weave,ax};
+  const pears=8+Math.floor(r()*8),apples=5+Math.floor(r()*8);
+  return {crew,herb,ro,radio,rt,weave,ax,pears,apples};
 }
 const _rn={};function RN(){const sd=S&&mode==='game'?S.seed||0:0;return _rn[sd]||(_rn[sd]=gen(sd))}
 const cabCode=()=>{const c=RN().crew;return ''+c[2]+c[3]+c[1]+c[0]};
 const podCodes=()=>['en','el'].map(l=>RN().herb.map(i=>L[l].herbs[i].length).join(''));
 const weavePat=()=>RN().weave;
+const shedCode=()=>String(RN().pears).padStart(2,'0')+String(RN().apples).padStart(2,'0');
+const SPK={ECHO:['e',(...a)=>E(...a)],LOOM:['lm',(...a)=>Lm(...a)],EURYCLEIA:['eu',(...a)=>Eu(...a)]};
+function speaker(){return S.ch===1||S.echo?'ECHO':S.ch===2?'LOOM':'EURYCLEIA'}
 function addPen(n){if(S&&mode==='game')S.pen+=n}
 let ACH=load('kal_ach')||[],TOAST=[],JR=load('kal_jr')||[];
-const ACH_LIST=['nohint','fast','notes','all4','friend','argos','ch2','hard','coop','daily','lore'];
-const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch2_pro','lm_log'];
-const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t'};
+const ACH_LIST=['nohint','fast','notes','all4','friend','argos','ch2','home','hard','coop','daily','lore'];
+const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch2_pro','lm_log','ch3_pro','frags'];
+const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t',ch3_pro:'pro3_title',frags:'ord_t'};
 function ach(id){if(ACH.includes(id))return;ACH.push(id);store('kal_ach',ACH);TOAST.push(id)}
-const ORDER1=['cryo','corridor','medbay','hydro','junction','comms','pod'],ORDER2=['dock','hall','loom','arbor'];
-const order=()=>S&&S.ch===2?ORDER2:ORDER1;
-const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808'};
+const ORDER1=['cryo','corridor','medbay','hydro','junction','comms','pod'],ORDER2=['dock','hall','loom','arbor'],ORDER3=['shore','archive','orchard','control'];
+const order=()=>S&&S.ch===3?ORDER3:S&&S.ch===2?ORDER2:ORDER1;
+const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808',archive:'3000',orchard:'3100',control:'3200'};
 const ATT=[3,11,19,27,38,45];
 const B={rod:1,locker:1,wired:1,cryoDoor:1};
 const B2={...B,mem:1,login:1,cab:1};
@@ -637,18 +762,22 @@ const CP={
   '7073':{room:'pod',inv:[],f:{...B4,choice:'nobody',hn1:1,hn2:1,hn3:1,hn4:1,hn5:1,hn6:1}},
   '2020':{ch:2,room:'hall',inv:[],f:{cell:1,argos:1,press:1}},
   '1212':{ch:2,room:'loom',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1}},
-  '0808':{ch:2,room:'arbor',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1,woven:1,lchoice:'free'}}
+  '0808':{ch:2,room:'arbor',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1,woven:1,lchoice:'free'}},
+  '3000':{ch:3,room:'archive',inv:[],f:{lantern:1,lit:1,scar:1,peTalk:2}},
+  '3100':{ch:3,room:'orchard',inv:['file'],f:{lantern:1,lit:1,scar:1,peTalk:2,file:1}},
+  '3200':{ch:3,room:'control',inv:['file','key'],f:{lantern:1,lit:1,scar:1,peTalk:2,file:1,laTalk:1,key:1,ctrl:1}}
 };
 let S=null,msg=[],mode='title',END=null,lastRoom=null;
-let FOUND=load('kal_end')||[],FOUND2=load('kal_end2')||[];
+let FOUND=load('kal_end')||[],FOUND2=load('kal_end2')||[],FOUND3=load('kal_end3')||[];
+const ch3open=()=>FOUND2.length>0;
 const ch2open=()=>FOUND.some(k=>k!=='stay');
 const app=document.getElementById('app'),ov=document.getElementById('ov');
 
-function fresh(ch=1){return {ch,room:ch===2?'dock':'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null,echo:FOUND.includes('nobody')}}
+function fresh(ch=1){return {ch,room:ch===3?'shore':ch===2?'dock':'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null,echo:FOUND.includes('nobody')}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
-const Lm=(k,...a)=>msg.push(['lm',k,a]),Pe=(k,...a)=>msg.push(['pe',k,a]),N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),El=(k,...a)=>msg.push(['e lie',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
+const Eu=(k,...a)=>msg.push(['eu',k,a]),La=(k,...a)=>msg.push(['la',k,a]),Lm=(k,...a)=>msg.push(['lm',k,a]),Pe=(k,...a)=>msg.push(['pe',k,a]),N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),El=(k,...a)=>msg.push(['e lie',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
 const off=()=>S.f.choice==='off';
 const notesN=()=>[1,2,3,4,5,6].filter(i=>S.f['hn'+i]).length;
 function scrollUp(){app.scrollTop=0;window.scrollTo(0,0)}
@@ -686,14 +815,18 @@ function hintKey(){
     case 'dock':return !f.cell?'h2_crate':!f.argos?'h2_dog':!f.press?'h2_air':'h_next';
     case 'hall':return !f.string?(f.argos?'h2_table':'h2_back_dog'):!f.strung?'h2_bow':!f.shot?'h2_axes':!f.lchoice?'h2_go_loom':'h2_go_arbor';
     case 'loom':return !f.woven?'h2_weave':!f.lchoice?'h2_core':'h2_go_arbor';
-    default:return !f.thawed?'h2_thaw':'h2_bed';
+    case 'arbor':return !f.thawed?'h2_thaw':'h2_bed';
+    case 'shore':return !f.lantern?'h3_lantern':!f.lit?'h3_lit':!f.scar?'h3_scar':'h_next';
+    case 'archive':return !f.file?'h3_order':!f.key?'h3_orchard':'h3_control';
+    case 'orchard':return !f.laTalk?'h3_la':!f.key?'h3_shed':'h3_control';
+    default:return !f.keyed?'h3_key':!f.filed?'h3_file':!f.tuned?'h3_tune':'h3_choose';
   }
 }
 function hintAsk(){
-  const ch2=S.ch===2,who=ch2&&!S.echo?'LOOM':'ECHO';
-  if(!ch2&&off()){msg=[];N('h_dead');render();return}
+  const who=speaker();
+  if(S.ch===1&&off()){msg=[];N('h_dead');render();return}
   if(S.h>=maxH()){msg=[];N('hint_none');render();return}
-  choice(`<p class="${who==='LOOM'?'lm':'e'}">${t('hint_q',maxH()-S.h,who)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];(who==='LOOM'?Lm:E)(hintKey())}],[t('hint_no'),()=>{}]]);
+  choice(`<p class="${SPK[who][0]}">${t('hint_q',maxH()-S.h,who)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];SPK[who][1](hintKey())}],[t('hint_no'),()=>{}]]);
 }
 
 /* ================= SCENE HELPERS ================= */
@@ -929,6 +1062,88 @@ arbor:{
     if(id==='bed'){if(!f.thawed)gauge('thaw',()=>{f.thawed=1;msg=[];setTimeout(test,0)});else test()}
     if(id==='back')go('hall');
   }},
+shore:{
+  intro(){N('sh_i1')},
+  scene(){const f=S.f;return `<rect width="160" height="120" fill="#0a1430"/><circle cx="128" cy="16" r="7" fill="#f3f0d8"/><g fill="#fff" opacity=".6"><circle cx="20" cy="10" r=".6"/><circle cx="60" cy="18" r=".5"/><circle cx="96" cy="8" r=".6"/></g><path d="M0 52q30-14 60-6t60-4 40 2v14H0z" fill="#16233a"/><rect y="62" width="160" height="22" fill="#10284a"/><path d="M0 70q20-3 40 0t40 0 40 0 40 0" stroke="#5ac8fa" stroke-width=".6" fill="none" opacity=".5" class="blink"/><rect y="84" width="160" height="36" fill="#3a3226"/>`+
+    hs('shuttle',2,70,46,26,`<path d="M6 92l6-16h28l6 16z" fill="#c9d3de"/><rect x="18" y="80" width="10" height="6" rx="2" fill="#0b1018"/>`)+
+    hs('pen',48,72,18,26,person(56,74,'#ff9fd6'))+
+    (S.echo?'<circle cx="64" cy="76" r="2.2" fill="#5ac8fa" class="blink"/>':'')+
+    (f.lantern?'':hs('lantern',72,80,20,16,`<ellipse cx="82" cy="94" rx="10" ry="3" fill="#2a241c"/><rect x="79" y="84" width="6" height="8" rx="1" fill="#ffb340" opacity=".85"/><path d="M80 84q2-3 4 0" stroke="#8a8a8e" fill="none"/>`))+
+    hs('gate',104,30,54,66,`<path d="M104 96V44M158 96V44" stroke="#3c4a5e" stroke-width="2"/><g stroke="#3c4a5e" stroke-width="1">${[0,1,2,3,4,5].map(i=>`<path d="M${108+i*9} ${f.scar?96:46}V96"/>`).join('')}</g><rect x="118" y="34" width="26" height="8" rx="1" fill="#0b1018" stroke="${f.lit?'#f5d77a':'#2a3646'}"/><text x="131" y="40" text-anchor="middle" font-size="4.5" fill="${f.lit?'#f5d77a':'#3c4a5e'}">ITHACA</text>${f.lit?'<circle cx="112" cy="56" r="3" fill="#f5d77a" opacity=".6"/>':''}${f.scar?lbl(158,28,t('r_archive')+' ▶','end'):''}`,{exit:f.scar})+
+    (f.argos!==0?dog(66,1,.55,98):'')},
+  act(id){const f=S.f;
+    if(id==='shuttle')N('sh_shuttle');
+    if(id==='lantern'){f.lantern=1;give('lantern');N('sh_lantern')}
+    if(id==='pen'){if(f.lit&&!f.scar){f.peTalk=2;Pe('sh_pe2')}else{f.peTalk=f.peTalk||1;Pe('sh_pe1')}}
+    if(id==='gate'){
+      if(f.scar)return go('archive');
+      if(!f.lit){N('sh_dark');return}
+      trace(()=>{f.scar=1;msg=[];Eu('sh_eu_ok');N('sh_open')});
+    }
+  },
+  use(id,it){const f=S.f;
+    if(id==='gate'&&it==='lantern'&&!f.lit){f.lit=1;take('lantern');N('sh_lit');Eu('sh_eu1');return true}
+    return false;
+  }},
+archive:{
+  intro(){N('ar3_i1');Eu('ar3_eu')},
+  scene(){const f=S.f;let racks='';for(let i=0;i<4;i++)racks+=`<rect x="${8+i*22}" y="14" width="18" height="70" fill="#111821" stroke="#1e2938"/>${[0,1,2,3,4,5].map(j=>`<circle cx="${12+i*22}" cy="${20+j*10}" r="1" fill="${(i+j)%3?'#30d158':'#ff453a'}"${(i+j)%2?' class="blink"':''}/>`).join('')}`;
+    return base()+racks+
+    hs('term',94,40,30,34,`<rect x="96" y="44" width="26" height="18" rx="2" fill="#0b1018" stroke="${f.file?'#30d158':'#ff453a'}"/><text x="109" y="55" text-anchor="middle" font-size="4.2" fill="${f.file?'#30d158':'#ff453a'}">${f.file?'OK':'PURGED'}</text><rect x="104" y="62" width="10" height="10" fill="#3c4a5e"/>`)+
+    hs('draw',94,10,30,26,`<rect x="96" y="12" width="26" height="20" fill="#f5f0e1" transform="rotate(3 109 22)"/><g transform="rotate(3 109 22)"><circle cx="102" cy="20" r="2.5" fill="#9bc35a"/><circle cx="109" cy="20" r="2.5" fill="#d9534f"/><circle cx="116" cy="20" r="2.5" fill="#9bc35a"/><path d="M98 28h22" stroke="#8b5a2b"/></g>`)+
+    hs('orch',128,52,14,44,`<rect x="129" y="58" width="12" height="38" fill="#1f3a2a" stroke="#3c4a5e"/>${lbl(134,52,'🌳','middle')}`,{exit:1,nodot:1})+
+    hs('ctrl',144,14,16,82,`<rect x="145" y="34" width="14" height="62" fill="${f.ctrl?'#22364d':'#18212e'}" stroke="#3c4a5e"/><circle cx="152" cy="30" r="1.8" fill="${f.ctrl?'#30d158':'#ff453a'}"/>${f.ctrl?lbl(158,24,'📡 ▶','end'):''}`,{exit:!!f.ctrl})+
+    back('shore')},
+  act(id){const f=S.f;
+    if(id==='term'){if(f.file)N('ar3_term_ok');else fragOrder(()=>{f.file=1;give('file');msg=[];N('ar3_file')})}
+    if(id==='draw')read('z_draw','ar3_draw',null,S.coop?null:artDraw(RN().pears,RN().apples),null,S.coop?[t('coop_draw')]:[]);
+    if(id==='orch')go('orchard');
+    if(id==='ctrl'){if(f.ctrl)return go('control');if(has('key')){f.ctrl=1;N('ar3_ctrl_open');return}N('ar3_ctrl_locked')}
+    if(id==='back')go('shore');
+  },
+  use(id,it){const f=S.f;
+    if(id==='ctrl'&&it==='key'&&!f.ctrl){f.ctrl=1;N('ar3_ctrl_open');return true}
+    return false;
+  }},
+orchard:{
+  intro(){N('or_i1');if(S.f.argos!==0)N('or_dog')},
+  scene(){const f=S.f;let tr='';for(let i=0;i<7;i++){const x=8+i*21,y=i%2?40:46;tr+=`<path d="M${x+6} ${y+30}v-14" stroke="#6b5a44" stroke-width="2.5"/><circle cx="${x+6}" cy="${y+10}" r="9" fill="${i%2?'#6d8c52':'#5f7d4a'}"/><circle cx="${x+3}" cy="${y+8}" r="1.3" fill="${i%2?'#d9534f':'#c9d36a'}"/>`}
+    return `<rect width="160" height="120" fill="#0d1a24"/><circle cx="24" cy="14" r="6" fill="#f3f0d8" opacity=".9"/><rect y="78" width="160" height="42" fill="#1f2a1a"/>`+
+    hs('trees',0,30,160,46,tr,{nodot:0})+
+    hs('la',58,64,22,32,person(68,66,'#c7e59a',1))+
+    hs('shed',110,62,46,36,`<rect x="114" y="70" width="38" height="26" fill="#4a3a2a" stroke="#2a1c10"/><path d="M110 70l23-10 23 10z" fill="#3a2a1a"/><rect x="128" y="78" width="10" height="18" fill="${f.key?'#1a120a':'#5a4a3a'}"/><rect x="139" y="84" width="4" height="5" fill="${f.key?'#30d158':'#ffb340'}"/>`)+
+    (f.argos!==0?dog(84,1,.55,94):'')+back('archive')},
+  act(id){const f=S.f;
+    if(id==='trees')N('or_trees');
+    if(id==='la'){if(f.key)La('or_la_after');else if(f.laTalk)La('or_la_again');else{f.laTalk=1;La('or_la1');La('or_la2')}}
+    if(id==='shed'){if(f.key)N('or_shed_e');else keypad('or_shed_t',c=>{if(c!==shedCode())return false;f.key=1;f.laTalk=1;give('key');msg=[];N('or_shed');La('or_la_ok');return true})}
+    if(id==='back')go('archive');
+  }},
+control:{
+  intro(){N('ct_i1');Eu('ct_eu')},
+  scene(){const f=S.f;return `<rect width="160" height="120" fill="#0d131d"/><path d="M30 0h100l-10 20H40z" fill="#0a1430"/><g fill="#fff" opacity=".6"><circle cx="60" cy="6" r=".6"/><circle cx="100" cy="10" r=".5"/></g><rect y="96" width="160" height="24" fill="#090d14"/>`+
+    hs('dish',40,4,80,46,`<ellipse cx="80" cy="30" rx="34" ry="14" fill="#c9d3de" transform="rotate(-12 80 30)"/><ellipse cx="80" cy="30" rx="26" ry="9" fill="#9aa7b8" transform="rotate(-12 80 30)"/><path d="M80 30l14-18" stroke="#c9d3de" stroke-width="1.5"/><path d="M80 44v12" stroke="#3c4a5e" stroke-width="4"/>${f.tuned?'<circle cx="94" cy="12" r="2.5" fill="#30d158" class="blink"/>':''}`)+
+    hs('con',46,58,70,30,`<path d="M48 88l6-26h54l6 26z" fill="#1c2735" stroke="#3c4a5e"/><rect x="58" y="66" width="20" height="10" rx="1" fill="#0b1018" stroke="${f.keyed?'#30d158':'#3c4a5e'}"/><rect x="84" y="66" width="20" height="10" rx="1" fill="#0b1018" stroke="${f.filed?'#30d158':'#3c4a5e'}"/>${f.keyed?'<rect x="64" y="70" width="8" height="2" fill="#ffb340"/>':''}${f.filed?'<rect x="88" y="69" width="12" height="4" fill="#f5f0e1"/>':''}`)+
+    hs('pen',122,62,18,30,person(130,64,'#ff9fd6'))+
+    (S.echo?'<circle cx="138" cy="66" r="2.2" fill="#5ac8fa" class="blink"/>':'')+
+    (f.argos!==0?dog(8,1,.55,90):'')+back('archive')},
+  act(id){const f=S.f;
+    if(id==='dish')N('ct_dish');
+    if(id==='pen')Pe('ct_pe');
+    if(id==='con'){
+      if(!f.keyed){N('ct_need');return}
+      if(!f.filed){N('ct_need_file');return}
+      if(!f.tuned){radio(()=>{f.tuned=1;msg=[];N('ct_tuned');setTimeout(finalQ,0)},undefined,undefined,'ct_tune_t');return}
+      finalQ();
+    }
+    if(id==='back')go('archive');
+  },
+  use(id,it){const f=S.f;
+    if(id!=='con')return false;
+    if(it==='key'&&!f.keyed){f.keyed=1;take('key');N('ct_key');return true}
+    if(it==='file'&&!f.filed){if(!f.keyed){N('ct_need');return true}f.filed=1;take('file');N('ct_file');return true}
+    return false;
+  }},
 };
 
 /* ================= CLOSE-UP ART ================= */
@@ -1007,15 +1222,15 @@ function foundNote(i){
   read(null,'hn'+i,()=>{msg=[];N('hn_got',notesN())},artHidden(i),t('hn_title',ATT[i-1]),[t('hn_circle')]);
 }
 function ending(k){
-  const c2=S.ch===2,FL=c2?FOUND2:FOUND;
+  const ch=S.ch,c2=ch===2,FL=ch===3?FOUND3:c2?FOUND2:FOUND;
   if(!FL.includes(k))FL.push(k);
-  store(c2?'kal_end2':'kal_end',FL);drop(SAVE);
-  const esc=c2||k!=='stay';
-  if(!S.cp){if(!c2&&esc){if(S.h===0)ach('nohint');if(used()<1200)ach('fast')}if(c2)ach('ch2');if(S.hard&&esc)ach('hard');if(S.coop&&esc)ach('coop')}
-  if(!c2&&FOUND.length>=4)ach('all4');
-  const bk=(c2?'kal_best2':'kal_best')+(S.hard?'h':''),total=used(),best=load(bk);let rec=false;
+  store(['','kal_end','kal_end2','kal_end3'][ch],FL);drop(SAVE);
+  const esc=ch>1||k!=='stay';
+  if(!S.cp){if(ch===1&&esc){if(S.h===0)ach('nohint');if(used()<1200)ach('fast')}if(c2)ach('ch2');if(ch===3)ach('home');if(S.hard&&esc)ach('hard');if(S.coop&&esc)ach('coop')}
+  if(ch===1&&FOUND.length>=4)ach('all4');
+  const bk=['','kal_best','kal_best2','kal_best3'][ch]+(S.hard?'h':''),total=used(),best=load(bk);let rec=false;
   if(!S.cp&&(best==null||total<best)){store(bk,total);rec=true}
-  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,echo:S.echo,argos:S.f.argos};mode='end';
+  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,c3:ch===3,echo:S.echo,argos:S.f.argos};mode='end';
 }
 
 /* ================= OVERLAYS ================= */
@@ -1045,9 +1260,9 @@ function keypad(tk,check){
   };
 }
 function mapView(){
-  const c2=S.ch===2;
-  const P=c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
-  const links=c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
+  const c2=S.ch===2,c3=S.ch===3;
+  const P=c3?{shore:[6,46],archive:[58,46],orchard:[110,8],control:[110,84]}:c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
+  const links=c3?[['shore','archive'],['archive','orchard'],['archive','control']]:c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
   let s='<svg viewBox="0 0 160 110" class="mg">';
   links.forEach(([a,b])=>{const A=P[a],Bp=P[b];s+=`<line x1="${A[0]+22}" y1="${A[1]+10}" x2="${Bp[0]+22}" y2="${Bp[1]+10}" stroke="${S.seen[a]&&S.seen[b]?'#5ac8fa':'#2a3646'}" stroke-width="2"/>`});
   order().forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
@@ -1066,7 +1281,7 @@ function showMap(){
 function menu(){
   const l=t('letters').split('').map((c,i)=>S.f['hn'+(i+1)]?c:'_').join(' ');
   const dots=Math.max(0,Math.min(5,S.trust+2));
-  choice(`<h1>${t('menu')}</h1>${S.coop?`<p class="info">${t('manual_code',String(S.seed).padStart(4,'0'))}</p>`:''}${S.ch===2?'':`<p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`}`,
+  choice(`<h1>${t('menu')}</h1>${S.coop?`<p class="info">${t('manual_code',String(S.seed).padStart(4,'0'))}</p>`:''}${S.ch!==1?'':`<p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`}`,
     [[t('resume'),()=>{}],[t('map'),()=>setTimeout(showMap,0)],[t('jr_btn',JR.length,JR_KEYS.length),()=>setTimeout(showJournal,0)],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
@@ -1148,12 +1363,12 @@ function pipes(done,rt){
     if(draw()){ov.onclick=null;setTimeout(()=>finish(done),800)}
   };
 }
-function radio(done,tg,hb){
+function radio(done,tg,hb,tk){
   if(hb===undefined)hb=!!(S&&mode==='game'&&S.coop);
   const TG=tg||RN().radio,STEP=14;let f=100,locked=false,iv=null;
   const str=()=>Math.max(0,1-Math.abs(f-TG)/40);
   const wave=()=>{const s=str();let d='M0 28';for(let x=0;x<=160;x+=4){const n=(Math.random()*2-1)*(1-s)*20;d+=`L${x} ${(28+Math.sin(x/7)*11*s+n).toFixed(1)}`}return d};
-  ovOpen(`<div class="stick"><h1>${t('radio_title')}</h1><p class="hint" id="rh">${t('radio_hint')}${hb?' '+t('coop_radio'):''}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" stroke="#ffb340" stroke-width="1.6" fill="none"/><g id="bars"></g></svg><div class="freq" id="fq"></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><p class="hint c">${t('radio_crown')}</p><button data-x="1" class="cx">${t('cancel')}</button></div><div style="height:${99*STEP+600}px"></div>`);
+  ovOpen(`<div class="stick"><h1>${t(tk||'radio_title')}</h1><p class="hint" id="rh">${t('radio_hint')}${hb?' '+t('coop_radio'):''}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" stroke="#ffb340" stroke-width="1.6" fill="none"/><g id="bars"></g></svg><div class="freq" id="fq"></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><p class="hint c">${t('radio_crown')}</p><button data-x="1" class="cx">${t('cancel')}</button></div><div style="height:${99*STEP+600}px"></div>`);
   ov.scrollTop=0;
   const upd=()=>{const s=str();
     document.getElementById('fq').innerHTML=`${(f/10).toFixed(1)} <small>MHz</small>`;
@@ -1271,6 +1486,42 @@ function weave(done,pat,show){
 }
 
 
+
+function person(x,y,col,old){return `<g transform="translate(${x} ${y})"><circle cx="0" cy="3" r="3.2" fill="#ffd8b0"/><path d="M-5 24l2-16h6l2 16z" fill="${col}"/>${old?'<path d="M5 8l5 18" stroke="#8b5a2b" stroke-width="1.4"/>':''}</g>`}
+function artDraw(p,a){let s='<rect width="160" height="96" rx="2" fill="#f5f0e1"/>';
+  for(let i=0;i<p;i++){const x=10+(i%8)*18,y=8+Math.floor(i/8)*22;s+=`<path d="M${x+5} ${y+18}v-6" stroke="#8b5a2b" stroke-width="1.5"/><path d="M${x+5} ${y}c-5 4-5 12 0 12s5-8 0-12z" fill="#9bc35a"/>`}
+  for(let i=0;i<a;i++){const x=10+(i%8)*18,y=54+Math.floor(i/8)*20;s+=`<path d="M${x+5} ${y+16}v-6" stroke="#8b5a2b" stroke-width="1.5"/><circle cx="${x+5}" cy="${y+6}" r="5.5" fill="#6d8c52"/><circle cx="${x+3}" cy="${y+5}" r="1.4" fill="#d9534f"/><circle cx="${x+7}" cy="${y+8}" r="1.4" fill="#d9534f"/>`}
+  return s+'<path d="M6 50h148" stroke="#c9a96e" stroke-dasharray="3 3"/>'}
+function finalQ(){choice(`<p class="eu">${t('ct_q')}</p>`,[[t('ct_c1'),()=>ending('odyssey')],[t('ct_c2'),()=>ending('harbor')]])}
+function trace(done){
+  const P=[[30,24],[80,24],[130,24],[30,64],[80,64],[130,64],[30,104],[80,104],[130,104]];
+  const TG=[0,1,2,4,6,7,8],RV=TG.slice().reverse();let seq=[],err=false;
+  const draw=()=>{let s='<svg viewBox="0 0 160 128" class="mg"><rect width="160" height="128" rx="8" fill="#0b1018"/>';
+    for(let i=1;i<seq.length;i++){const a=P[seq[i-1]],b=P[seq[i]];s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="#f5d77a" stroke-width="4" stroke-linecap="round"/>`}
+    P.forEach(([x,y],i)=>{s+=`<g data-d="${i}"><circle cx="${x}" cy="${y}" r="18" class="hit"/><circle cx="${x}" cy="${y}" r="7" fill="${seq.includes(i)?'#f5d77a':'#2a3646'}" stroke="#f5d77a" stroke-opacity=".5"/></g>`});
+    ovOpen(`<h1>${t('tr_t')}</h1><p class="hint">${err?`<span class="err">${t('tr_err')}</span>`:t('tr_h')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`)};
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const g=e.target.closest('[data-d]');if(!g)return;const i=+g.getAttribute('data-d');if(seq.includes(i))return;
+    seq.push(i);err=false;const n=seq.length;
+    const okT=seq.every((v,k)=>v===TG[k]),okR=seq.every((v,k)=>v===RV[k]);
+    if(!okT&&!okR){seq=[];err=true;draw();return}
+    draw();if(n===TG.length){ov.onclick=null;setTimeout(()=>finish(done),700)}
+  };
+}
+function fragOrder(done){
+  const F=t('frags'),N0=F.length,sh=shuf([...Array(N0).keys()],rng((S&&S.seed||0)+77));let pos=0,err=false;
+  const draw=()=>ovOpen(`<h1>${t('ord_t')}</h1><p class="hint">${err?`<span class="err">${t('ord_err')}</span>`:t('ord_h')}</p>${sh.map(i=>`<button data-f2="${i}"${i<pos?' style="opacity:.35"':''}>${i<pos?'✓ ':''}${F[i]}</button>`).join('')}<button data-x="1" class="cx">${t('cancel')}</button>`);
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const b=e.target.closest('[data-f2]');if(!b)return;const i=+b.dataset.f2;if(i<pos)return;
+    if(i===pos){pos++;err=false;if(pos===N0){draw();ov.onclick=null;JR.includes('frags')||(JR.push('frags'),store('kal_jr',JR),JR.length===JR_KEYS.length&&ach('lore'));setTimeout(()=>finish(done),600);return}}else{pos=0;err=true}
+    draw();
+  };
+}
+
 /* ================= v8 SYSTEMS ================= */
 function info(title,ps,after){
   ovOpen(`<h1>${title}</h1>${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
@@ -1282,9 +1533,10 @@ function modeChoice(ch){
 }
 function start(ch,hard,coop){
   S=fresh(ch);S.hard=hard;S.coop=coop;S.seed=hard?1000+Math.floor(Math.random()*9000):0;
-  mode='game';lastRoom=null;go(ch===2?'dock':'cryo');
+  mode='game';lastRoom=null;go(ch===3?'shore':ch===2?'dock':'cryo');
   const ci=()=>{if(coop)setTimeout(()=>info(t('coop_title'),t('coop_info',String(S.seed).padStart(4,'0'))),0)};
-  if(ch===2)setTimeout(()=>read('pro_title','ch2_pro',ci,null,null,S.echo?[t('pro_echo')]:[]),0);else ci();
+  if(ch===2)setTimeout(()=>read('pro_title','ch2_pro',ci,null,null,S.echo?[t('pro_echo')]:[]),0);
+  else if(ch===3)setTimeout(()=>read('pro3_title','ch3_pro',ci,null,null,S.echo?[t('pro3_echo')]:[]),0);else ci();
 }
 function more(){
   choice(`<h1>${t('more')}</h1>`,[
@@ -1340,14 +1592,15 @@ function manualView(){
       `<h1>${t('man_wires')}</h1>`+SYM.map((sy,j)=>`<p class="info">${sy} → ${cols[g.ro[j]]}</p>`).join('')+
       `<h1>${t('man_radio')}</h1><p class="info"><b style="letter-spacing:0">${(g.radio/10).toFixed(1)} MHz</b></p>`+
       `<h1>${t('man_tap')}</h1><svg viewBox="0 0 160 96" class="mg">${artTapestry(g.weave)}</svg><p class="info">${t('man_tap_n')}</p>`+
+      `<h1>${t('man_draw')}</h1><svg viewBox="0 0 160 96" class="mg">${artDraw(g.pears,g.apples)}</svg>`+
       `<button data-t="mancode">${t('man_new')}</button>`;
   }
   app.innerHTML=h+`<button class="cx" data-t="manback">${t('man_back')}</button>`;
 }
 function nudge(){
-  if(S.ch!==2&&off())return;
+  if(S.ch===1&&off())return;
   S.nud=(S.nud||0)%4+1;msg=[];
-  (S.ch===2&&!S.echo?Lm:E)('nudge'+S.nud);render();
+  SPK[speaker()][1]('nudge'+S.nud);render();
 }
 
 /* ================= VIEWS ================= */
@@ -1355,17 +1608,20 @@ function titleView(){
   const sv=load(SAVE),best=load('kal_best');
   app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big2">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
     (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
-    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}<button data-t="daily">${t('daily_btn')}${(load('kal_daily')||{}).last===today()?' ✓':''}</button><button data-t="more">${t('more')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''} · ${VER}</p>${ch2open()?'':`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}${ch3open()?`<button class="ch3" data-t="ch3">${t('ch3_btn')}</button>`:''}<button data-t="daily">${t('daily_btn')}${(load('kal_daily')||{}).last===today()?' ✓':''}</button><button data-t="more">${t('more')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''}${ch3open()?' · '+t('found3',FOUND3.length):''} · ${VER}</p>${ch2open()?(ch3open()?'':`<p class="hint c">🔒 ${t('ch3_locked')}</p>`):`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
 }
 function endArt(k){
   const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
   const earth='<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/>';
   if(k==='home'||k==='nobody')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>${k==='nobody'?'<circle cx="85" cy="36" r="7" fill="#5ac8fa" opacity=".35" class="blink"/>':''}`;
   if(k==='ithaca'||k==='unravel')return `<rect width="160" height="70" fill="#02040a"/>${st}<ellipse cx="80" cy="18" rx="50" ry="12" fill="${k==='ithaca'?'#6d8c52':'#4a4a3a'}"/><path d="M76 70C72 50 84 40 78 22h8c6 18-4 28 0 48z" fill="#6b5a44"/><circle cx="62" cy="58" r="3" fill="#ffd8b0"/><circle cx="98" cy="58" r="3" fill="#ffd8b0"/>${k==='ithaca'?'<path d="M10 64q70-30 140 0" stroke="#ffb340" stroke-width="1" fill="none" opacity=".7"/>':''}`;
+  if(k==='odyssey'||k==='harbor')return `<rect width="160" height="70" fill="${k==='odyssey'?'#1a2a4a':'#0a1430'}"/><circle cx="130" cy="14" r="6" fill="${k==='odyssey'?'#ffd60a':'#f3f0d8'}"/><rect y="44" width="160" height="26" fill="#10284a"/><path d="M0 50q40-4 80 0t80 0" stroke="#5ac8fa" stroke-width=".6" fill="none" opacity=".5"/><path d="M20 44q20-16 50-10t60 10z" fill="#2a3a22"/>${k==='odyssey'?'<path d="M60 30l20-22M80 8l10 10" stroke="#c9d3de" stroke-width="2"/><path d="M80 8q30-4 60 10" stroke="#30d158" stroke-width=".8" fill="none" class="blink"/>':'<circle cx="62" cy="40" r="2" fill="#ffd8b0"/><circle cx="70" cy="40" r="2" fill="#ffd8b0"/>'}`;
   if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
   return `<rect width="160" height="70" fill="#0d131d"/><rect width="160" height="70" fill="#ff453a" class="redglow"/><rect x="40" y="16" width="80" height="42" rx="21" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="52" y="23" width="56" height="28" rx="13" fill="#9fd8ff" fill-opacity=".2" stroke="#5ac8fa" stroke-opacity=".5"/>`;
 }
 function endView(){
+  if(END.c3){const m3={odyssey:['end_ody_t','end_ody',1],harbor:['end_har_t','end_har',2]}[END.k],ps3=t(m3[1]).slice();if(END.echo)ps3.push(t('end3_echo'));
+    app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end3_label',m3[2])}<br><span>${t(m3[0])}</span></p>${ps3.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found3',FOUND3.length)}</p>${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   if(END.c2){const m2={ithaca:['end_ith_t','end_ith',1],unravel:['end_unr_t','end_unr',2]}[END.k],ps2=t(m2[1]).slice();if(END.argos)ps2.push(t('end2_dog'));if(END.echo)ps2.push(t('end2_echo'));
     app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end2_label',m2[2])}<br><span>${t(m2[0])}</span></p>${ps2.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found2',FOUND2.length)}</p>${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3],nobody:['end_nb_t','end_nb',4]}[END.k];
@@ -1379,7 +1635,7 @@ function render(){
   if(mode==='manual')return manualView();
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
-  if(S.trust>=3&&S.ch!==2)ach('friend');
+  if(S.trust>=3&&S.ch===1)ach('friend');
   if(TOAST.length){TOAST.forEach(id=>msg.push(['s','ach_unlock',[id]]));TOAST=[]}
   const enter=S.room!==lastRoom;lastRoom=S.room;
   let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><span id="tm" class="tm${used()>lim()?' over':''}">${timerTxt()}</span><button class="ib" data-h="1">💡</button><button class="ib" data-m="1">☰</button></div><svg class="scene${enter?' enter':''}" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
@@ -1405,6 +1661,7 @@ app.addEventListener('click',e=>{
       else if(d.t==='cont'){S=load(SAVE);if(S){S=Object.assign(fresh(S.ch||1),S);mode='game';msg=[];lastRoom=null}}
       else if(d.t==='lang')setLang(lang==='en'?'el':'en');
       else if(d.t==='ch2'){modeChoice(2);return}
+      else if(d.t==='ch3'){modeChoice(3);return}
       else if(d.t==='title')mode='title';
       render();scrollUp();return;
     }
