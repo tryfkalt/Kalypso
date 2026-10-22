@@ -16,6 +16,9 @@ p{margin:0 0 7px}
 .e::before{content:"ECHO: ";font-weight:700}
 .e2{color:var(--echo)}
 .s{color:var(--code);font-size:12px}
+.t{color:var(--dim);font-style:italic}
+.msg{border-left:2px solid #3a3a3c;padding-left:8px;margin-bottom:4px}
+.look{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 2px;font-weight:600}
 button{display:block;width:100%;margin:5px 0;padding:9px 8px;border:0;border-radius:12px;background:var(--btn);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
 button:active{background:var(--btn2)}
 button.go{color:var(--ok)}
@@ -70,7 +73,7 @@ function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{}}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
-const N=t=>msg.push(['n',t]),E=t=>msg.push(['e',t]),SY=t=>msg.push(['s',t]);
+const T=t=>msg.push(['t',t]),N=t=>msg.push(['n',t]),E=t=>msg.push(['e',t]),SY=t=>msg.push(['s',t]);
 const off=()=>S.f.choice==='off';
 function scrollUp(){window.scrollTo(0,0)}
 
@@ -83,7 +86,7 @@ function go(room){
 
 const R={
 cryo:{name:'Cryo Bay',
-  intro(){N('You wake inside a frosted pod. Red lights pulse. The bay is empty.');E('Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.');N("Odysseus? That isn't your name. Is it?")},
+  intro(){N('You wake inside a frosted pod. Red lights pulse. The bay is empty.');E('Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.');T("(Odysseus? That isn't your name... is it?)")},
   objs(){return [['pod','Your cryo pod'],['under','Under the pod'],['locker',S.f.locker?'Locker (open)':'Locker'],['door',S.f.cryoDoor?'→ Corridor':'Door',S.f.cryoDoor]]},
   act(id){
     if(id==='pod')N('Scratched inside the lid: 46 small lines. Some of them look fresh.');
@@ -243,7 +246,7 @@ function render(){
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
   const r=R[S.room];
-  let h=`<h1>${r.name}</h1><div class="msg">${msg.map(m=>`<p class="${m[0]}">${m[1]}</p>`).join('')}</div>`;
+  let h=`<h1>${r.name}</h1><div class="msg">${msg.map(m=>`<p class="${m[0]}">${m[1]}</p>`).join('')}</div><div class="look">👁 Look around</div>`;
   h+=r.objs().map(o=>`<button data-o="${o[0]}"${o[2]?' data-g="1" class="go"':''}>${o[1]}</button>`).join('');
   if(S.inv.length){
     h+=`<div class="inv"><h2>Inventory</h2><div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${ITEMS[i]}</button>`).join('')}</div>`+
