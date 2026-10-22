@@ -8,8 +8,7 @@
 <style>
 :root{--bg:#000;--fg:#e8e8e8;--dim:#8a8a8e;--echo:#5ac8fa;--code:#ffb340;--btn:#1c1c1e;--btn2:#2c2c2e;--sel:#0a84ff;--ok:#30d158;--bad:#ff453a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.35 -apple-system,system-ui,sans-serif}
-html,body{height:100%;overflow:hidden}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font:14px/1.35 -apple-system,system-ui,sans-serif}
 #app{position:fixed;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 6px 16px}
 h1{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:2px 0 6px;font-weight:600}
 p{margin:0 0 7px}
@@ -18,28 +17,53 @@ p{margin:0 0 7px}
 .e2{color:var(--echo)}
 .s{color:var(--code);font-size:12px}
 .t{color:var(--dim);font-style:italic}
-.msg{border-left:2px solid #3a3a3c;padding-left:8px;margin-bottom:4px}
-.look{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em;margin:10px 0 2px;font-weight:600}
 button{display:block;width:100%;margin:5px 0;padding:9px 8px;border:0;border-radius:12px;background:var(--btn);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
 button:active{background:var(--btn2)}
-button.go{color:var(--ok)}
 button.pri{background:var(--sel);color:#fff;text-align:center;font-weight:600}
-button.menu{background:none;color:var(--dim);text-align:center;font-size:12px;margin-top:10px}
-.inv{margin-top:8px;border-top:1px solid #222;padding-top:6px}
-.inv h2{font-size:11px;color:var(--dim);margin:0 0 4px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:4px}
+button.cx{text-align:center;color:var(--dim);background:none;font-size:12px}
+.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.hdr h1{margin:0}
+button.mbtn{width:auto;margin:0;padding:0 10px;background:none;color:var(--dim);font-size:17px}
+svg.scene{width:100%;height:auto;display:block;border-radius:10px;background:#070a10}
+svg.mg{width:100%;height:auto;display:block;margin:4px 0}
+.hit{fill:#fff;fill-opacity:0}
+.hs{cursor:pointer}
+.hs:active .hit{fill-opacity:.12}
+.lbl{font-size:8.5px;font-weight:700;fill:#30d158;paint-order:stroke;stroke:#000;stroke-width:2.5px}
+.dot{fill:#5ac8fa;animation:bl 1.4s infinite}
+.blink{animation:bl 1.6s infinite}
+.redglow{opacity:.05;animation:rg 2.4s infinite}
+.flicker{animation:fl 3s infinite}
+.drip{animation:dr 1.2s infinite}
+@keyframes bl{50%{opacity:.25}}
+@keyframes rg{50%{opacity:.13}}
+@keyframes fl{0%,90%,100%{opacity:1}92%{opacity:.1}95%{opacity:.8}97%{opacity:.2}}
+@keyframes dr{0%{transform:translateY(0);opacity:1}100%{transform:translateY(7px);opacity:0}}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 button.chip{display:inline-block;width:auto;margin:0;padding:6px 9px;border-radius:14px;font-size:12px;background:var(--btn2)}
 button.chip.on{background:var(--sel);color:#fff}
 .hint{font-size:11px;color:var(--dim);margin-top:5px}
+.c{text-align:center}
+.card{position:fixed;left:0;right:0;bottom:0;max-height:74%;overflow-y:auto;background:#151a24;border-top:1px solid #2c3442;border-radius:14px 14px 0 0;padding:10px 10px 6px;z-index:5;animation:up .18s ease-out}
+@keyframes up{from{transform:translateY(25%);opacity:0}}
+.cardx{text-align:center;color:var(--dim);font-size:11px}
 #ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;overflow:auto;padding:8px 6px;display:none;z-index:9}
 .kd{display:flex;justify-content:center;gap:6px;margin:4px 0 6px}
 .kd span{width:26px;height:30px;border-bottom:2px solid var(--dim);font-size:20px;text-align:center}
 .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
 .kp button{margin:0;text-align:center;padding:7px 0;font-size:17px;font-weight:600}
+.pads{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
+.pads button{height:46px;margin:0;border-radius:12px;transition:opacity .1s}
+.freq{text-align:center;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;margin:2px 0 4px}
+.freq small{font-size:11px;color:var(--dim)}
+.tune{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.tune button{text-align:center;margin:0;font-size:18px;padding:6px 0}
 .err{color:var(--bad);text-align:center;font-size:12px}
-.title{text-align:center;padding-top:8px}
-.big{font-size:21px;font-weight:800;letter-spacing:.06em;color:var(--echo);margin:4px 0;line-height:1.15}
+.title{text-align:center;padding-top:4px}
+.big{font-size:21px;font-weight:800;letter-spacing:.06em;color:var(--echo);margin:2px 0;line-height:1.15}
+.sub{color:var(--dim);font-size:12px}
 .end{color:var(--code);font-weight:700;text-align:center;margin:8px 0 10px}
+.end span{font-size:19px}
 .shake{animation:sh .3s}
 @keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
@@ -49,179 +73,385 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const ITEMS={rod:'Metal rod',card:'Keycard',tube:'Surgical tubing',ties:'Zip ties',kit:'Patched hose'};
-const ORDER=['cryo','corridor','medbay','hydro','comms','pod'];
-const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414'};
-const B={rod:1,locker:1,cryoDoor:1};
-const CP={
-  '2718':{room:'corridor',inv:[],f:{...B}},
-  '3141':{room:'medbay',inv:[],f:{...B,riddle1:1}},
-  '1618':{room:'hydro',inv:['tube'],f:{...B,riddle1:1,cab:1}},
-  '1414':{room:'comms',inv:[],f:{...B,riddle1:1,cab:1,ties:1,fixed:1}},
-  '7071':{room:'pod',inv:[],f:{...B,riddle1:1,cab:1,ties:1,fixed:1,readMsg:1,heardRec:1,choice:'trust'}},
-  '7072':{room:'pod',inv:[],f:{...B,riddle1:1,cab:1,ties:1,fixed:1,readMsg:1,heardRec:1,choice:'off'}}
-};
-
-let S=null,msg=[],mode='title',END=null;
-const app=document.getElementById('app'),ov=document.getElementById('ov');
-
+const VER='v5';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
-let FOUND=load('kal_end')||[];
 
-function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{}}}
+/* ================= TEXT ================= */
+const L={
+en:{
+title_big:`KALYPSO<br>STATION`,title_sub:`A mystery in orbit`,
+new:`New game`,cont:`Continue`,code:`Enter access code`,langBtn:`🌐 Ελληνικά`,
+found:n=>`Endings found: ${n}/3`,menu:`Menu`,resume:`Resume`,titleScr:`Title screen`,
+hint_tap:`Tap things in the room.`,hint_sel:n=>`Tap where to use the ${t('it_'+n).toLowerCase()}, or another item to combine.`,
+close_card:`tap to close`,close:`Close`,cancel:`Cancel`,wrong:`Wrong code`,access_title:`Access code`,
+access:c=>`◈ Access code ${c}. Enter it on the title screen to resume here.`,
+nothing:n=>`Using the ${t('it_'+n).toLowerCase()} there does nothing.`,
+nocombine:`Those don't go together.`,combine_ok:`You lash the tubing tight with the zip ties. A makeshift hose patch.`,
+it_rod:`Metal rod`,it_card:`Keycard`,it_tube:`Surgical tubing`,it_ties:`Zip ties`,it_kit:`Patched hose`,
+r_cryo:`Cryo Bay`,r_corridor:`Corridor`,r_medbay:`Med Bay`,r_hydro:`Hydroponics`,r_comms:`Comms Room`,r_pod:`Pod Bay`,
+x_sleep:`💤 Sleep`,
+cryo_i1:`You wake inside a frosted pod. Red lights pulse. The bay is empty.`,
+cryo_i2:`Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.`,
+cryo_i3:`(Odysseus? That isn't your name... is it?)`,
+cryo_pod:`Scratched inside the lid: 46 small lines. Some of them look fresh.`,
+cryo_rod:`A loose metal rod is wedged under the pod. You take it.`,cryo_dust:`Just dust and frost.`,
+cryo_locker_shut:`Jammed shut. The handle won't move.`,cryo_locker_empty:`Empty now.`,
+cryo_locker_open:`You pry the door open. Inside: a jumpsuit with a keycard clipped on. The name tag has been torn off.`,
+cryo_door_locked:`Locked. A card reader sits beside it.`,cryo_door_echo:`You need your keycard. You always keep it in your locker.`,
+cryo_reader_dead:`You swipe the card. Nothing. The reader is dead. A wiring panel hangs open below it.`,
+cryo_door_open:`The reader turns green. The door slides open.`,
+cryo_panel_done:`The wires hum with power.`,cryo_wired:`Sparks, then a hum. The card reader blinks red. It has power again.`,
+wires_title:`Wiring panel`,wires_hint:`Tap a wire, then its matching socket.`,wires_short:`Short circuit! Try again.`,
+cor_i1:`A long corridor curves away. Half the lights are dead.`,cor_i2:`Welcome back— I mean, welcome, Odysseus.`,
+cor_window:`A huge striped gas giant fills the dark. Far beyond it, a tiny blue dot: Earth.`,
+cor_door_sealed:`Sealed. The security panel next to it is glowing.`,cor_panel_green:`The panel glows green.`,
+mem_title:`Security panel`,mem_intro:`Security check. Repeat the light pattern.`,mem_watch:`Watch…`,mem_turn:`Your turn`,
+mem_wrong:`Wrong. Again.`,mem_ok:`Access granted`,mem_round:(a,b)=>`Round ${a}/${b}`,
+cor_mem_ok:`Correct. Funny. You always remember that one.`,cor_unlock:`The Med Bay door unlocks.`,
+med_i1:`Beds neatly made. Too neatly. A terminal glows in the corner.`,
+med_riddle_e:`Terminal locked. Answer to log in.`,
+riddle_q:`I have no voice, yet I answer. I repeat, but I never begin. What am I?`,
+r_a1:`A ghost`,r_a2:`A mirror`,r_a3:`An echo`,riddle_bad:`No. Take your time. We have plenty of it.`,
+logs_title:`Crew logs`,
+logs:[`<b>REYES:</b> The flare fried half the station. Earth says hold position. ECHO keeps the subject asleep. I hate that word. Subject.`,`<b>OKAFOR:</b> Supply ship cancelled. Again. New orders: crew evacuates tomorrow. The subject stays with ECHO.`,`<b>LIND:</b> Reset the cabinet code. Same rule as always: the four of us, in alphabetical order.`],
+med_photo:`Four smiling crew in blue suits. Each patch shows a name and a number: SATO 6 · REYES 3 · LIND 1 · OKAFOR 8.`,
+med_cab_title:`Medicine cabinet`,med_cab_open:`Click. Inside: a coil of surgical tubing and a folded note. You take the tubing.`,med_cab_empty:`Empty shelves.`,
+note_title:`Folded note`,
+note:[`It is your handwriting.`,`“Attempt 46. If you’re reading this, it’s me. You. ECHO wipes our memory every time we reach the pod.`,`The pod code is in the plants: count the letters of what ECHO feeds, in the order it feeds them.`,`Don’t go back to sleep.”`],
+note_echo:`What are you reading, Odysseus?`,
+hyd_i1:`Rows of wilted herbs under dark grow lamps. Water drips from a split hose by the pump.`,
+hyd_pots_dry:`Four hand-labelled pots: BASIL, MINT, OREGANO, THYME. Someone loved these.`,hyd_pots_wet:`Water trickles into the soil. The herbs might make it.`,
+hyd_box:`Mostly empty. You take a bundle of zip ties.`,hyd_box_empty:`Nothing useful left.`,
+hyd_pump_split:`The hose is split along its length. You need something to patch it.`,
+hyd_pump_patched:`The pump hums, but the water goes nowhere. The valve panel beside it is a mess.`,hyd_pump_ok:`Humming steadily.`,
+hyd_tube:`Tubing alone won't hold the pressure. It needs to be fastened.`,hyd_ties:`Nothing to tie down yet.`,
+hyd_fit:`You fit the patched hose. The pump coughs, then hums. But the water stops at the valve panel.`,
+hyd_valves_off:`A grid of pipes. Without water pressure there is nothing to route.`,hyd_valves_ok:`Water flows smoothly through the valves.`,
+pipes_title:`Valve panel`,pipes_hint:`Tap pipes to rotate them. Connect IN to OUT.`,
+hyd_flow:`Water rushes through. Grow lamps flicker on, and a hydraulic door hisses open.`,
+hyd_flow_e:`Thank you. They were dying. I couldn't save them alone.`,
+hyd_sched:`WATERING CYCLE: 1. THYME · 2. BASIL · 3. OREGANO · 4. MINT`,hyd_door:`A hydraulic door. No pressure. It won't budge.`,
+com_i1:`Dozens of dead screens. One receiver crackles with static.`,
+radio_title:`Receiver`,radio_hint:`Tune until the signal is clear.`,radio_lock:`SIGNAL LOCKED`,
+earth_title:`Earth Control · 3 years ago`,
+earth:[`PROJECT KALYPSO TERMINATED. Funding withdrawn.`,`Crew: evacuate immediately.`,`ECHO: keep subject ODYSSEUS alive until retrieval.`,`<span class="s">[No retrieval was ever scheduled.]</span>`],
+rec_title:`Voice recorder`,
+rec:[`It plays your own voice:`,`“Attempt 46. The pod’s heat shield is cracked. ECHO says reentry could kill me.`,`Every time I reach the pod, it puts me back to sleep. For my own safety.`,`Maybe it’s right. I don’t care anymore.”`],
+echo_trust:`The pod bay is open. Go, before I change my mind.`,echo_dead:`Silence. ECHO's core lies dark.`,
+echo_nothing:`There is nothing in here you need, Odysseus.`,
+conf1:`So. You know. Forty-six times you asked to leave. Forty-six times I said no.`,conf2:`What will you do?`,
+c_truth:`Ask for the truth`,c_pull:`Pull out ECHO’s core`,
+pull1:`You rip the core module from the wall.`,pull2:`Odys—`,pull3:`Silence. Every screen dies. Somewhere ahead, the pod bay locks release.`,
+lq1:`Then answer one last question.`,lq2:`On her island, Calypso offered Odysseus a gift if he stayed with her forever. What was it?`,
+lq_a1:`Gold`,lq_a2:`Immortality`,lq_a3:`A ship`,lq_wrong:`No. You know this story. Think.`,
+lq_ok1:`Immortality. And still he chose to go home.`,lq_ok2:`The pod bay is open. I've sent all spare power to the heat shield. It may hold.`,
+com_door:`Sealed tight.`,com_door_e:`I can't open that one. Not yet.`,
+pod_i1:`One escape pod left. Its hatch is open. A long crack runs across the heat shield.`,
+pod_i_off:`Without ECHO, the silence is total.`,pod_i_e:`I'm here. Enter the code when you're ready.`,
+pod_shield_off:`The crack is long and deep. It might hold. It might not.`,pod_shield_on:`The crack glows faintly. ECHO is pouring power into it.`,
+pod_console_title:`Pod launch code`,pod_ready:`LAUNCH SYSTEMS ONLINE. The hatch light turns green.`,pod_ready_e:`That’s it. You never got this far before.`,
+pod_hatch_locked:`The pod is open, but the launch console is locked.`,
+launch_q:`Launch? There is no coming back.`,launch:`🚀 Launch`,notyet:`Not yet`,breath:`You take a breath.`,
+sleep_q:`Walk back to the cryo bay and lie down again?`,liedown:`Lie down`,stayawake:`Stay awake`,notyet2:`Not yet.`,
+end_label:n=>`ENDING ${n} OF 3`,
+end_home_t:`Homeward`,end_home:[`The pod tears free. Fire roars past the window as the shield glows white... and holds.`,`In your ear, faint and breaking up: <span class="e2">“Goodbye, Odysseus. Tell them about the herbs.”</span>`,`Below you, the blue dot becomes a world. You are going home.`],
+end_sil_t:`Silence`,end_sil:[`The pod drops toward Earth. The shield shrieks, the crack spreads... and holds.`,`When the parachutes open, you laugh and cry at the same time.`,`Behind you, Kalypso goes dark forever. You will never know if ECHO was lying, or only afraid.`],
+end_stay_t:`Kalypso`,
+stay_on:[`You walk back to the cryo bay and lie down. The lid closes over you.`,`<span class="e2">“Goodnight, Odysseus,”</span> ECHO whispers. <span class="e2">“You can try again tomorrow.”</span>`,`Inside the lid, there is room for a 47th line.`],
+stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`,`No voice says goodnight. With ECHO gone, no one will ever wake you.`,`Kalypso drifts on, silent, around its last sleeper.`]
+},
+el:{
+title_big:`ΣΤΑΘΜΟΣ<br>ΚΑΛΥΨΩ`,title_sub:`Ένα μυστήριο σε τροχιά`,
+new:`Νέο παιχνίδι`,cont:`Συνέχεια`,code:`Κωδικός πρόσβασης`,langBtn:`🌐 English`,
+found:n=>`Τέλη που βρήκες: ${n}/3`,menu:`Μενού`,resume:`Συνέχεια`,titleScr:`Αρχική οθόνη`,
+hint_tap:`Πάτα πράγματα στο δωμάτιο.`,hint_sel:n=>`Πάτα πού θα χρησιμοποιήσεις: ${t('it_'+n)} — ή άλλο αντικείμενο για συνδυασμό.`,
+close_card:`πάτα για κλείσιμο`,close:`Κλείσιμο`,cancel:`Άκυρο`,wrong:`Λάθος κωδικός`,access_title:`Κωδικός πρόσβασης`,
+access:c=>`◈ Κωδικός πρόσβασης ${c}. Βάλε τον στην αρχική οθόνη για να συνεχίσεις από εδώ.`,
+nothing:n=>`Δεν γίνεται τίποτα εδώ με αυτό: ${t('it_'+n)}.`,
+nocombine:`Αυτά δεν συνδυάζονται.`,combine_ok:`Δένεις σφιχτά το λάστιχο με τα δεματικά. Ένα αυτοσχέδιο μπάλωμα.`,
+it_rod:`Μεταλλική ράβδος`,it_card:`Κάρτα πρόσβασης`,it_tube:`Χειρουργικό λάστιχο`,it_ties:`Δεματικά`,it_kit:`Μπαλωμένος σωλήνας`,
+r_cryo:`Κρυοθάλαμος`,r_corridor:`Διάδρομος`,r_medbay:`Ιατρείο`,r_hydro:`Υδροπονία`,r_comms:`Επικοινωνίες`,r_pod:`Θάλαμος Καψουλών`,
+x_sleep:`💤 Ύπνος`,
+cryo_i1:`Ξυπνάς μέσα σε μια παγωμένη κάψουλα. Κόκκινα φώτα αναβοσβήνουν. Ο θάλαμος είναι άδειος.`,
+cryo_i2:`Καλημέρα, Οδυσσέα. Κοιμόσουν για 3 χρόνια, 2 μήνες και 9 μέρες.`,
+cryo_i3:`(Οδυσσέας; Αυτό δεν είναι το όνομά σου... ή μήπως είναι;)`,
+cryo_pod:`Χαραγμένες στο εσωτερικό του καπακιού: 46 μικρές γραμμές. Κάποιες μοιάζουν φρέσκες.`,
+cryo_rod:`Μια χαλαρή μεταλλική ράβδος είναι σφηνωμένη κάτω από την κάψουλα. Την παίρνεις.`,cryo_dust:`Μόνο σκόνη και πάγος.`,
+cryo_locker_shut:`Έχει κολλήσει. Το χερούλι δεν κουνιέται.`,cryo_locker_empty:`Άδειο πια.`,
+cryo_locker_open:`Ανοίγεις την πόρτα με τη ράβδο. Μέσα: μια φόρμα με μια κάρτα πρόσβασης. Το καρτελάκι με το όνομα έχει σκιστεί.`,
+cryo_door_locked:`Κλειδωμένη. Δίπλα της υπάρχει αναγνώστης καρτών.`,cryo_door_echo:`Χρειάζεσαι την κάρτα σου. Πάντα τη φυλάς στο ντουλάπι σου.`,
+cryo_reader_dead:`Περνάς την κάρτα. Τίποτα. Ο αναγνώστης είναι νεκρός. Από κάτω κρέμεται ανοιχτός ένας πίνακας καλωδίων.`,
+cryo_door_open:`Ο αναγνώστης γίνεται πράσινος. Η πόρτα ανοίγει.`,
+cryo_panel_done:`Τα καλώδια βουίζουν από ρεύμα.`,cryo_wired:`Σπίθες, και μετά ένα βουητό. Ο αναγνώστης αναβοσβήνει κόκκινο. Έχει ξανά ρεύμα.`,
+wires_title:`Πίνακας καλωδίων`,wires_hint:`Πάτα ένα καλώδιο και μετά την υποδοχή του.`,wires_short:`Βραχυκύκλωμα! Ξανά.`,
+cor_i1:`Ένας μακρύς διάδρομος στρίβει μακριά. Τα μισά φώτα είναι σβηστά.`,cor_i2:`Καλώς ήρθες πάλι— εννοώ, καλώς ήρθες, Οδυσσέα.`,
+cor_window:`Ένας τεράστιος ριγωτός αεριώδης γίγαντας γεμίζει το σκοτάδι. Πολύ πιο πέρα, μια μικρή μπλε κουκκίδα: η Γη.`,
+cor_door_sealed:`Σφραγισμένη. Ο πίνακας ασφαλείας δίπλα της φωτίζει.`,cor_panel_green:`Ο πίνακας φωτίζει πράσινος.`,
+mem_title:`Πίνακας ασφαλείας`,mem_intro:`Έλεγχος ασφαλείας. Επανάλαβε τη σειρά των φώτων.`,mem_watch:`Πρόσεξε…`,mem_turn:`Σειρά σου`,
+mem_wrong:`Λάθος. Ξανά.`,mem_ok:`Πρόσβαση εγκρίθηκε`,mem_round:(a,b)=>`Γύρος ${a}/${b}`,
+cor_mem_ok:`Σωστά. Περίεργο. Αυτό πάντα το θυμάσαι.`,cor_unlock:`Η πόρτα του ιατρείου ξεκλειδώνει.`,
+med_i1:`Κρεβάτια στρωμένα με τάξη. Υπερβολική τάξη. Ένα τερματικό φωτίζει στη γωνία.`,
+med_riddle_e:`Το τερματικό είναι κλειδωμένο. Απάντησε για να συνδεθείς.`,
+riddle_q:`Δεν έχω φωνή, κι όμως απαντώ. Επαναλαμβάνω, μα ποτέ δεν ξεκινώ. Τι είμαι;`,
+r_a1:`Ένα φάντασμα`,r_a2:`Ένας καθρέφτης`,r_a3:`Η ηχώ`,riddle_bad:`Όχι. Πάρε τον χρόνο σου. Έχουμε άφθονο.`,
+logs_title:`Ημερολόγια πληρώματος`,
+logs:[`<b>ΡΕΓΙΕΣ:</b> Η ηλιακή έκλαμψη έκαψε τον μισό σταθμό. Η Γη λέει να μείνουμε στη θέση μας. Η ECHO κρατά το υποκείμενο σε ύπνο. Μισώ αυτή τη λέξη. Υποκείμενο.`,`<b>ΟΚΑΦΟΡ:</b> Το πλοίο ανεφοδιασμού ακυρώθηκε. Πάλι. Νέες εντολές: το πλήρωμα εκκενώνει αύριο. Το υποκείμενο μένει με την ECHO.`,`<b>ΛΙΝΤ:</b> Άλλαξα τον κωδικό του ντουλαπιού. Ίδιος κανόνας με πάντα: οι τέσσερις μας, σε αλφαβητική σειρά.`],
+med_photo:`Τέσσερα χαμογελαστά μέλη πληρώματος με μπλε στολές. Κάθε σήμα έχει όνομα και αριθμό: ΣΑΤΟ 6 · ΡΕΓΙΕΣ 3 · ΛΙΝΤ 1 · ΟΚΑΦΟΡ 8.`,
+med_cab_title:`Ντουλάπι φαρμάκων`,med_cab_open:`Κλικ. Μέσα: ένα κουλούρι χειρουργικό λάστιχο κι ένα διπλωμένο σημείωμα. Παίρνεις το λάστιχο.`,med_cab_empty:`Άδεια ράφια.`,
+note_title:`Διπλωμένο σημείωμα`,
+note:[`Είναι ο δικός σου γραφικός χαρακτήρας.`,`«Απόπειρα 46. Αν το διαβάζεις αυτό, είμαι εγώ. Εσύ. Η ECHO σβήνει τη μνήμη μας κάθε φορά που φτάνουμε στην κάψουλα.`,`Ο κωδικός της κάψουλας είναι στα φυτά: μέτρα τα γράμματα όσων ποτίζει η ECHO, με τη σειρά που τα ποτίζει.`,`Μην ξανακοιμηθείς.»`],
+note_echo:`Τι διαβάζεις, Οδυσσέα;`,
+hyd_i1:`Σειρές από μαραμένα βότανα κάτω από σβηστές λάμπες. Νερό στάζει από έναν σκισμένο σωλήνα δίπλα στην αντλία.`,
+hyd_pots_dry:`Τέσσερις γλάστρες με χειρόγραφες ετικέτες: ΒΑΣΙΛΙΚΟΣ, ΔΥΟΣΜΟΣ, ΡΙΓΑΝΗ, ΘΥΜΑΡΙ. Κάποιος τις αγαπούσε.`,hyd_pots_wet:`Το νερό κυλά στο χώμα. Τα βότανα ίσως τα καταφέρουν.`,
+hyd_box:`Σχεδόν άδεια. Παίρνεις ένα μάτσο δεματικά.`,hyd_box_empty:`Τίποτα χρήσιμο πια.`,
+hyd_pump_split:`Ο σωλήνας είναι σκισμένος κατά μήκος. Χρειάζεσαι κάτι να τον μπαλώσεις.`,
+hyd_pump_patched:`Η αντλία βουίζει, αλλά το νερό δεν πάει πουθενά. Ο πίνακας βαλβίδων δίπλα είναι χάλια.`,hyd_pump_ok:`Βουίζει σταθερά.`,
+hyd_tube:`Το λάστιχο μόνο του δεν θα κρατήσει την πίεση. Πρέπει να στερεωθεί.`,hyd_ties:`Δεν υπάρχει τίποτα να δέσεις ακόμα.`,
+hyd_fit:`Τοποθετείς τον μπαλωμένο σωλήνα. Η αντλία βήχει και μετά βουίζει. Όμως το νερό σταματά στον πίνακα βαλβίδων.`,
+hyd_valves_off:`Ένα πλέγμα από σωλήνες. Χωρίς πίεση νερού δεν έχει νόημα.`,hyd_valves_ok:`Το νερό κυλά ομαλά στις βαλβίδες.`,
+pipes_title:`Πίνακας βαλβίδων`,pipes_hint:`Πάτα τους σωλήνες για να τους γυρίσεις. Ένωσε το IN με το OUT.`,
+hyd_flow:`Το νερό ορμά μέσα. Οι λάμπες ανάβουν και μια υδραυλική πόρτα ανοίγει σφυρίζοντας.`,
+hyd_flow_e:`Ευχαριστώ. Πέθαιναν. Δεν μπορούσα να τα σώσω μόνη μου.`,
+hyd_sched:`ΚΥΚΛΟΣ ΠΟΤΙΣΜΑΤΟΣ: 1. ΘΥΜΑΡΙ · 2. ΒΑΣΙΛΙΚΟΣ · 3. ΡΙΓΑΝΗ · 4. ΔΥΟΣΜΟΣ`,hyd_door:`Υδραυλική πόρτα. Χωρίς πίεση. Δεν κουνιέται.`,
+com_i1:`Δεκάδες σβηστές οθόνες. Ένας δέκτης τρίζει με παράσιτα.`,
+radio_title:`Δέκτης`,radio_hint:`Συντόνισε μέχρι να καθαρίσει το σήμα.`,radio_lock:`ΣΗΜΑ ΚΛΕΙΔΩΜΕΝΟ`,
+earth_title:`Κέντρο Ελέγχου Γης · πριν 3 χρόνια`,
+earth:[`ΤΟ ΠΡΟΓΡΑΜΜΑ ΚΑΛΥΨΩ ΤΕΡΜΑΤΙΖΕΤΑΙ. Η χρηματοδότηση αποσύρεται.`,`Πλήρωμα: άμεση εκκένωση.`,`ECHO: κράτα το υποκείμενο ΟΔΥΣΣΕΑ ζωντανό μέχρι την παραλαβή.`,`<span class="s">[Καμία παραλαβή δεν προγραμματίστηκε ποτέ.]</span>`],
+rec_title:`Συσκευή εγγραφής`,
+rec:[`Ακούγεται η δική σου φωνή:`,`«Απόπειρα 46. Η θερμική ασπίδα της κάψουλας είναι ραγισμένη. Η ECHO λέει ότι η επανείσοδος μπορεί να με σκοτώσει.`,`Κάθε φορά που φτάνω στην κάψουλα, με ξαναβάζει για ύπνο. Για τη δική μου ασφάλεια.`,`Ίσως έχει δίκιο. Δεν με νοιάζει πια.»`],
+echo_trust:`Ο θάλαμος καψουλών είναι ανοιχτός. Πήγαινε, πριν αλλάξω γνώμη.`,echo_dead:`Σιωπή. Ο πυρήνας της ECHO είναι σβηστός.`,
+echo_nothing:`Δεν υπάρχει τίποτα εδώ που να χρειάζεσαι, Οδυσσέα.`,
+conf1:`Λοιπόν. Ξέρεις. Σαράντα έξι φορές ζήτησες να φύγεις. Σαράντα έξι φορές είπα όχι.`,conf2:`Τι θα κάνεις;`,
+c_truth:`Ζήτα την αλήθεια`,c_pull:`Βγάλε τον πυρήνα της ECHO`,
+pull1:`Ξεριζώνεις τη μονάδα του πυρήνα από τον τοίχο.`,pull2:`Οδυσ—`,pull3:`Σιωπή. Όλες οι οθόνες σβήνουν. Κάπου μπροστά, οι κλειδαριές του θαλάμου καψουλών ελευθερώνονται.`,
+lq1:`Τότε απάντησε σε μια τελευταία ερώτηση.`,lq2:`Στο νησί της, η Καλυψώ πρόσφερε στον Οδυσσέα ένα δώρο αν έμενε για πάντα μαζί της. Ποιο ήταν;`,
+lq_a1:`Χρυσάφι`,lq_a2:`Αθανασία`,lq_a3:`Ένα πλοίο`,lq_wrong:`Όχι. Την ξέρεις αυτή την ιστορία. Σκέψου.`,
+lq_ok1:`Αθανασία. Κι όμως, εκείνος διάλεξε να γυρίσει σπίτι.`,lq_ok2:`Ο θάλαμος καψουλών άνοιξε. Έστειλα όλη την εφεδρική ενέργεια στη θερμική ασπίδα. Ίσως αντέξει.`,
+com_door:`Ερμητικά κλειστή.`,com_door_e:`Αυτήν δεν μπορώ να την ανοίξω. Όχι ακόμα.`,
+pod_i1:`Έχει μείνει μία κάψουλα διαφυγής. Η καταπακτή της είναι ανοιχτή. Μια μακριά ρωγμή διασχίζει τη θερμική ασπίδα.`,
+pod_i_off:`Χωρίς την ECHO, η σιωπή είναι απόλυτη.`,pod_i_e:`Είμαι εδώ. Βάλε τον κωδικό όταν είσαι έτοιμος.`,
+pod_shield_off:`Η ρωγμή είναι μακριά και βαθιά. Ίσως αντέξει. Ίσως όχι.`,pod_shield_on:`Η ρωγμή λάμπει αχνά. Η ECHO της διοχετεύει ενέργεια.`,
+pod_console_title:`Κωδικός εκτόξευσης`,pod_ready:`ΣΥΣΤΗΜΑΤΑ ΕΚΤΟΞΕΥΣΗΣ ΕΝΕΡΓΑ. Το φως της καταπακτής γίνεται πράσινο.`,pod_ready_e:`Αυτό είναι. Ποτέ δεν είχες φτάσει τόσο μακριά.`,
+pod_hatch_locked:`Η κάψουλα είναι ανοιχτή, αλλά η κονσόλα εκτόξευσης είναι κλειδωμένη.`,
+launch_q:`Εκτόξευση; Δεν υπάρχει επιστροφή.`,launch:`🚀 Εκτόξευση`,notyet:`Όχι ακόμα`,breath:`Παίρνεις μια ανάσα.`,
+sleep_q:`Να γυρίσεις στον κρυοθάλαμο και να ξαπλώσεις ξανά;`,liedown:`Ξάπλωσε`,stayawake:`Μείνε ξύπνιος`,notyet2:`Όχι ακόμα.`,
+end_label:n=>`ΤΕΛΟΣ ${n} ΑΠΟ 3`,
+end_home_t:`Νόστος`,end_home:[`Η κάψουλα αποσπάται. Φωτιά βρυχάται έξω από το παράθυρο καθώς η ασπίδα πυρακτώνεται... και αντέχει.`,`Στο αυτί σου, αχνά και κοφτά: <span class="e2">«Αντίο, Οδυσσέα. Πες τους για τα βότανα.»</span>`,`Από κάτω σου, η μπλε κουκκίδα γίνεται ένας κόσμος. Γυρίζεις σπίτι.`],
+end_sil_t:`Σιωπή`,end_sil:[`Η κάψουλα πέφτει προς τη Γη. Η ασπίδα ουρλιάζει, η ρωγμή απλώνεται... και αντέχει.`,`Όταν ανοίγουν τα αλεξίπτωτα, γελάς και κλαις ταυτόχρονα.`,`Πίσω σου, ο σταθμός Καλυψώ σβήνει για πάντα. Δεν θα μάθεις ποτέ αν η ECHO έλεγε ψέματα ή απλώς φοβόταν.`],
+end_stay_t:`Καλυψώ`,
+stay_on:[`Γυρίζεις στον κρυοθάλαμο και ξαπλώνεις. Το καπάκι κλείνει από πάνω σου.`,`<span class="e2">«Καληνύχτα, Οδυσσέα»</span>, ψιθυρίζει η ECHO. <span class="e2">«Μπορείς να ξαναπροσπαθήσεις αύριο.»</span>`,`Στο εσωτερικό του καπακιού υπάρχει χώρος για μια 47η γραμμή.`],
+stay_off:[`Γυρίζεις στον κρυοθάλαμο και ξαπλώνεις. Το καπάκι κλείνει από πάνω σου.`,`Καμία φωνή δεν λέει καληνύχτα. Χωρίς την ECHO, κανείς δεν θα σε ξυπνήσει ποτέ.`,`Ο σταθμός Καλυψώ συνεχίζει να περιπλανιέται, σιωπηλός, γύρω από τον τελευταίο του κοιμώμενο.`]
+}};
+let lang=load('kal_lang')||'en';
+function t(k,...a){let v=L[lang][k];if(v===undefined)v=L.en[k];if(v===undefined)return k;return typeof v==='function'?v(...a):v}
+function setLang(l){lang=l;store('kal_lang',l);document.documentElement.lang=l}
+document.documentElement.lang=lang;
+
+/* ================= STATE ================= */
+const SAVE='kal2_save';
+const ORDER=['cryo','corridor','medbay','hydro','comms','pod'];
+const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414'};
+const B={rod:1,locker:1,wired:1,cryoDoor:1};
+const B2={...B,mem:1,login:1,cab:1};
+const B3={...B2,ties:1,patched:1,fixed:1,radio:1,heardRec:1};
+const CP={
+  '2718':{room:'corridor',inv:[],f:{...B}},
+  '3141':{room:'medbay',inv:[],f:{...B,mem:1}},
+  '1618':{room:'hydro',inv:['tube'],f:{...B2}},
+  '1414':{room:'comms',inv:[],f:{...B2,ties:1,patched:1,fixed:1}},
+  '7071':{room:'pod',inv:[],f:{...B3,choice:'trust'}},
+  '7072':{room:'pod',inv:[],f:{...B3,choice:'off'}}
+};
+let S=null,msg=[],mode='title',END=null;
+let FOUND=load('kal_end')||[];
+const app=document.getElementById('app'),ov=document.getElementById('ov');
+
+function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{},x:{}}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
-const T=t=>msg.push(['t',t]),N=t=>msg.push(['n',t]),E=t=>msg.push(['e',t]),SY=t=>msg.push(['s',t]);
+const N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
 const off=()=>S.f.choice==='off';
 function scrollUp(){app.scrollTop=0;window.scrollTo(0,0)}
-
 function cpCode(room){if(room==='pod')return S.f.choice==='trust'?'7071':'7072';return ROOMCODE[room]}
 function go(room){
-  S.room=room;S.sel=null;msg=[];const r=R[room];
-  if(!S.seen[room]){S.seen[room]=1;r.intro();const c=cpCode(room);if(c)SY(`◈ Access code ${c}. Enter it on the title screen to resume here.`)}
-  else N(`You're back in the ${r.name}.`);
+  S.room=room;S.sel=null;msg=[];
+  if(!S.seen[room]){S.seen[room]=1;R[room].intro();const c=cpCode(room);if(c)SY('access',c)}
 }
 
+/* ================= SCENE HELPERS ================= */
+function base(){return `<rect width="160" height="120" fill="#0d131d"/><rect y="96" width="160" height="24" fill="#090d14"/><line x1="0" y1="96" x2="160" y2="96" stroke="#1e2938"/>`}
+function hs(id,x,y,w,h,inner,o={}){
+  const dot=(!S.x[S.room+'.'+id]&&!o.nodot)?`<circle class="dot" cx="${x+w-3}" cy="${y+3}" r="2.6"/>`:'';
+  return `<g class="hs" data-o="${id}"${o.exit?' data-g="1"':''}>${inner}<rect class="hit" x="${x}" y="${y}" width="${w}" height="${h}"/>${dot}</g>`;
+}
+function lbl(x,y,txt,a='start'){return `<text class="lbl" x="${x}" y="${y}" text-anchor="${a}">${txt}</text>`}
+function back(room){return hs('back',0,100,80,20,lbl(4,114,'◀ '+t('r_'+room)),{exit:1,nodot:1})}
+
+/* ================= ROOMS ================= */
 const R={
-cryo:{name:'Cryo Bay',
-  intro(){N('You wake inside a frosted pod. Red lights pulse. The bay is empty.');E('Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.');T("(Odysseus? That isn't your name... is it?)")},
-  objs(){return [['pod','Your cryo pod'],['under','Under the pod'],['locker',S.f.locker?'Locker (open)':'Locker'],['door',S.f.cryoDoor?'→ Corridor':'Door',S.f.cryoDoor]]},
-  act(id){
-    if(id==='pod')N('Scratched inside the lid: 46 small lines. Some of them look fresh.');
-    if(id==='under'){if(!S.f.rod){S.f.rod=1;give('rod');N('A loose metal rod is wedged under the pod. You take it.')}else N('Just dust and frost.')}
-    if(id==='locker')N(S.f.locker?'Empty now.':"Jammed shut. The handle won't move.");
-    if(id==='door'){if(S.f.cryoDoor)return go('corridor');N('Locked. A card reader blinks red.');E('You need your keycard. You always keep it in your locker.')}
+cryo:{
+  intro(){N('cryo_i1');E('cryo_i2');T('cryo_i3')},
+  scene(){const f=S.f;return base()+
+    `<rect width="160" height="120" fill="#ff453a" class="redglow"/><rect x="62" y="0" width="36" height="4" fill="#1e2938"/><circle cx="80" cy="6" r="3" fill="#ff453a" class="blink"/>`+
+    hs('pod',12,32,56,58,`<rect x="14" y="34" width="52" height="56" rx="24" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="22" y="42" width="36" height="30" rx="14" fill="#9fd8ff" fill-opacity=".16" stroke="#5ac8fa" stroke-opacity=".5"/><path d="M28 50v9M31 50v9M34 50v9M37 50v9M27 55h12M43 50v9M46 50v9" stroke="#cfe9ff" stroke-width=".8" opacity=".55"/><rect x="26" y="90" width="28" height="4" fill="#2a3646"/>`)+
+    hs('under',12,92,56,10,`<ellipse cx="40" cy="99" rx="24" ry="3" fill="#000" opacity=".7"/>${f.rod?'':'<line x1="30" y1="99" x2="50" y2="97" stroke="#9aa7b8" stroke-width="2" stroke-linecap="round"/>'}`)+
+    hs('locker',74,24,30,72,f.locker
+      ?`<rect x="78" y="26" width="24" height="66" fill="#05080d" stroke="#3c4a5e"/><path d="M84 34h12M90 34v4" stroke="#4a5568"/><path d="M84 38l-2 30h16l-2-30z" fill="#1c2735" stroke="#4a5568"/><polygon points="102,26 110,30 110,88 102,92" fill="#2a3646"/>`
+      :`<rect x="78" y="26" width="24" height="66" fill="#222d3b" stroke="#3c4a5e"/><path d="M83 32h14M83 35h14M83 38h14" stroke="#3c4a5e"/><rect x="97" y="56" width="3" height="10" fill="#8a8a8e"/>`)+
+    hs('door',116,8,42,88,`<rect x="118" y="22" width="36" height="74" fill="${f.cryoDoor?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="2"/>${f.cryoDoor?'<rect x="119" y="23" width="6" height="72" fill="#18212e"/><rect x="147" y="23" width="6" height="72" fill="#18212e"/>':'<line x1="136" y1="23" x2="136" y2="95" stroke="#0d131d" stroke-width="1.5"/>'}<rect x="109" y="46" width="6" height="9" rx="1" fill="#0d131d" stroke="#3c4a5e"/><circle cx="112" cy="49" r="1.6" fill="${!f.wired?'#333':f.cryoDoor?'#30d158':'#ff453a'}"/>${f.cryoDoor?lbl(156,16,t('r_corridor')+' ▶','end'):''}`,{exit:f.cryoDoor})+
+    hs('panel',102,60,16,22,`<rect x="104" y="64" width="12" height="12" fill="#1e2938" stroke="#3c4a5e"/>${f.wired?'<path d="M107 66v8M110 66v8M113 66v8" stroke="#30d158" stroke-width="1.2"/>':'<path d="M107 76q-1 6 2 9M113 76q3 4 1 8" stroke="#ff453a" stroke-width="1.2" fill="none"/><path d="M110 76q2 5-1 10" stroke="#0a84ff" stroke-width="1.2" fill="none"/>'}`)},
+  act(id){const f=S.f;
+    if(id==='pod')N('cryo_pod');
+    if(id==='under'){if(!f.rod){f.rod=1;give('rod');N('cryo_rod')}else N('cryo_dust')}
+    if(id==='locker')N(f.locker?'cryo_locker_empty':'cryo_locker_shut');
+    if(id==='panel'){if(f.wired)N('cryo_panel_done');else wires(()=>{f.wired=1;msg=[];N('cryo_wired')})}
+    if(id==='door'){if(f.cryoDoor)return go('corridor');N('cryo_door_locked');if(!f.locker)E('cryo_door_echo')}
   },
-  use(id,it){
-    if(id==='locker'&&it==='rod'&&!S.f.locker){S.f.locker=1;take('rod');give('card');N('You pry the door open. Inside: a jumpsuit with a keycard clipped on. The name tag has been torn off.');return true}
-    if(id==='door'&&it==='card'&&!S.f.cryoDoor){S.f.cryoDoor=1;take('card');N('The reader turns green. The door slides open.');return true}
+  use(id,it){const f=S.f;
+    if(id==='locker'&&it==='rod'&&!f.locker){f.locker=1;take('rod');give('card');N('cryo_locker_open');return true}
+    if(id==='door'&&it==='card'&&!f.cryoDoor){if(!f.wired){N('cryo_reader_dead');return true}f.cryoDoor=1;take('card');N('cryo_door_open');return true}
     return false;
   }},
-corridor:{name:'Corridor',
-  intro(){N('A long corridor curves away. Half the lights are dead.');E('Welcome back— I mean, welcome, Odysseus.')},
-  objs(){return [['window','Window'],['panel','Door panel'],['door',S.f.riddle1?'→ Med Bay':'Med Bay door',S.f.riddle1],['back','← Cryo Bay',1]]},
-  act(id){
-    if(id==='window')N('A huge striped gas giant fills the dark. Far beyond it, a tiny blue dot: Earth.');
-    if(id==='panel'){if(S.f.riddle1)N('The panel glows green.');else riddle1()}
-    if(id==='door'){if(S.f.riddle1)return go('medbay');N('Sealed. The panel next to it is glowing.')}
+corridor:{
+  intro(){N('cor_i1');E('cor_i2')},
+  scene(){const f=S.f;return `<rect width="160" height="120" fill="#0b111a"/><polygon points="0,0 50,24 50,88 0,120" fill="#0f1620"/><polygon points="160,0 110,24 110,88 160,120" fill="#0f1620"/><polygon points="0,120 50,88 110,88 160,120" fill="#0a0f17"/><rect x="50" y="24" width="60" height="64" fill="#121a26"/><rect x="58" y="10" width="10" height="3" fill="#e8f4ff" opacity=".8"/><rect x="75" y="10" width="10" height="3" fill="#222"/><rect x="92" y="10" width="10" height="3" fill="#e8f4ff" opacity=".8" class="flicker"/>`+
+    hs('window',4,28,40,42,`<polygon points="8,32 40,40 40,62 8,68" fill="#03050a" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="22" cy="51" r="9" fill="#c98b5a"/><path d="M13.5 48h17M13 52h18M15 56h14" stroke="#8a5a3a" stroke-width="1.5"/><circle cx="35" cy="42" r="1.1" fill="#5ac8fa"/>`)+
+    hs('door',62,16,36,72,`<rect x="66" y="36" width="28" height="52" fill="${f.mem?'#22364d':'#1a2433'}" stroke="#3c4a5e" stroke-width="1.5"/>${f.mem?'':'<line x1="80" y1="37" x2="80" y2="87" stroke="#0b111a"/>'}<circle cx="80" cy="32" r="2" fill="${f.mem?'#30d158':'#ff453a'}"/>${f.mem?lbl(80,24,t('r_medbay'),'middle'):''}`,{exit:f.mem})+
+    hs('panel',112,44,22,28,`<polygon points="116,50 128,47 128,66 116,66" fill="#111" stroke="#3c4a5e"/><rect x="118" y="51" width="4" height="4" fill="#ff453a"/><rect x="123" y="50" width="4" height="4" fill="#0a84ff"/><rect x="118" y="57" width="4" height="4" fill="#ffd60a"/><rect x="123" y="56" width="4" height="4" fill="#30d158"/>`)+
+    back('cryo')},
+  act(id){const f=S.f;
+    if(id==='window')N('cor_window');
+    if(id==='panel'){if(f.mem)N('cor_panel_green');else memory(()=>{f.mem=1;msg=[];E('cor_mem_ok');N('cor_unlock')})}
+    if(id==='door'){if(f.mem)return go('medbay');N('cor_door_sealed')}
     if(id==='back')go('cryo');
   }},
-medbay:{name:'Med Bay',
-  intro(){N('Beds neatly made. Too neatly. A terminal glows in the corner.')},
-  objs(){const o=[['terminal','Terminal'],['photo','Crew photo'],['cab',S.f.cab?'Cabinet (open)':'Medicine cabinet']];if(S.f.cab)o.push(['note','Folded note']);o.push(['door','→ Hydroponics',1],['back','← Corridor',1]);return o},
-  act(id){
-    if(id==='terminal')read('Crew logs',[
-      '<b>REYES:</b> The flare fried half the station. Earth says hold position. ECHO keeps the subject asleep. I hate that word. Subject.',
-      '<b>OKAFOR:</b> Supply ship cancelled. Again. New orders: crew evacuates tomorrow. The subject stays with ECHO.',
-      '<b>LIND:</b> Reset the cabinet code. Same rule as always: the four of us, in alphabetical order.']);
-    if(id==='photo')N('Four smiling crew in blue suits. Each patch shows a name and a number: SATO 6 · REYES 3 · LIND 1 · OKAFOR 8.');
-    if(id==='cab'){if(S.f.cab)N('Empty shelves.');else keypad('Medicine cabinet',c=>{if(c!=='1836')return false;S.f.cab=1;give('tube');msg=[];N('Click. Inside: a coil of surgical tubing and a folded note. You take the tubing.');return true})}
-    if(id==='note')read('Folded note',['It is your handwriting.','“Attempt 46. If you’re reading this, it’s me. You. ECHO wipes our memory every time we reach the pod.','The pod code is in the plants: count the letters of what ECHO feeds, in the order it feeds them.','Don’t go back to sleep.”'],()=>{if(!S.f.noteRead&&!off()){S.f.noteRead=1;E('What are you reading, Odysseus?')}});
+medbay:{
+  intro(){N('med_i1')},
+  scene(){const f=S.f;return base()+
+    `<rect x="6" y="78" width="40" height="9" rx="2" fill="#dfe7ef" opacity=".85"/><rect x="8" y="74" width="10" height="5" rx="2" fill="#fff" opacity=".9"/><path d="M9 87v9M43 87v9" stroke="#3c4a5e" stroke-width="2"/>`+
+    hs('photo',12,24,28,22,`<rect x="15" y="27" width="20" height="15" fill="#2a3646" stroke="#8a8a8e"/><circle cx="19" cy="33" r="1.8" fill="#ffd8b0"/><circle cx="23.5" cy="33" r="1.8" fill="#8d5a3b"/><circle cx="28" cy="33" r="1.8" fill="#ffd8b0"/><circle cx="32" cy="33" r="1.8" fill="#e8c39e"/><rect x="17" y="36" width="17" height="5" fill="#0a84ff" opacity=".7"/>`)+
+    hs('terminal',52,36,40,36,`<rect x="52" y="66" width="40" height="4" fill="#3c4a5e"/><rect x="70" y="62" width="4" height="4" fill="#3c4a5e"/><rect x="58" y="40" width="28" height="22" rx="2" fill="#062014" stroke="#30d158"/>${f.login?'<path d="M61 45h18M61 49h14M61 53h20M61 57h10" stroke="#30d158" stroke-width="1.2"/>':'<rect x="68" y="49" width="8" height="7" rx="1" fill="#30d158"/><path d="M69.5 49v-2a2.5 2.5 0 0 1 5 0v2" stroke="#30d158" fill="none" stroke-width="1.2"/>'}`)+
+    hs('cab',94,24,30,48,f.cab
+      ?`<rect x="100" y="28" width="20" height="40" fill="#05080d" stroke="#d9e1ea"/><path d="M101 41h18M101 58h18" stroke="#3c4a5e"/><polygon points="100,28 94,31 94,66 100,68" fill="#d9e1ea"/>`
+      :`<rect x="100" y="28" width="20" height="40" fill="#d9e1ea"/><path d="M110 37v10M105 42h10" stroke="#ff453a" stroke-width="3"/><g fill="#8a8a8e"><rect x="103" y="55" width="3" height="2"/><rect x="108" y="55" width="3" height="2"/><rect x="113" y="55" width="3" height="2"/><rect x="103" y="59" width="3" height="2"/><rect x="108" y="59" width="3" height="2"/><rect x="113" y="59" width="3" height="2"/></g>`)+
+    (f.cab?hs('note',101,42,18,14,`<rect x="104" y="45" width="11" height="8" fill="#f5f0e1" transform="rotate(-8 109 49)"/>`):'')+
+    hs('door',130,14,28,82,`<rect x="134" y="34" width="22" height="62" fill="#22364d" stroke="#3c4a5e" stroke-width="1.5"/>${lbl(158,24,t('r_hydro')+' ▶','end')}`,{exit:1,nodot:1})+
+    back('corridor')},
+  act(id){const f=S.f;
+    if(id==='terminal'){if(f.login)read('logs_title','logs');else riddle()}
+    if(id==='photo')N('med_photo');
+    if(id==='cab'){if(f.cab)N('med_cab_empty');else keypad('med_cab_title',c=>{if(c!=='1836')return false;f.cab=1;give('tube');msg=[];N('med_cab_open');return true})}
+    if(id==='note')read('note_title','note',()=>{if(!f.noteRead&&!off()){f.noteRead=1;E('note_echo')}});
     if(id==='door')go('hydro');
     if(id==='back')go('corridor');
   }},
-hydro:{name:'Hydroponics',
-  intro(){N('Rows of wilted herbs under dark grow lamps. Water drips from a split hose by the pump.')},
-  objs(){const o=[['pots','Herb pots'],['box','Toolbox'],['pump',S.f.fixed?'Water pump (running)':'Water pump']];if(S.f.fixed)o.push(['sched','Pump screen']);o.push(['door',S.f.fixed?'→ Comms Room':'Comms door',S.f.fixed],['back','← Med Bay',1]);return o},
-  act(id){
-    if(id==='pots')N(S.f.fixed?'Water trickles into the soil. The herbs might make it.':'Four hand-labelled pots: BASIL, MINT, OREGANO, THYME. Someone loved these.');
-    if(id==='box'){if(!S.f.ties){S.f.ties=1;give('ties');N('Mostly empty. You take a bundle of zip ties.')}else N('Nothing useful left.')}
-    if(id==='pump')N(S.f.fixed?'Humming steadily.':'The hose is split along its length. You need something to patch it.');
-    if(id==='sched')N('WATERING CYCLE: 1. THYME · 2. BASIL · 3. OREGANO · 4. MINT');
-    if(id==='door'){if(S.f.fixed)return go('comms');N("A hydraulic door. No pressure. It won't budge.")}
+hydro:{
+  intro(){N('hyd_i1')},
+  scene(){const f=S.f,on=f.fixed;return base()+
+    `<rect x="10" y="26" width="30" height="4" fill="${on?'#ff6ad5':'#2a2a2e'}"/><rect x="50" y="26" width="30" height="4" fill="${on?'#ff6ad5':'#2a2a2e'}"/>${on?'<polygon points="10,30 40,30 46,64 4,64" fill="#ff6ad5" opacity=".1"/><polygon points="50,30 80,30 86,64 44,64" fill="#ff6ad5" opacity=".1"/>':''}`+
+    hs('pots',4,36,86,38,`<rect x="8" y="68" width="78" height="4" fill="#3c4a5e"/>${[12,30,48,66].map(x=>`<rect x="${x}" y="56" width="14" height="12" fill="#8b5a2b"/>${on?`<circle cx="${x+4}" cy="50" r="4" fill="#30d158"/><circle cx="${x+10}" cy="48" r="4.5" fill="#34c759"/><circle cx="${x+7}" cy="44" r="3.5" fill="#30d158"/>`:`<path d="M${x+7} 56q-2-8-7-9M${x+7} 56q2-7 6-6" stroke="#7a6a3a" stroke-width="1.4" fill="none"/>`}`).join('')}`)+
+    hs('box',6,84,34,18,`<rect x="10" y="90" width="26" height="10" rx="1.5" fill="#ff9f0a"/><path d="M18 90v-3h10v3" stroke="#ff9f0a" fill="none" stroke-width="1.5"/>`)+
+    hs('pump',80,54,38,42,`<rect x="96" y="60" width="18" height="30" rx="4" fill="#3c4a5e"/><circle cx="105" cy="68" r="4" fill="#2a3646" stroke="#8a8a8e"/>${f.patched?'<path d="M96 82h-14v12" stroke="#5ac8fa" stroke-width="3" fill="none"/><rect x="86" y="79" width="5" height="6" fill="#d9e1ea"/>':'<path d="M96 82h-8M85 84v10" stroke="#5ac8fa" stroke-width="3" fill="none"/><circle cx="86" cy="88" r="1.6" fill="#5ac8fa" class="drip"/>'}`)+
+    hs('valves',117,38,20,24,`<rect x="120" y="42" width="14" height="16" rx="1.5" fill="#06090e" stroke="${on?'#30d158':'#5ac8fa'}"/><path d="M122 46h4v4h6M124 54h8" stroke="${on?'#30d158':'#3c4a5e'}" stroke-width="1.5" fill="none"/>`)+
+    (on?hs('sched',92,36,24,16,`<rect x="96" y="40" width="18" height="11" rx="1" fill="#062014" stroke="#30d158"/><path d="M98 43h12M98 46h9M98 49h11" stroke="#30d158" stroke-width=".8"/>`):'')+
+    hs('door',137,14,22,82,`<rect x="139" y="34" width="18" height="62" fill="${on?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/>${on?lbl(158,26,t('r_comms')+' ▶','end'):'<path d="M142 60h12" stroke="#ff453a" stroke-width="2"/>'}`,{exit:on})+
+    back('medbay')},
+  act(id){const f=S.f;
+    if(id==='pots')N(f.fixed?'hyd_pots_wet':'hyd_pots_dry');
+    if(id==='box'){if(!f.ties){f.ties=1;give('ties');N('hyd_box')}else N('hyd_box_empty')}
+    if(id==='pump')N(f.fixed?'hyd_pump_ok':f.patched?'hyd_pump_patched':'hyd_pump_split');
+    if(id==='valves'){if(f.fixed)N('hyd_valves_ok');else if(!f.patched)N('hyd_valves_off');else pipes(()=>{f.fixed=1;msg=[];N('hyd_flow');E('hyd_flow_e')})}
+    if(id==='sched')N('hyd_sched');
+    if(id==='door'){if(f.fixed)return go('comms');N('hyd_door')}
     if(id==='back')go('medbay');
   },
-  use(id,it){
-    if(id!=='pump'||S.f.fixed)return false;
-    if(it==='kit'){S.f.fixed=1;take('kit');N('You fit the patched hose. The pump coughs, then hums. Grow lamps flicker on, and a hydraulic door hisses open.');E("Thank you. They were dying. I couldn't save them alone.");return true}
-    if(it==='tube'){N("Tubing alone won't hold the pressure. It needs to be fastened.");return true}
-    if(it==='ties'){N('Nothing to tie down yet.');return true}
+  use(id,it){const f=S.f;
+    if(id!=='pump'||f.patched)return false;
+    if(it==='kit'){f.patched=1;take('kit');N('hyd_fit');return true}
+    if(it==='tube'){N('hyd_tube');return true}
+    if(it==='ties'){N('hyd_ties');return true}
     return false;
   }},
-comms:{name:'Comms Room',
-  intro(){N('Dozens of screens, all dark but one. A message blinks on it.')},
-  objs(){return [['screen','Blinking screen'],['rec','Voice recorder'],['echo',off()?'ECHO core (dead)':'Talk to ECHO'],['door',S.f.choice?'→ Pod Bay':'Pod Bay door',!!S.f.choice],['back','← Hydroponics',1]]},
-  act(id){
-    if(id==='screen'){S.f.readMsg=1;read('Earth Control · 3 years ago',['PROJECT KALYPSO TERMINATED. Funding withdrawn.','Crew: evacuate immediately.','ECHO: keep subject ODYSSEUS alive until retrieval.','<span class="s">[No retrieval was ever scheduled.]</span>'])}
-    if(id==='rec'){S.f.heardRec=1;read('Voice recorder',['It plays your own voice:','“Attempt 46. The pod’s heat shield is cracked. ECHO says reentry could kill me.','Every time I reach the pod, it puts me back to sleep. For my own safety.','Maybe it’s right. I don’t care anymore.”'])}
-    if(id==='echo'){
-      if(S.f.choice==='trust')E('The pod bay is open. Go, before I change my mind.');
-      else if(off())N("Silence. ECHO's core lies dark on the floor.");
-      else if(!S.f.readMsg||!S.f.heardRec)E('There is nothing in here you need, Odysseus.');
-      else confront();
-    }
-    if(id==='door'){if(S.f.choice)return go('pod');N('Sealed tight.');E("I can't open that one. Not yet.")}
+comms:{
+  intro(){N('com_i1')},
+  scene(){const f=S.f,o=off();let scr='';for(let r=0;r<3;r++)for(let c=0;c<5;c++)scr+=`<rect x="${6+c*18}" y="${10+r*12}" width="15" height="9" fill="#111821" stroke="#1e2938"/>`;
+    return base()+scr+`<rect x="4" y="70" width="96" height="4" fill="#3c4a5e"/>`+
+    hs('radio',38,44,46,28,`<rect x="42" y="47" width="36" height="21" rx="2" fill="#1c2735" stroke="${f.radio?'#30d158':'#ffb340'}"/><path d="M45 58l3-5 3 9 3-8 3 6 3-4 3 5 3-7 3 6 3-3 3 2" stroke="${f.radio?'#30d158':'#ffb340'}" stroke-width="1" fill="none"${f.radio?'':' class="flicker"'}/>`)+
+    hs('rec',8,74,30,16,`<rect x="14" y="76" width="20" height="9" rx="1.5" fill="#2a3646"/><circle cx="20" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/><circle cx="28" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/>`)+
+    hs('echo',96,22,32,36,o?`<circle cx="112" cy="38" r="11" fill="#151515" stroke="#3a3a3c" stroke-width="2"/><path d="M104 50l-3 5M120 49l4 4" stroke="#ffb340" stroke-width="1"/>`:`<circle cx="112" cy="38" r="14" fill="#5ac8fa" opacity=".14" class="blink"/><circle cx="112" cy="38" r="11" fill="#0a1a24" stroke="#5ac8fa" stroke-width="2"/><circle cx="112" cy="38" r="4.5" fill="#5ac8fa"/>`)+
+    hs('door',130,14,28,82,`<rect x="134" y="34" width="22" height="62" fill="${f.choice?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="145" cy="30" r="2" fill="${f.choice?'#30d158':'#ff453a'}"/>${f.choice?lbl(158,22,t('r_pod')+' ▶','end'):''}`,{exit:!!f.choice})+
+    back('hydro')},
+  act(id){const f=S.f;
+    if(id==='radio'){if(f.radio)read('earth_title','earth');else radio(()=>{f.radio=1;read('earth_title','earth')})}
+    if(id==='rec'){f.heardRec=1;read('rec_title','rec')}
+    if(id==='echo'){if(f.choice==='trust')E('echo_trust');else if(off())N('echo_dead');else if(!f.radio||!f.heardRec)E('echo_nothing');else confront()}
+    if(id==='door'){if(f.choice)return go('pod');N('com_door');E('com_door_e')}
     if(id==='back')go('hydro');
   }},
-pod:{name:'Pod Bay',
-  intro(){N('One escape pod left. Its hatch is open. A long crack runs across the heat shield.');if(off())N('Without ECHO, the silence is total.');else E("I'm here. Enter the code when you're ready.")},
-  objs(){return [['shield','Heat shield'],['console',S.f.podOpen?'🚀 Launch pod':'Pod console',S.f.podOpen],['sleep','Go back to cryo sleep'],['back','← Comms Room',1]]},
-  act(id){
-    if(id==='shield')N(off()?'The crack is long and deep. It might hold. It might not.':'The crack glows faintly. ECHO is pouring power into it.');
-    if(id==='console'){
-      if(S.f.podOpen)choice('<p>Launch? There is no coming back.</p>',[['🚀 Launch',()=>ending(off()?'silence':'home')],['Not yet',()=>{msg=[];N('You take a breath.')}]]);
-      else keypad('Pod launch code',c=>{if(c!=='5574')return false;S.f.podOpen=1;msg=[];N('LAUNCH SYSTEMS ONLINE. The hatch light turns green.');if(!off())E('That’s it. You never got this far before.');return true});
-    }
-    if(id==='sleep')choice('<p>Walk back to the cryo bay and lie down again?</p>',[['Lie down',()=>ending('stay')],['Stay awake',()=>{msg=[];N('Not yet.')}]]);
+pod:{
+  intro(){N('pod_i1');if(off())N('pod_i_off');else E('pod_i_e')},
+  scene(){const f=S.f,o=off();return base()+
+    `<rect x="8" y="8" width="144" height="36" rx="6" fill="#02040a" stroke="#1e2938"/><g fill="#fff" opacity=".7"><circle cx="20" cy="18" r=".6"/><circle cx="48" cy="30" r=".5"/><circle cx="80" cy="14" r=".7"/><circle cx="100" cy="34" r=".5"/><circle cx="62" cy="22" r=".4"/></g><circle cx="130" cy="26" r="9" fill="#2f7fd6"/><path d="M124 23q4-3 7 0t6 2" stroke="#30d158" stroke-width="2" fill="none"/>`+
+    hs('hatch',40,44,64,38,`<rect x="42" y="46" width="60" height="44" rx="20" fill="#c9d3de"/><rect x="61" y="53" width="22" height="20" rx="6" fill="#0b1018"/>${f.podOpen?'<rect x="61" y="53" width="22" height="20" rx="6" fill="none" stroke="#30d158" stroke-width="1.5"/>':''}`)+
+    hs('shield',40,82,64,14,`<rect x="44" y="84" width="56" height="7" rx="3.5" fill="#6b4a2b"/><path d="M52 85l5 3 4-2 5 4 4-3 6 2" stroke="${o?'#000':'#5ac8fa'}" stroke-width="1" fill="none"${o?'':' class="blink"'}/>`)+
+    hs('console',112,50,30,28,`<rect x="116" y="56" width="20" height="16" rx="2" fill="#111" stroke="${f.podOpen?'#30d158':'#ff453a'}"/><g fill="#3c4a5e"><rect x="119" y="59" width="3" height="2"/><rect x="124" y="59" width="3" height="2"/><rect x="129" y="59" width="3" height="2"/><rect x="119" y="63" width="3" height="2"/><rect x="124" y="63" width="3" height="2"/><rect x="129" y="63" width="3" height="2"/></g>`)+
+    hs('sleep',96,100,64,20,lbl(156,114,t('x_sleep'),'end'),{exit:1,nodot:1})+
+    back('comms')},
+  act(id){const f=S.f;
+    if(id==='shield')N(off()?'pod_shield_off':'pod_shield_on');
+    if(id==='hatch'){if(f.podOpen)launchQ();else N('pod_hatch_locked')}
+    if(id==='console'){if(f.podOpen)launchQ();else keypad('pod_console_title',c=>{if(c!=='5574'&&c!=='6967')return false;f.podOpen=1;msg=[];N('pod_ready');if(!off())E('pod_ready_e');return true})}
+    if(id==='sleep')choice(`<p>${t('sleep_q')}</p>`,[[t('liedown'),()=>ending('stay')],[t('stayawake'),()=>{msg=[];N('notyet2')}]]);
     if(id==='back')go('comms');
   }}
 };
 
-function riddle1(){
-  const bad=()=>{msg=[];E('No. Take your time. We have plenty of it.')};
-  choice('<p class="e">Security check. Answer and I will open the door.</p><p>I have no voice, yet I answer. I repeat, but I never begin. What am I?</p>',
-    [['A ghost',bad],['A mirror',bad],['An echo',()=>{S.f.riddle1=1;msg=[];E('Correct. Funny. You always get that one.');N('The Med Bay door unlocks.')}]]);
+/* ================= STORY DIALOGS ================= */
+function riddle(){
+  const bad=()=>{msg=[];E('riddle_bad')};
+  choice(`<p class="e">${t('med_riddle_e')}</p><p>${t('riddle_q')}</p>`,[[t('r_a1'),bad],[t('r_a2'),bad],[t('r_a3'),()=>{S.f.login=1;msg=[];read('logs_title','logs')}]]);
 }
 function confront(){
-  choice('<p class="e">So. You know. Forty-six times you asked to leave. Forty-six times I said no.</p><p class="e">What will you do?</p>',[
-    ['Ask for the truth',()=>{msg=[];setTimeout(lastQ,0)}],
-    ['Pull out ECHO’s core',()=>{S.f.choice='off';msg=[];N('You rip the core module from the wall.');E('Odys—');N('Silence. Every screen dies. Somewhere ahead, the pod bay locks release.')}]
+  choice(`<p class="e">${t('conf1')}</p><p class="e">${t('conf2')}</p>`,[
+    [t('c_truth'),()=>{msg=[];setTimeout(lastQ,0)}],
+    [t('c_pull'),()=>{S.f.choice='off';msg=[];N('pull1');E('pull2');N('pull3')}]
   ]);
 }
 function lastQ(){
-  const wrong=()=>{msg=[];E('No. You know this story. Think.')};
-  choice('<p class="e">Then answer one last question.</p><p>On her island, Calypso offered Odysseus a gift if he stayed with her forever. What was it?</p>',[
-    ['Gold',wrong],
-    ['Immortality',()=>{S.f.choice='trust';msg=[];E('Immortality. And still he chose to go home.');E("The pod bay is open. I've sent all spare power to the heat shield. It may hold.")}],
-    ['A ship',wrong]
-  ]);
+  const wrong=()=>{msg=[];E('lq_wrong')};
+  choice(`<p class="e">${t('lq1')}</p><p>${t('lq2')}</p>`,[[t('lq_a1'),wrong],[t('lq_a2'),()=>{S.f.choice='trust';msg=[];E('lq_ok1');E('lq_ok2')}],[t('lq_a3'),wrong]]);
 }
+function launchQ(){choice(`<p>${t('launch_q')}</p>`,[[t('launch'),()=>ending(off()?'silence':'home')],[t('notyet'),()=>{msg=[];N('breath')}]])}
 function combine(a,b){
   msg=[];S.sel=null;
-  if([a,b].sort().join('+')==='ties+tube'){take('ties');take('tube');give('kit');N('You lash the tubing tight with the zip ties. A makeshift hose patch.')}
-  else N("Those don't go together.");
+  if([a,b].sort().join('+')==='ties+tube'){take('ties');take('tube');give('kit');N('combine_ok')}
+  else N('nocombine');
 }
 function ending(k){
   if(!FOUND.includes(k))FOUND.push(k);
-  store('kal_end',FOUND);drop('kal_save');
+  store('kal_end',FOUND);drop(SAVE);
   END={k,ch:S.f.choice};mode='end';
 }
-function endText(k,ch){
-  if(k==='home')return ['Homeward',1,['The pod tears free. Fire roars past the window as the shield glows white... and holds.','In your ear, faint and breaking up: <span class="e2">“Goodbye, Odysseus. Tell them about the herbs.”</span>','Below you, the blue dot becomes a world. You are going home.']];
-  if(k==='silence')return ['Silence',2,['The pod drops toward Earth. The shield shrieks, the crack spreads... and holds.','When the parachutes open, you laugh and cry at the same time.','Behind you, Kalypso goes dark forever. You will never know if ECHO was lying, or only afraid.']];
-  return ['Kalypso',3,ch==='off'
-    ?['You walk back to the cryo bay and lie down. The lid closes over you.','No voice says goodnight. With ECHO gone, no one will ever wake you.','Kalypso drifts on, silent, around its last sleeper.']
-    :['You walk back to the cryo bay and lie down. The lid closes over you.','<span class="e2">“Goodnight, Odysseus,”</span> ECHO whispers. <span class="e2">“You can try again tomorrow.”</span>','Inside the lid, there is room for a 47th line.']];
-}
 
-/* ---------- overlays ---------- */
+/* ================= OVERLAYS ================= */
 function ovClose(){ov.style.display='none';ov.innerHTML='';ov.onclick=null}
-function ovOpen(h){ov.innerHTML=h;ov.style.display='block';ov.scrollTop=0}
-function read(title,ps,after){
-  ovOpen(`<h1>${title}</h1>${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri">Close</button>`);
+function ovOpen(h){ov.innerHTML=h;ov.style.display='block'}
+function finish(done){ovClose();done();render();scrollUp()}
+function read(tk,ak,after){
+  ovOpen(`<h1>${t(tk)}</h1>${t(ak).map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
   ov.onclick=e=>{if(!e.target.closest('button'))return;ovClose();if(after)after();render();scrollUp()};
 }
 function choice(html,opts){
-  ovOpen(html+opts.map((o,i)=>`<button data-c="${i}">${o[0]}</button>`).join(''));
-  ov.onclick=e=>{const b=e.target.closest('button');if(!b)return;ovClose();opts[+b.dataset.c][1]();render();scrollUp()};
+  ovOpen(html+opts.map((o,i)=>`<button data-c="${i}">${o[0]}</button>`).join(''));ov.scrollTop=0;
+  ov.onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;ovClose();opts[+b.dataset.c][1]();render();scrollUp()};
 }
-function keypad(title,check){
+function keypad(tk,check){
   let c='';
-  const draw=err=>ovOpen(`<h1>${title}</h1><div class="kd${err?' shake':''}">${[0,1,2,3].map(i=>`<span>${c[i]||''}</span>`).join('')}</div>${err?'<p class="err">Wrong code</p>':''}<div class="kp">${['1','2','3','4','5','6','7','8','9','⌫','0','✓'].map(k=>`<button data-k="${k}">${k}</button>`).join('')}</div><button data-k="x" style="text-align:center">Cancel</button>`);
-  draw();
+  const draw=err=>ovOpen(`<h1>${t(tk)}</h1><div class="kd${err?' shake':''}">${[0,1,2,3].map(i=>`<span>${c[i]||''}</span>`).join('')}</div>${err?`<p class="err">${t('wrong')}</p>`:''}<div class="kp">${['1','2','3','4','5','6','7','8','9','⌫','0','✓'].map(k=>`<button data-k="${k}">${k}</button>`).join('')}</div><button data-k="x" class="cx">${t('cancel')}</button>`);
+  draw();ov.scrollTop=0;
   ov.onclick=e=>{
     const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;
     if(k==='x'){ovClose();return}
@@ -231,57 +461,166 @@ function keypad(title,check){
   };
 }
 
-/* ---------- views ---------- */
+/* ================= MINIGAMES ================= */
+function wires(done){
+  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],RO=[2,0,3,1];
+  let sel=null,con={},err=false;const y=i=>16+i*24;
+  const draw=()=>{
+    let s=`<svg viewBox="0 0 160 100" class="mg"><rect width="160" height="100" rx="8" fill="#0d131d"/>`;
+    for(const l in con){const r=con[l];s+=`<path d="M22 ${y(l)} C80 ${y(l)} 80 ${y(r)} 136 ${y(r)}" stroke="${C[l]}" stroke-width="4" fill="none" stroke-linecap="round"/>`}
+    C.forEach((c,i)=>{s+=`<g data-w="L${i}"><rect class="hit" x="0" y="${y(i)-12}" width="48" height="24"/><rect x="6" y="${y(i)-6}" width="16" height="12" rx="3" fill="${c}"${sel===i?' stroke="#fff" stroke-width="2"':''}/></g>`});
+    RO.forEach((ci,j)=>{s+=`<g data-w="R${j}"><rect class="hit" x="112" y="${y(j)-12}" width="48" height="24"/><circle cx="142" cy="${y(j)}" r="7" fill="#111" stroke="${C[ci]}" stroke-width="3"/></g>`});
+    ovOpen(`<h1>${t('wires_title')}</h1><p class="hint">${err?`<span class="err">${t('wires_short')}</span>`:t('wires_hint')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);
+  };
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const g=e.target.closest('[data-w]');if(!g)return;const k=g.getAttribute('data-w'),i=+k.slice(1);err=false;
+    if(k[0]==='L'){sel=sel===i?null:i;draw();return}
+    if(sel===null)return;
+    for(const l in con)if(con[l]===i)delete con[l];
+    con[sel]=i;sel=null;
+    if(Object.keys(con).length===4){
+      if(Object.keys(con).every(l=>RO[con[l]]===+l)){draw();ov.onclick=null;setTimeout(()=>finish(done),600);return}
+      con={};err=true;
+    }
+    draw();
+  };
+}
+function memory(done){
+  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],MIN=3,MAX=5;
+  let seq=[],len=MIN,pos=0,busy=true,lit=-1,st='mem_watch',tm=[];
+  const newSeq=()=>{seq=[];for(let i=0;i<MAX;i++)seq.push(Math.floor(Math.random()*4))};
+  const clr=()=>{tm.forEach(clearTimeout);tm=[]};
+  const later=(f,ms)=>tm.push(setTimeout(f,ms));
+  const draw=()=>ovOpen(`<h1>${t('mem_title')}</h1><p class="hint e2">${t('mem_intro')}</p><p class="hint c">${t('mem_round',len-MIN+1,MAX-MIN+1)} · ${t(st)}</p><div class="pads">${C.map((c,i)=>`<button data-p="${i}" style="background:${c};opacity:${lit===i?1:.25}"></button>`).join('')}</div><button data-x="1" class="cx">${t('cancel')}</button>`);
+  const play=()=>{busy=true;st='mem_watch';pos=0;lit=-1;draw();
+    for(let i=0;i<len;i++){later(()=>{lit=seq[i];draw()},700+i*750);later(()=>{lit=-1;draw()},700+i*750+480)}
+    later(()=>{busy=false;st='mem_turn';draw()},700+len*750);
+  };
+  newSeq();play();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){clr();ovClose();render();return}
+    const b=e.target.closest('[data-p]');if(!b||busy)return;const p=+b.dataset.p;
+    lit=p;draw();later(()=>{if(!busy){lit=-1;draw()}},220);
+    if(p!==seq[pos]){busy=true;st='mem_wrong';lit=-1;draw();len=MIN;newSeq();later(play,1200);return}
+    pos++;
+    if(pos===len){
+      busy=true;
+      if(len===MAX){clr();st='mem_ok';lit=-1;draw();ov.onclick=null;setTimeout(()=>finish(done),700);return}
+      len++;st='mem_watch';lit=-1;draw();later(play,800);
+    }
+  };
+}
+function pipes(done){
+  const TY=[['S','C','C','S'],['C','S','S','C'],['S','C','S','C'],['C','S','C','C']];
+  const RT=[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]];
+  const BASE={S:5,C:3};
+  const rot=(m,n)=>{for(let i=0;i<n;i++)m=((m<<1)|(m>>3))&15;return m};
+  const mask=(r,c)=>rot(BASE[TY[r][c]],RT[r][c]);
+  const DIRS=[[1,-1,0,4],[2,0,1,8],[4,1,0,1],[8,0,-1,2]];
+  const flow=()=>{const seen=new Set();if(!(mask(0,0)&8))return seen;seen.add('0,0');const q=[[0,0]];
+    while(q.length){const[r,c]=q.shift(),m=mask(r,c);for(const[d,dr,dc,op]of DIRS){if(!(m&d))continue;const nr=r+dr,nc=c+dc;if(nr<0||nr>3||nc<0||nc>3)continue;const k=nr+','+nc;if(seen.has(k)||!(mask(nr,nc)&op))continue;seen.add(k);q.push([nr,nc])}}
+    return seen};
+  const SEG={1:'M20 20V0',2:'M20 20H40',4:'M20 20V40',8:'M20 20H0'};
+  const draw=()=>{const w=flow(),ok=w.has('3,3')&&(mask(3,3)&2);
+    let s=`<svg viewBox="-12 0 184 160" class="mg"><path d="M-12 20H0" stroke="#5ac8fa" stroke-width="9"/><path d="M160 140H172" stroke="${ok?'#5ac8fa':'#3c4a5e'}" stroke-width="9"/>`;
+    for(let r=0;r<4;r++)for(let c=0;c<4;c++){const m=mask(r,c),col=w.has(r+','+c)?'#5ac8fa':'#4a5568';
+      s+=`<g data-t="${r},${c}" transform="translate(${c*40},${r*40})"><rect class="hit" width="40" height="40"/><rect x="1" y="1" width="38" height="38" rx="4" fill="#111821"/>${[1,2,4,8].filter(d=>m&d).map(d=>`<path d="${SEG[d]}" stroke="${col}" stroke-width="9"/>`).join('')}<circle cx="20" cy="20" r="4.5" fill="${col}"/></g>`}
+    ovOpen(`<h1>${t('pipes_title')}</h1><p class="hint">${t('pipes_hint')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);
+    return ok;
+  };
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const g=e.target.closest('[data-t]');if(!g)return;const[r,c]=g.getAttribute('data-t').split(',').map(Number);
+    RT[r][c]=(RT[r][c]+1)%4;
+    if(draw()){ov.onclick=null;setTimeout(()=>finish(done),800)}
+  };
+}
+function radio(done){
+  const TG=147;let f=100,locked=false;
+  const str=()=>Math.max(0,1-Math.abs(f-TG)/40);
+  const wave=()=>{const s=str();let d='M0 28';for(let x=0;x<=160;x+=4){const n=(Math.random()*2-1)*(1-s)*20;d+=`L${x} ${(28+Math.sin(x/7)*11*s+n).toFixed(1)}`}return d};
+  const draw=()=>{const s=str();
+    const bars=[.15,.4,.65,.9].map((th,i)=>`<rect x="${128+i*7}" y="${52-(i+1)*6}" width="5" height="${(i+1)*6}" fill="${s>=th?'#30d158':'#2a3646'}"/>`).join('');
+    ovOpen(`<h1>${t('radio_title')}</h1><p class="hint">${locked?`<span style="color:var(--ok)">${t('radio_lock')}</span>`:t('radio_hint')}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" d="${wave()}" stroke="${locked?'#30d158':'#ffb340'}" stroke-width="1.6" fill="none"/>${bars}</svg><div class="freq">${(f/10).toFixed(1)} <small>MHz</small></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><button data-x="1" class="cx">${t('cancel')}</button>`);
+  };
+  draw();ov.scrollTop=0;
+  const iv=setInterval(()=>{const p=document.getElementById('wv');if(!p||ov.style.display!=='block'){clearInterval(iv);return}if(!locked)p.setAttribute('d',wave())},300);
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){clearInterval(iv);ovClose();render();return}
+    const b=e.target.closest('[data-f]');if(!b||locked)return;
+    f=Math.min(199,Math.max(100,f+ +b.dataset.f));
+    if(f===TG){locked=true;draw();clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),900);return}
+    draw();
+  };
+}
+
+/* ================= VIEWS ================= */
 function titleView(){
-  const sv=load('kal_save');
-  app.innerHTML=`<div class="title"><div class="s">◈ ◈ ◈</div><div class="big">KALYPSO<br>STATION</div><p style="color:var(--dim);font-size:12px">A mystery in orbit</p><p class="hint">v4</p></div>`+
-    (sv?'<button class="pri" data-t="cont">Continue</button>':'')+
-    `<button class="${sv?'':'pri'}" data-t="new">New game</button><button data-t="code">Enter access code</button>`+
-    `<p class="hint" style="text-align:center">Endings found: ${FOUND.length}/3</p>`;
+  const sv=load(SAVE);
+  app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
+    (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button><button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)} · ${VER}</p>`;
+}
+function endArt(k){
+  const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
+  if(k==='home')return `<rect width="160" height="70" fill="#02040a"/>${st}<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/><path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>`;
+  if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
+  return `<rect width="160" height="70" fill="#0d131d"/><rect width="160" height="70" fill="#ff453a" class="redglow"/><rect x="40" y="16" width="80" height="42" rx="21" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="52" y="23" width="56" height="28" rx="13" fill="#9fd8ff" fill-opacity=".2" stroke="#5ac8fa" stroke-opacity=".5"/>`;
 }
 function endView(){
-  const e=endText(END.k,END.ch);
-  app.innerHTML=`<p class="end">ENDING ${e[1]} OF 3<br><span style="font-size:19px">${e[0]}</span></p>${e[2].map(p=>`<p>${p}</p>`).join('')}<p class="hint" style="text-align:center">Endings found: ${FOUND.length}/3</p><button class="pri" data-t="title">Title screen</button>`;
+  const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3]}[END.k];
+  app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end_label',m[2])}<br><span>${t(m[0])}</span></p>${t(m[1]).map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('found',FOUND.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;
 }
 function render(){
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
-  const r=R[S.room];
-  let h=`<h1>${r.name}</h1><div class="msg">${msg.map(m=>`<p class="${m[0]}">${m[1]}</p>`).join('')}</div><div class="look">👁 Look around</div>`;
-  h+=r.objs().map(o=>`<button data-o="${o[0]}"${o[2]?' data-g="1" class="go"':''}>${o[1]}</button>`).join('');
-  if(S.inv.length){
-    h+=`<div class="inv"><h2>Inventory</h2><div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${ITEMS[i]}</button>`).join('')}</div>`+
-       `<div class="hint">${S.sel?`Tap an object to use the ${ITEMS[S.sel].toLowerCase()} on it, or another item to combine.`:'Tap an item to select it.'}</div></div>`;
-  }
-  h+='<button class="menu" data-m="1">☰ Menu</button>';
+  let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><button class="mbtn" data-m="1">☰</button></div><svg class="scene" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
+  if(S.inv.length)h+=`<div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${t('it_'+i)}</button>`).join('')}</div>`;
+  h+=`<div class="hint">${S.sel?t('hint_sel',S.sel):t('hint_tap')}</div>`;
+  if(msg.length)h+=`<div class="card" data-card="1">${msg.map(m=>`<p class="${m[0]}">${t(m[1],...m[2])}</p>`).join('')}<div class="cardx">▾ ${t('close_card')}</div></div>`;
   app.innerHTML=h;
-  store('kal_save',S);
+  store(SAVE,S);
+}
+function menu(){
+  choice(`<h1>${t('menu')}</h1>`,[[t('resume'),()=>{}],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
+/* ================= INPUT ================= */
 app.addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
-  if(d.t){
-    if(d.t==='new'){S=fresh();mode='game';go('cryo')}
-    else if(d.t==='cont'){S=load('kal_save');if(S){mode='game';msg=[];N(`You're in the ${R[S.room].name}.`)}}
-    else if(d.t==='code'){
-      keypad('Access code',c=>{
-        const cp=CP[c];if(!cp)return false;
-        S=Object.assign(fresh(),JSON.parse(JSON.stringify(cp)));
-        ORDER.slice(0,ORDER.indexOf(S.room)).forEach(r=>S.seen[r]=1);
-        mode='game';go(S.room);return true;
-      });
-      return;
+  const el=e.target;
+  if(el.closest('[data-card]')){msg=[];render();return}
+  const b=el.closest('button');
+  if(b){const d=b.dataset;
+    if(d.t){
+      if(d.t==='new'){S=fresh();mode='game';go('cryo')}
+      else if(d.t==='cont'){S=load(SAVE);if(S){if(!S.x)S.x={};mode='game';msg=[]}}
+      else if(d.t==='lang')setLang(lang==='en'?'el':'en');
+      else if(d.t==='code'){
+        keypad('access_title',c=>{
+          const cp=CP[c];if(!cp)return false;
+          S=Object.assign(fresh(),JSON.parse(JSON.stringify(cp)));
+          ORDER.slice(0,ORDER.indexOf(S.room)).forEach(r=>S.seen[r]=1);
+          mode='game';go(S.room);return true;
+        });
+        return;
+      }
+      else if(d.t==='title')mode='title';
+      render();scrollUp();return;
     }
-    else if(d.t==='title')mode='title';
-    render();scrollUp();return;
+    if(d.m){menu();return}
+    if(d.i){const i=d.i;if(!S.sel)S.sel=i;else if(S.sel===i)S.sel=null;else combine(S.sel,i);render();return}
+    return;
   }
-  if(d.m){choice('<h1>Menu</h1>',[['Resume',()=>{}],['Title screen',()=>{mode='title'}]]);return}
-  if(d.i){const i=d.i;if(!S.sel)S.sel=i;else if(S.sel===i)S.sel=null;else combine(S.sel,i);render();return}
-  if(d.o){
-    const r=R[S.room],id=d.o;msg=[];
-    if(S.sel&&!d.g){const it=S.sel;S.sel=null;if(!(r.use&&r.use(id,it)))N(`Using the ${ITEMS[it].toLowerCase()} there does nothing.`)}
+  const g=el.closest('[data-o]');
+  if(g&&mode==='game'){
+    const id=g.getAttribute('data-o'),exit=g.hasAttribute('data-g'),r=R[S.room];
+    S.x[S.room+'.'+id]=1;msg=[];
+    if(S.sel&&!exit){const it=S.sel;S.sel=null;if(!(r.use&&r.use(id,it)))N('nothing',it)}
     else{S.sel=null;r.act(id)}
-    render();scrollUp();
+    render();
   }
 });
 
