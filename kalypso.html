@@ -69,7 +69,7 @@ button.chip{display:inline-block;width:auto;margin:0;padding:6px 9px;border-radi
 button.chip.on{background:var(--sel);color:#fff}
 .hint{font-size:11px;color:var(--dim);margin-top:5px}
 .c{text-align:center}
-.card{position:fixed;left:0;right:0;bottom:0;max-height:74%;overflow-y:auto;background:#151a24;border-top:1px solid #2c3442;border-radius:14px 14px 0 0;padding:10px 10px 6px;z-index:5;animation:up .18s ease-out}
+.card{position:fixed;left:0;right:0;bottom:0;max-height:42%;overflow-y:auto;background:#151a24;border-top:1px solid #2c3442;border-radius:14px 14px 0 0;padding:10px 10px 6px;z-index:5;animation:up .18s ease-out}
 @keyframes up{from{transform:translateY(25%);opacity:0}}
 .cardx{text-align:center;color:var(--dim);font-size:11px}
 #ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;overflow:auto;padding:8px 6px;display:none;z-index:9}
@@ -77,7 +77,14 @@ button.chip.on{background:var(--sel);color:#fff}
 .kd{display:flex;justify-content:center;gap:6px;margin:4px 0 6px}
 .kd span{width:26px;height:30px;border-bottom:2px solid var(--dim);font-size:20px;text-align:center}
 .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.kp button{margin:0;text-align:center;padding:7px 0;font-size:17px;font-weight:600}
+.kp button{margin:0;text-align:center;padding:9px 0;font-size:18px;font-weight:600}
+#ov.fade{animation:fd .16s ease-out}
+@keyframes fd{from{opacity:0;transform:translateY(6px)}}
+button:active{transform:scale(.97)}
+.brk{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:6px 0}
+.brk button{margin:0;text-align:center;font-size:12px;padding:8px 2px}
+.brk button.cut{background:#4a1c1c;color:#ff9a9a}
+.clue{font-size:11px;color:var(--fg);margin:0 0 3px;padding-left:6px;border-left:2px solid #3c4a5e}
 .pads{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0}
 .pads button{height:46px;margin:0;border-radius:12px;transition:opacity .1s}
 .freq{text-align:center;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;margin:2px 0 4px}
@@ -104,7 +111,7 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v9';
+const VER='v10';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -112,6 +119,31 @@ function drop(k){try{localStorage.removeItem(k)}catch(e){}}
 /* ================= TEXT ================= */
 const L={
 en:{
+r_scylla:`Scylla’s Lair`,r_charyb:`Charybdis Shaft`,m_scylla:`Scylla`,m_charyb:`Charybdis`,
+jun_q:x=>`Enter ${x}? The hatch will seal behind you. There is no going back.`,jun_yes:`Enter`,jun_sealed:`Sealed. You chose the other way.`,
+sc_i1:`A long maintenance bay. Six robotic arms hang from a ceiling rail, each ending in a claw. As you step in, all six turn toward you.`,
+sc_e:`Scylla. That is what the crew called her. She always takes something.`,
+sc_arms:`Each arm is stencilled with a numeral, I to VI. The claws are scratched and dented.`,
+sc_sheet_t:`Maintenance sheet`,
+sc_sheet:[`ARM BREAKERS · MAINTENANCE`,`To freeze the arms, cut exactly three breakers.`,`Breaker I must always stay on.`,`V shares a circuit with I: they are always in the same state.`,`III and V are never in the same state.`,`Cut IV or VI, but never both.`,`If II is cut, VI must be cut too.`],
+brk_t:`Breaker panel`,brk_on:`ON`,brk_cut:`✂ CUT`,brk_apply:`⚡ Apply`,brk_err:`The arms jerk awake. Wrong combination. +0:30`,
+sc_off:`Three breakers clack. The arms shudder, sag, and go still.`,sc_off_e:`Clever. In forty-six tries, you never thought of that.`,
+sc_brk_done:`Three breakers cut. The arms hang still.`,
+sc_run_q:`The arms sweep the passage. Run for it anyway? Scylla will take her toll: six minutes.`,sc_run:`🏃 Run (+6:00)`,
+sc_out_clever:`You got past Scylla without losing anything. The crew never managed that.`,sc_out_ran:`She took her six. You made it anyway.`,
+cy_i1:`A vertical shaft roars with wind. At its heart, a turbine the size of a house breathes in, pauses, and breathes in again. The far hatch is across the shaft.`,
+cy_e:`Charybdis. She swallows everything. Today she is hungry.`,
+cy_turb:`Every few seconds the whole shaft heaves toward the blades. The pauses between are far too short to cross.`,
+cy_plac_t:`Turbine placard`,
+cy_plac:[`TURBINE PAUSE CONTROL`,`The pause lasts as many seconds as the three dials added together. Crossing needs 17.`,`The middle dial must be the highest.`,`The left dial is half of the right one.`],
+cy_dial_t:`Turbine dials`,cy_set:`The turbine’s rhythm changes. Every cycle now leaves a long, quiet pause.`,cy_set_done:`The dials hold steady.`,
+cy_jump_q:`The pauses are tiny. Jump anyway? Every mistake costs three minutes.`,cy_jump:`🌀 Jump`,cy_go:`🌀 Jump in a pause`,
+cha2_miss:`Pulled back! +1:00`,
+cy_out_clever:`You tamed Charybdis. I did not think anyone could.`,
+a_monsters:`Between two monsters`,ad_monsters:`Get past both Scylla and Charybdis (in different runs).`,
+h_sc:`The breaker rules are on the panel. Exactly one set of three works.`,
+h_cy:`Read the placard. Left is half of right, the middle is highest, and all three add up to 17.`,
+h_cy2:`With the dials set, the pauses are long. Jump in one.`,
 ch3_btn:`🏝 Chapter 3: Ithaca`,found3:n=>`Ch.3 endings: ${n}/2`,ch3_locked:`Chapter 3 unlocks after you finish Chapter 2.`,
 pro3_title:`Chapter 3 · Ithaca`,
 ch3_pro:[`Ithaca Base. A small Greek island, three hours by boat from anywhere.`,`Your shuttle lands on the beach at night. Penelope steps out beside you and looks up at the dark hills.`,`This is where it all began. Nobody here knows you are alive.`],
@@ -138,7 +170,7 @@ ar3_draw:`A child’s drawing pinned to the wall: rows of fruit trees. In the co
 ar3_ctrl_locked:`A heavy door marked CONTROL. It needs a broadcast key.`,ar3_ctrl_open:`The key turns. The control room door opens.`,
 z_draw:`Child’s drawing`,
 ord_t:`Rebuild the file`,ord_h:`Tap the fragments in the order they happened.`,ord_err:`Wrong order. The file scrambles again.`,
-frags:[`2031 · Subjects A and B volunteer for Project KALYPSO.`,`2032 · Subject A launched to Kalypso. Subject B to Penelope.`,`2034 · Solar flare. Crews evacuated. Subjects left behind.`,`2035 · Funding withdrawn. Project closed.`,`2036 · Records altered: both subjects listed as DECEASED.`],
+frags:[`Subjects A and B volunteer for Project KALYPSO.`,`Subject A launched to Kalypso. Subject B to Penelope.`,`Solar flare. Crews ordered to hold position.`,`Funding withdrawn. Crews evacuated, subjects left behind.`,`Records altered: both subjects listed as DECEASED.`],
 or_i1:`An orchard behind the base, overgrown and silver in the moonlight. An old man is pruning a tree as if it were daytime.`,
 or_la1:`Who are you? My son died years ago. They sent a letter.`,
 or_la2:`If you are my boy, tell me what I gave you when you were small. Pears first, then apples. Write it on the shed lock.`,
@@ -158,7 +190,7 @@ ct_tune_t:`Dish uplink`,ct_tuned:`Uplink established.`,
 ct_q:`Everything is ready. Tell the world the truth, or erase the last records and disappear?`,
 ct_c1:`📡 Broadcast the truth`,ct_c2:`🗑 Erase everything`,
 h3_lantern:`It’s too dark to see much. There’s a lantern on the rocks.`,h3_lit:`Use the lantern on the gate to see its panel.`,
-h3_scar:`The gate wants proof. Ask Penelope about your scar.`,h3_order:`Use the terminal to rebuild your file. Look at the dates.`,
+h3_scar:`The gate wants proof. Ask Penelope about your scar.`,h3_order:`Rebuild your file: think about what had to happen first. The Kalypso crew logs remember.`,
 h3_orchard:`Someone in the orchard has something you need.`,h3_control:`Bring the file and the key to the control room.`,
 h3_la:`Talk to the old man.`,h3_shed:`Count the trees in the child’s drawing in the Archive. Pears first, then apples.`,
 h3_key:`Use the broadcast key on the console.`,h3_file:`Put your file into the console too.`,
@@ -250,7 +282,7 @@ lm_log_t:`Station log`,
 lm_log:[`PROJECT KALYPSO / PENELOPE. Paired isolation study.`,`Subject A, ODYSSEUS: held on Kalypso. Subject B, PENELOPE: held here.`,`Hypothesis: a person will wait for someone forever, if they believe that someone is coming back.`,`<span class="s">[Both subjects volunteered. Together.]</span>`],
 weave_t:`The shroud`,weave_h:`Tap threads to weave them. Match her pattern.`,
 ar_i1:`An olive tree grows straight through the station, roots in the floor, branches lost in the ceiling. Built around its trunk is a cryo bed, crusted with frost. Someone sleeps inside.`,
-ar_tree:`Its trunk is older than the station. They built everything around it, so it could never be moved.`,
+ar_tree:`Its trunk is older than the station. Everything here was built around it.`,
 ar_roots:`Roots crack through the floor plates, still drinking from the station’s water lines.`,
 ar_pe1:`You came. They told me you would never come.`,
 ar_q:`If you are really him, tell me: what in this place can never be moved?`,
@@ -316,14 +348,15 @@ mem_wrong:`Wrong. Again.`,mem_ok:`Access granted`,mem_round:(a,b)=>`Round ${a}/$
 cor_mem_ok:`Correct. Funny. You always remember that one.`,cor_unlock:`The Med Bay door unlocks.`,
 med_i1:`Beds neatly made. Too neatly. A terminal glows in the corner.`,
 med_riddle_e:`Terminal locked. Answer to log in.`,
-riddle_q:`I have no voice, yet I answer. I repeat, but I never begin. What am I?`,
-r_a1:`A ghost`,r_a2:`A mirror`,r_a3:`An echo`,riddle_bad:`No. Take your time. We have plenty of it.`,
+riddle_q:`The more of me you take, the more you leave behind. What am I?`,
+r_a1:`Time`,r_a2:`Footsteps`,r_a3:`Memories`,r_a4:`Breath`,riddle_ok:`Footsteps. You have left so many of them here.`,
+med_charts:`Four medical charts clipped to the bed rail. Names and ages, nothing else.`,z_charts:`Medical charts`,age:`AGE`,riddle_bad:`No. Take your time. We have plenty of it.`,
 logs_title:`Crew logs`,
-logs:[`<b>REYES:</b> The flare fried half the station. Earth says hold position. ECHO keeps the subject asleep. I hate that word. Subject.`,`<b>OKAFOR:</b> Supply ship cancelled. Again. New orders: crew evacuates tomorrow. The subject stays with ECHO.`,`<b>LIND:</b> Reset the cabinet code. Same rule as always: the four of us, in alphabetical order.`],
+logs:[`<b>REYES:</b> The flare fried half the station. Earth says hold position. ECHO keeps the subject asleep. I hate that word. Subject.`,`<b>OKAFOR:</b> Supply ship cancelled. Again. New orders: crew evacuates tomorrow. The subject stays with ECHO.`,`<b>LIND:</b> Reset the cabinet code. Same rule as always: our patch numbers, youngest first.`],
 med_photo:`Four smiling crew in blue suits. Each patch shows a name and a number.`,
 med_cab_title:`Medicine cabinet`,med_cab_open:`Click. Inside: a coil of surgical tubing and a folded note. You take the tubing.`,med_cab_empty:`Empty shelves.`,
 note_title:`Folded note`,
-note:[`It is your handwriting.`,`“Attempt 46. If you’re reading this, it’s me. You. ECHO wipes our memory every time we reach the pod.`,`The pod code is in the plants: count the letters of what ECHO feeds, in the order it feeds them.`,`Don’t go back to sleep.”`],
+note:[`It is your handwriting.`,`“Attempt 46. If you’re reading this, it’s me. You. ECHO wipes our memory every time we reach the pod.`,`The pod code grows in the garden: measure each herb by its name, in the order it drinks.`,`Don’t go back to sleep.”`],
 note_echo:`What are you reading, Odysseus?`,
 hyd_i1:`Rows of wilted herbs under dark grow lamps. Water drips from a split hose by the pump.`,
 hyd_pots_dry:`Four hand-labelled pots. Someone loved these.`,hyd_pots_wet:`Water trickles into the soil. The herbs might make it.`,
@@ -337,8 +370,8 @@ pipes_title:`Valve panel`,pipes_hint:`Tap pipes to rotate them. Connect IN to OU
 hyd_flow:`Water rushes through. Grow lamps flicker on, and a hydraulic door hisses open.`,
 hyd_flow_e:`Thank you. They were dying. I couldn't save them alone.`,
 hyd_sched:`The watering order glows on the screen.`,hyd_door:`A hydraulic door. No pressure. It won't budge.`,
-jun_i1:`A maintenance junction. Two ways to Comms: a hatch with slamming pistons, and a vent with a roaring fan.`,
-jun_i2:`Take the pistons. You might lose a little time. The fan can take everything.`,
+jun_i1:`A maintenance junction. Two hatches lead on toward Comms, stencilled SCYLLA and CHARYBDIS. A sign warns: ONE WAY ONLY.`,
+jun_i2:`Take Scylla’s way. You will lose a little. Charybdis can take everything.`,
 jun_open:`The way to Comms is clear.`,
 scy_title:`Scylla · piston hatch`,cha_title:`Charybdis · vent fan`,
 tim_hint:`Tap NOW when the marker is in the green gap.`,tim_now:`NOW`,tim_prog:(a,b)=>`Gaps: ${a}/${b}`,
@@ -389,13 +422,13 @@ hn6:`Tell it who you really are. It can’t keep someone who isn’t there.`,
 h_rod:`Look under your cryo pod.`,h_locker:`That rod could pry something open. Select it, then tap the locker.`,
 h_wire:`The card reader has no power. Fix the wiring panel below it.`,h_card:`Select the keycard, then tap the door.`,
 h_next:`The way forward is open.`,h_mem:`The panel on the right wants a light pattern. Watch it, then repeat it.`,
-h_riddle:`The terminal riddle: what repeats your words but never speaks first?`,
-h_cab:`The logs say alphabetical order. The photo gives each name a number.`,
+h_riddle:`What do you leave more of behind, the more of it you take?`,
+h_cab:`Lind’s log says youngest first. The charts give ages; the photo gives numbers.`,
 h_med_go:`Read the note from the cabinet. Then go to Hydroponics.`,
 h_box:`The toolbox has something useful.`,h_combine:`Combine the tubing and the zip ties: tap one item, then the other.`,
 h_pump:`Use the patched hose on the pump.`,h_pipes:`Route the water at the valve panel, from IN to OUT.`,
 h_sched:`The pump screen shows the watering order. Remember your note.`,
-h_junction:`Both hatches lead to Comms. The pistons are safer.`,
+h_junction:`Both hatches lead to Comms, but you can only take one. Each hides its own puzzle.`,
 h_radio:`Tune the receiver. Watch the signal bars.`,h_rec:`There is a voice recorder on the desk.`,
 h_echo:`Talk to ECHO. It is time.`,h_go_pod:`The Pod Bay is open.`,
 h_code:`Count the letters of each herb, in the watering order.`,h_launch:`Launch... or sleep. Your choice.`,
@@ -410,6 +443,31 @@ stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`
 end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
+r_scylla:`Φωλιά της Σκύλλας`,r_charyb:`Φρεάτιο της Χάρυβδης`,m_scylla:`Σκύλλα`,m_charyb:`Χάρυβδη`,
+jun_q:x=>`Θα μπεις: ${x}; Η καταπακτή θα σφραγιστεί πίσω σου. Δεν υπάρχει επιστροφή.`,jun_yes:`Μπες`,jun_sealed:`Σφραγισμένη. Διάλεξες τον άλλο δρόμο.`,
+sc_i1:`Ένας μακρύς χώρος συντήρησης. Έξι ρομποτικοί βραχίονες κρέμονται από μια ράγα στο ταβάνι, ο καθένας με μια δαγκάνα. Μόλις μπαίνεις, και οι έξι γυρίζουν προς το μέρος σου.`,
+sc_e:`Σκύλλα. Έτσι την έλεγε το πλήρωμα. Πάντα παίρνει κάτι.`,
+sc_arms:`Κάθε βραχίονας έχει έναν αριθμό, από I έως VI. Οι δαγκάνες είναι γδαρμένες και στραβωμένες.`,
+sc_sheet_t:`Φύλλο συντήρησης`,
+sc_sheet:[`ΔΙΑΚΟΠΤΕΣ ΒΡΑΧΙΟΝΩΝ · ΣΥΝΤΗΡΗΣΗ`,`Για να παγώσουν οι βραχίονες, κόψε ακριβώς τρεις διακόπτες.`,`Ο διακόπτης I μένει πάντα ενεργός.`,`Ο V μοιράζεται κύκλωμα με τον I: είναι πάντα στην ίδια κατάσταση.`,`Ο III και ο V δεν είναι ποτέ στην ίδια κατάσταση.`,`Κόψε τον IV ή τον VI, αλλά ποτέ και τους δύο.`,`Αν κοπεί ο II, πρέπει να κοπεί και ο VI.`],
+brk_t:`Πίνακας διακοπτών`,brk_on:`ΕΝΕΡΓΟΣ`,brk_cut:`✂ ΚΟΜΜΕΝΟΣ`,brk_apply:`⚡ Εφαρμογή`,brk_err:`Οι βραχίονες τινάζονται. Λάθος συνδυασμός. +0:30`,
+sc_off:`Τρεις διακόπτες χτυπούν. Οι βραχίονες τρέμουν, πέφτουν και ακινητοποιούνται.`,sc_off_e:`Έξυπνο. Σε σαράντα έξι προσπάθειες, δεν το είχες σκεφτεί ποτέ.`,
+sc_brk_done:`Τρεις διακόπτες κομμένοι. Οι βραχίονες κρέμονται ακίνητοι.`,
+sc_run_q:`Οι βραχίονες σαρώνουν το πέρασμα. Θα τρέξεις έτσι κι αλλιώς; Η Σκύλλα θα πάρει το τίμημά της: έξι λεπτά.`,sc_run:`🏃 Τρέξε (+6:00)`,
+sc_out_clever:`Πέρασες τη Σκύλλα χωρίς να χάσεις τίποτα. Το πλήρωμα δεν τα κατάφερε ποτέ.`,sc_out_ran:`Πήρε τα έξι της. Τα κατάφερες πάντως.`,
+cy_i1:`Ένα κάθετο φρεάτιο βρυχάται από τον αέρα. Στην καρδιά του, μια τουρμπίνα σαν σπίτι εισπνέει, σταματά, και ξαναεισπνέει. Η καταπακτή είναι απέναντι.`,
+cy_e:`Χάρυβδη. Καταπίνει τα πάντα. Σήμερα πεινάει.`,
+cy_turb:`Κάθε λίγα δευτερόλεπτα όλο το φρεάτιο τραβιέται προς τα πτερύγια. Οι παύσεις ανάμεσα είναι πολύ μικρές για να περάσεις.`,
+cy_plac_t:`Πινακίδα τουρμπίνας`,
+cy_plac:[`ΕΛΕΓΧΟΣ ΠΑΥΣΗΣ ΤΟΥΡΜΠΙΝΑΣ`,`Η παύση κρατά τόσα δευτερόλεπτα όσο το άθροισμα των τριών ρυθμιστών. Για να περάσεις χρειάζεσαι 17.`,`Ο μεσαίος ρυθμιστής πρέπει να είναι ο μεγαλύτερος.`,`Ο αριστερός ρυθμιστής είναι το μισό του δεξιού.`],
+cy_dial_t:`Ρυθμιστές τουρμπίνας`,cy_set:`Ο ρυθμός της τουρμπίνας αλλάζει. Κάθε κύκλος αφήνει τώρα μια μεγάλη, ήσυχη παύση.`,cy_set_done:`Οι ρυθμιστές μένουν σταθεροί.`,
+cy_jump_q:`Οι παύσεις είναι μικροσκοπικές. Θα πηδήξεις έτσι κι αλλιώς; Κάθε λάθος κοστίζει τρία λεπτά.`,cy_jump:`🌀 Πήδα`,cy_go:`🌀 Πήδα σε μια παύση`,
+cha2_miss:`Σε τράβηξε πίσω! +1:00`,
+cy_out_clever:`Δάμασες τη Χάρυβδη. Δεν πίστευα ότι μπορεί κανείς.`,
+a_monsters:`Ανάμεσα σε δύο τέρατα`,ad_monsters:`Πέρασε και τη Σκύλλα και τη Χάρυβδη (σε διαφορετικά παιχνίδια).`,
+h_sc:`Οι κανόνες των διακοπτών είναι στον πίνακα. Μόνο ένας συνδυασμός τριών δουλεύει.`,
+h_cy:`Διάβασε την πινακίδα. Ο αριστερός είναι το μισό του δεξιού, ο μεσαίος ο μεγαλύτερος, και οι τρεις μαζί κάνουν 17.`,
+h_cy2:`Με ρυθμισμένους τους ρυθμιστές, οι παύσεις είναι μεγάλες. Πήδα σε μία.`,
 ch3_btn:`🏝 Κεφάλαιο 3: Ιθάκη`,found3:n=>`Τέλη Κεφ. 3: ${n}/2`,ch3_locked:`Το Κεφάλαιο 3 ξεκλειδώνει όταν τελειώσεις το Κεφάλαιο 2.`,
 pro3_title:`Κεφάλαιο 3 · Ιθάκη`,
 ch3_pro:[`Βάση Ιθάκη. Ένα μικρό ελληνικό νησί, τρεις ώρες με βάρκα από οπουδήποτε.`,`Η άκατός σου προσγειώνεται στην παραλία τη νύχτα. Η Πηνελόπη βγαίνει δίπλα σου και κοιτάζει τους σκοτεινούς λόφους.`,`Εδώ ξεκίνησαν όλα. Κανείς εδώ δεν ξέρει ότι ζεις.`],
@@ -436,7 +494,7 @@ ar3_draw:`Μια παιδική ζωγραφιά καρφιτσωμένη στο
 ar3_ctrl_locked:`Μια βαριά πόρτα με την ένδειξη ΕΛΕΓΧΟΣ. Χρειάζεται κλειδί μετάδοσης.`,ar3_ctrl_open:`Το κλειδί γυρίζει. Η πόρτα της αίθουσας ελέγχου ανοίγει.`,
 z_draw:`Παιδική ζωγραφιά`,
 ord_t:`Ανακατασκευή φακέλου`,ord_h:`Πάτα τα κομμάτια με τη σειρά που συνέβησαν.`,ord_err:`Λάθος σειρά. Ο φάκελος ανακατεύεται ξανά.`,
-frags:[`2031 · Τα υποκείμενα Α και Β δηλώνουν εθελοντές στο Πρόγραμμα ΚΑΛΥΨΩ.`,`2032 · Το υποκείμενο Α στέλνεται στον Καλυψώ. Το Β στην Πηνελόπη.`,`2034 · Ηλιακή έκλαμψη. Τα πληρώματα εκκενώνονται. Τα υποκείμενα μένουν πίσω.`,`2035 · Η χρηματοδότηση αποσύρεται. Το πρόγραμμα κλείνει.`,`2036 · Τα αρχεία αλλοιώνονται: και τα δύο υποκείμενα δηλώνονται ΝΕΚΡΑ.`],
+frags:[`Τα υποκείμενα Α και Β δηλώνουν εθελοντές στο Πρόγραμμα ΚΑΛΥΨΩ.`,`Το υποκείμενο Α στέλνεται στον Καλυψώ. Το Β στην Πηνελόπη.`,`Ηλιακή έκλαμψη. Τα πληρώματα παίρνουν εντολή να μείνουν στη θέση τους.`,`Η χρηματοδότηση αποσύρεται. Τα πληρώματα εκκενώνονται, τα υποκείμενα μένουν πίσω.`,`Τα αρχεία αλλοιώνονται: και τα δύο υποκείμενα δηλώνονται ΝΕΚΡΑ.`],
 or_i1:`Ένα περιβόλι πίσω από τη βάση, παρατημένο και ασημένιο στο φεγγαρόφωτο. Ένας γέρος κλαδεύει ένα δέντρο σαν να ήταν μέρα.`,
 or_la1:`Ποιος είσαι; Ο γιος μου πέθανε πριν χρόνια. Μας έστειλαν γράμμα.`,
 or_la2:`Αν είσαι το παιδί μου, πες μου τι σου χάρισα όταν ήσουν μικρός. Πρώτα τις αχλαδιές, μετά τις μηλιές. Γράψ’ το στην κλειδαριά της αποθήκης.`,
@@ -456,7 +514,7 @@ ct_tune_t:`Σύνδεση κεραίας`,ct_tuned:`Η σύνδεση πραγμ
 ct_q:`Όλα είναι έτοιμα. Θα πεις στον κόσμο την αλήθεια ή θα σβήσεις τα τελευταία αρχεία και θα εξαφανιστείς;`,
 ct_c1:`📡 Μετάδωσε την αλήθεια`,ct_c2:`🗑 Σβήσε τα πάντα`,
 h3_lantern:`Είναι πολύ σκοτεινά. Υπάρχει ένα φανάρι πάνω στα βράχια.`,h3_lit:`Χρησιμοποίησε το φανάρι στην πύλη για να δεις τον πίνακα.`,
-h3_scar:`Η πύλη θέλει απόδειξη. Ρώτα την Πηνελόπη για την ουλή σου.`,h3_order:`Χρησιμοποίησε το τερματικό για να ξαναφτιάξεις τον φάκελό σου. Κοίτα τις χρονολογίες.`,
+h3_scar:`Η πύλη θέλει απόδειξη. Ρώτα την Πηνελόπη για την ουλή σου.`,h3_order:`Ξαναφτιάξε τον φάκελό σου: σκέψου τι έπρεπε να γίνει πρώτα. Τα ημερολόγια του πληρώματος στον Καλυψώ θυμούνται.`,
 h3_orchard:`Κάποιος στο περιβόλι έχει κάτι που χρειάζεσαι.`,h3_control:`Φέρε τον φάκελο και το κλειδί στην αίθουσα ελέγχου.`,
 h3_la:`Μίλα με τον γέρο.`,h3_shed:`Μέτρα τα δέντρα στην παιδική ζωγραφιά στο Αρχείο. Πρώτα αχλαδιές, μετά μηλιές.`,
 h3_key:`Χρησιμοποίησε το κλειδί μετάδοσης στην κονσόλα.`,h3_file:`Βάλε και τον φάκελό σου στην κονσόλα.`,
@@ -548,7 +606,7 @@ lm_log_t:`Ημερολόγιο σταθμού`,
 lm_log:[`ΠΡΟΓΡΑΜΜΑ ΚΑΛΥΨΩ / ΠΗΝΕΛΟΠΗ. Ζευγαρωμένη μελέτη απομόνωσης.`,`Υποκείμενο Α, ΟΔΥΣΣΕΑΣ: κρατείται στον Καλυψώ. Υποκείμενο Β, ΠΗΝΕΛΟΠΗ: κρατείται εδώ.`,`Υπόθεση: ένας άνθρωπος θα περιμένει κάποιον για πάντα, αν πιστεύει ότι εκείνος θα γυρίσει.`,`<span class="s">[Και τα δύο υποκείμενα δήλωσαν εθελοντές. Μαζί.]</span>`],
 weave_t:`Το σάβανο`,weave_h:`Πάτα τις κλωστές για να τις υφάνεις. Ταίριαξε το σχέδιό της.`,
 ar_i1:`Μια ελιά φυτρώνει μέσα από τον σταθμό, ρίζες στο πάτωμα, κλαδιά χαμένα στο ταβάνι. Γύρω από τον κορμό της είναι χτισμένο ένα κρεβάτι κρυοϋπνου, γεμάτο πάχνη. Κάποια κοιμάται μέσα.`,
-ar_tree:`Ο κορμός της είναι πιο παλιός από τον σταθμό. Έχτισαν τα πάντα γύρω της, ώστε να μη μετακινηθεί ποτέ.`,
+ar_tree:`Ο κορμός της είναι πιο παλιός από τον σταθμό. Όλα εδώ χτίστηκαν γύρω της.`,
 ar_roots:`Οι ρίζες σπάνε τις πλάκες του πατώματος, πίνοντας ακόμα από τους σωλήνες νερού του σταθμού.`,
 ar_pe1:`Ήρθες. Μου είπαν ότι δεν θα ερχόσουν ποτέ.`,
 ar_q:`Αν είσαι στ’ αλήθεια εκείνος, πες μου: τι σε αυτό το μέρος δεν μπορεί ποτέ να μετακινηθεί;`,
@@ -614,14 +672,15 @@ mem_wrong:`Λάθος. Ξανά.`,mem_ok:`Πρόσβαση εγκρίθηκε`,m
 cor_mem_ok:`Σωστά. Περίεργο. Αυτό πάντα το θυμάσαι.`,cor_unlock:`Η πόρτα του ιατρείου ξεκλειδώνει.`,
 med_i1:`Κρεβάτια στρωμένα με τάξη. Υπερβολική τάξη. Ένα τερματικό φωτίζει στη γωνία.`,
 med_riddle_e:`Το τερματικό είναι κλειδωμένο. Απάντησε για να συνδεθείς.`,
-riddle_q:`Δεν έχω φωνή, κι όμως απαντώ. Επαναλαμβάνω, μα ποτέ δεν ξεκινώ. Τι είμαι;`,
-r_a1:`Ένα φάντασμα`,r_a2:`Ένας καθρέφτης`,r_a3:`Η ηχώ`,riddle_bad:`Όχι. Πάρε τον χρόνο σου. Έχουμε άφθονο.`,
+riddle_q:`Όσο περισσότερα από μένα παίρνεις, τόσο περισσότερα αφήνεις πίσω σου. Τι είμαι;`,
+r_a1:`Ο χρόνος`,r_a2:`Τα βήματα`,r_a3:`Οι αναμνήσεις`,r_a4:`Η ανάσα`,riddle_ok:`Τα βήματα. Έχεις αφήσει τόσα πολλά εδώ.`,
+med_charts:`Τέσσερις ιατρικές κάρτες στο κάγκελο του κρεβατιού. Ονόματα και ηλικίες, τίποτα άλλο.`,z_charts:`Ιατρικές κάρτες`,age:`ΗΛΙΚΙΑ`,riddle_bad:`Όχι. Πάρε τον χρόνο σου. Έχουμε άφθονο.`,
 logs_title:`Ημερολόγια πληρώματος`,
-logs:[`<b>ΡΕΓΙΕΣ:</b> Η ηλιακή έκλαμψη έκαψε τον μισό σταθμό. Η Γη λέει να μείνουμε στη θέση μας. Η ECHO κρατά το υποκείμενο σε ύπνο. Μισώ αυτή τη λέξη. Υποκείμενο.`,`<b>ΟΚΑΦΟΡ:</b> Το πλοίο ανεφοδιασμού ακυρώθηκε. Πάλι. Νέες εντολές: το πλήρωμα εκκενώνει αύριο. Το υποκείμενο μένει με την ECHO.`,`<b>ΛΙΝΤ:</b> Άλλαξα τον κωδικό του ντουλαπιού. Ίδιος κανόνας με πάντα: οι τέσσερις μας, σε αλφαβητική σειρά.`],
+logs:[`<b>ΡΕΓΙΕΣ:</b> Η ηλιακή έκλαμψη έκαψε τον μισό σταθμό. Η Γη λέει να μείνουμε στη θέση μας. Η ECHO κρατά το υποκείμενο σε ύπνο. Μισώ αυτή τη λέξη. Υποκείμενο.`,`<b>ΟΚΑΦΟΡ:</b> Το πλοίο ανεφοδιασμού ακυρώθηκε. Πάλι. Νέες εντολές: το πλήρωμα εκκενώνει αύριο. Το υποκείμενο μένει με την ECHO.`,`<b>ΛΙΝΤ:</b> Άλλαξα τον κωδικό του ντουλαπιού. Ίδιος κανόνας με πάντα: οι αριθμοί στα σήματά μας, από τον νεότερο στον μεγαλύτερο.`],
 med_photo:`Τέσσερα χαμογελαστά μέλη πληρώματος με μπλε στολές. Κάθε σήμα έχει όνομα και αριθμό.`,
 med_cab_title:`Ντουλάπι φαρμάκων`,med_cab_open:`Κλικ. Μέσα: ένα κουλούρι χειρουργικό λάστιχο κι ένα διπλωμένο σημείωμα. Παίρνεις το λάστιχο.`,med_cab_empty:`Άδεια ράφια.`,
 note_title:`Διπλωμένο σημείωμα`,
-note:[`Είναι ο δικός σου γραφικός χαρακτήρας.`,`«Απόπειρα 46. Αν το διαβάζεις αυτό, είμαι εγώ. Εσύ. Η ECHO σβήνει τη μνήμη μας κάθε φορά που φτάνουμε στην κάψουλα.`,`Ο κωδικός της κάψουλας είναι στα φυτά: μέτρα τα γράμματα όσων ποτίζει η ECHO, με τη σειρά που τα ποτίζει.`,`Μην ξανακοιμηθείς.»`],
+note:[`Είναι ο δικός σου γραφικός χαρακτήρας.`,`«Απόπειρα 46. Αν το διαβάζεις αυτό, είμαι εγώ. Εσύ. Η ECHO σβήνει τη μνήμη μας κάθε φορά που φτάνουμε στην κάψουλα.`,`Ο κωδικός της κάψουλας φυτρώνει στον κήπο: μέτρα κάθε βότανο από το όνομά του, με τη σειρά που πίνει νερό.`,`Μην ξανακοιμηθείς.»`],
 note_echo:`Τι διαβάζεις, Οδυσσέα;`,
 hyd_i1:`Σειρές από μαραμένα βότανα κάτω από σβηστές λάμπες. Νερό στάζει από έναν σκισμένο σωλήνα δίπλα στην αντλία.`,
 hyd_pots_dry:`Τέσσερις γλάστρες με χειρόγραφες ετικέτες. Κάποιος τις αγαπούσε.`,hyd_pots_wet:`Το νερό κυλά στο χώμα. Τα βότανα ίσως τα καταφέρουν.`,
@@ -635,8 +694,8 @@ pipes_title:`Πίνακας βαλβίδων`,pipes_hint:`Πάτα τους σω
 hyd_flow:`Το νερό ορμά μέσα. Οι λάμπες ανάβουν και μια υδραυλική πόρτα ανοίγει σφυρίζοντας.`,
 hyd_flow_e:`Ευχαριστώ. Πέθαιναν. Δεν μπορούσα να τα σώσω μόνη μου.`,
 hyd_sched:`Η σειρά ποτίσματος φωτίζει στην οθόνη.`,hyd_door:`Υδραυλική πόρτα. Χωρίς πίεση. Δεν κουνιέται.`,
-jun_i1:`Μια διασταύρωση συντήρησης. Δύο δρόμοι προς τις Επικοινωνίες: μια καταπακτή με έμβολα που χτυπούν, κι ένας αεραγωγός με ανεμιστήρα που βρυχάται.`,
-jun_i2:`Πάρε τα έμβολα. Ίσως χάσεις λίγο χρόνο. Ο ανεμιστήρας μπορεί να σου πάρει τα πάντα.`,
+jun_i1:`Μια διασταύρωση συντήρησης. Δύο καταπακτές οδηγούν προς τις Επικοινωνίες, με τα ονόματα ΣΚΥΛΛΑ και ΧΑΡΥΒΔΗ. Μια πινακίδα προειδοποιεί: ΜΟΝΟΔΡΟΜΟΣ.`,
+jun_i2:`Πάρε τον δρόμο της Σκύλλας. Θα χάσεις λίγα. Η Χάρυβδη μπορεί να σου πάρει τα πάντα.`,
 jun_open:`Ο δρόμος προς τις Επικοινωνίες είναι ελεύθερος.`,
 scy_title:`Σκύλλα · καταπακτή με έμβολα`,cha_title:`Χάρυβδη · ανεμιστήρας`,
 tim_hint:`Πάτα ΤΩΡΑ όταν ο δείκτης είναι στο πράσινο κενό.`,tim_now:`ΤΩΡΑ`,tim_prog:(a,b)=>`Κενά: ${a}/${b}`,
@@ -687,13 +746,13 @@ hn6:`Πες της ποιος είσαι στ’ αλήθεια. Δεν μπορ
 h_rod:`Κοίτα κάτω από την κάψουλά σου.`,h_locker:`Η ράβδος μπορεί να ανοίξει κάτι. Διάλεξέ τη και πάτα το ντουλάπι.`,
 h_wire:`Ο αναγνώστης δεν έχει ρεύμα. Φτιάξε τον πίνακα καλωδίων από κάτω.`,h_card:`Διάλεξε την κάρτα και πάτα την πόρτα.`,
 h_next:`Ο δρόμος μπροστά είναι ανοιχτός.`,h_mem:`Ο πίνακας στα δεξιά θέλει μια σειρά φώτων. Πρόσεξε και επανάλαβε.`,
-h_riddle:`Ο γρίφος του τερματικού: τι επαναλαμβάνει τα λόγια σου αλλά ποτέ δεν μιλά πρώτο;`,
-h_cab:`Τα ημερολόγια λένε αλφαβητική σειρά. Η φωτογραφία δίνει σε κάθε όνομα έναν αριθμό.`,
+h_riddle:`Τι αφήνεις περισσότερο πίσω σου, όσο περισσότερο το παίρνεις;`,
+h_cab:`Το ημερολόγιο του Λιντ λέει από τον νεότερο. Οι ιατρικές κάρτες δίνουν ηλικίες· η φωτογραφία δίνει αριθμούς.`,
 h_med_go:`Διάβασε το σημείωμα από το ντουλάπι. Μετά πήγαινε στην Υδροπονία.`,
 h_box:`Η εργαλειοθήκη έχει κάτι χρήσιμο.`,h_combine:`Συνδύασε το λάστιχο με τα δεματικά: πάτα το ένα αντικείμενο και μετά το άλλο.`,
 h_pump:`Χρησιμοποίησε τον μπαλωμένο σωλήνα στην αντλία.`,h_pipes:`Οδήγησε το νερό στον πίνακα βαλβίδων, από το IN στο OUT.`,
 h_sched:`Η οθόνη της αντλίας δείχνει τη σειρά ποτίσματος. Θυμήσου το σημείωμά σου.`,
-h_junction:`Και οι δύο καταπακτές οδηγούν στις Επικοινωνίες. Τα έμβολα είναι πιο ασφαλή.`,
+h_junction:`Και οι δύο καταπακτές οδηγούν στις Επικοινωνίες, αλλά μπορείς να πάρεις μόνο μία. Η καθεμιά κρύβει τον δικό της γρίφο.`,
 h_radio:`Συντόνισε τον δέκτη. Πρόσεξε τις μπάρες σήματος.`,h_rec:`Υπάρχει μια συσκευή εγγραφής στο γραφείο.`,
 h_echo:`Μίλα με την ECHO. Ήρθε η ώρα.`,h_go_pod:`Ο θάλαμος καψουλών είναι ανοιχτός.`,
 h_code:`Μέτρα τα γράμματα κάθε βοτάνου, με τη σειρά ποτίσματος.`,h_launch:`Εκτόξευση... ή ύπνος. Δική σου επιλογή.`,
@@ -716,7 +775,7 @@ document.documentElement.lang=lang;
 const SAVE='kal2_save',HINT_COST=180;
 const lim=()=>S&&S.ch===3?(S.hard?1800:2400):S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
 const maxH=()=>S&&S.hard?1:3;
-const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]],pears:13,apples:10};
+const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]],pears:13,apples:10,ages:[41,29,35,52]};
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let x=Math.imul(a^a>>>15,1|a);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296}}
 function shuf(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function gen(seed){
@@ -729,10 +788,11 @@ function gen(seed){
   let weave;do{weave=[0,1,2,3].map(()=>{const a=r()<.5?1:0,b=r()<.5?1:0;return[a,b,b,a]})}while(weave.flat().filter(x=>x).length<6);
   const ax=shuf([...Array(12).keys()],r).slice(0,5).map(i=>[Math.floor(i/4),i%4]);
   const pears=8+Math.floor(r()*8),apples=5+Math.floor(r()*8);
-  return {crew,herb,ro,radio,rt,weave,ax,pears,apples};
+  const ages=shuf([...Array(36).keys()].map(i=>24+i),r).slice(0,4);
+  return {crew,herb,ro,radio,rt,weave,ax,pears,apples,ages};
 }
 const _rn={};function RN(){const sd=S&&mode==='game'?S.seed||0:0;return _rn[sd]||(_rn[sd]=gen(sd))}
-const cabCode=()=>{const c=RN().crew;return ''+c[2]+c[3]+c[1]+c[0]};
+const cabCode=()=>{const g=RN();return [0,1,2,3].sort((a,b)=>g.ages[a]-g.ages[b]).map(i=>g.crew[i]).join('')};
 const podCodes=()=>['en','el'].map(l=>RN().herb.map(i=>L[l].herbs[i].length).join(''));
 const weavePat=()=>RN().weave;
 const shedCode=()=>String(RN().pears).padStart(2,'0')+String(RN().apples).padStart(2,'0');
@@ -740,17 +800,17 @@ const SPK={ECHO:['e',(...a)=>E(...a)],LOOM:['lm',(...a)=>Lm(...a)],EURYCLEIA:['e
 function speaker(){return S.ch===1||S.echo?'ECHO':S.ch===2?'LOOM':'EURYCLEIA'}
 function addPen(n){if(S&&mode==='game')S.pen+=n}
 let ACH=load('kal_ach')||[],TOAST=[],JR=load('kal_jr')||[];
-const ACH_LIST=['nohint','fast','notes','all4','friend','argos','ch2','home','hard','coop','daily','lore'];
+const ACH_LIST=['nohint','fast','notes','all4','friend','monsters','argos','ch2','home','hard','coop','daily','lore'];
 const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch2_pro','lm_log','ch3_pro','frags'];
 const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t',ch3_pro:'pro3_title',frags:'ord_t'};
 function ach(id){if(ACH.includes(id))return;ACH.push(id);store('kal_ach',ACH);TOAST.push(id)}
-const ORDER1=['cryo','corridor','medbay','hydro','junction','comms','pod'],ORDER2=['dock','hall','loom','arbor'],ORDER3=['shore','archive','orchard','control'];
+const ORDER1=['cryo','corridor','medbay','hydro','junction','scylla','charyb','comms','pod'],ORDER2=['dock','hall','loom','arbor'],ORDER3=['shore','archive','orchard','control'];
 const order=()=>S&&S.ch===3?ORDER3:S&&S.ch===2?ORDER2:ORDER1;
 const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808',archive:'3000',orchard:'3100',control:'3200'};
 const ATT=[3,11,19,27,38,45];
 const B={rod:1,locker:1,wired:1,cryoDoor:1};
 const B2={...B,mem:1,login:1,cab:1};
-const B3={...B2,ties:1,patched:1,fixed:1,jun:'scy'};
+const B3={...B2,ties:1,patched:1,fixed:1,jun:'scy',scyOff:1};
 const B4={...B3,radio:1,heardRec:1,siren:1};
 const CP={
   '2718':{room:'corridor',inv:[],f:{...B}},
@@ -810,6 +870,8 @@ function hintKey(){
     case 'medbay':return !f.login?'h_riddle':!f.cab?'h_cab':'h_med_go';
     case 'hydro':return !f.ties&&!has('kit')&&!f.patched?'h_box':(!f.patched&&!has('kit'))?'h_combine':!f.patched?'h_pump':!f.fixed?'h_pipes':'h_sched';
     case 'junction':return !f.jun?'h_junction':'h_next';
+    case 'scylla':return !f.scyOff?'h_sc':'h_next';
+    case 'charyb':return !f.dials?'h_cy':'h_cy2';
     case 'comms':return !f.radio?'h_radio':!f.heardRec?'h_rec':!f.choice?'h_echo':'h_go_pod';
     case 'pod':return !f.podOpen?'h_code':'h_launch';
     case 'dock':return !f.cell?'h2_crate':!f.argos?'h2_dog':!f.press?'h2_air':'h_next';
@@ -883,6 +945,7 @@ medbay:{
   scene(){const f=S.f;return base()+
     `<rect x="6" y="78" width="40" height="9" rx="2" fill="#dfe7ef" opacity=".85"/><rect x="8" y="74" width="10" height="5" rx="2" fill="#fff" opacity=".9"/><path d="M9 87v9M43 87v9" stroke="#3c4a5e" stroke-width="2"/>`+
     hs('photo',12,24,28,22,`<rect x="15" y="27" width="20" height="15" fill="#2a3646" stroke="#8a8a8e"/><circle cx="19" cy="33" r="1.8" fill="#ffd8b0"/><circle cx="23.5" cy="33" r="1.8" fill="#8d5a3b"/><circle cx="28" cy="33" r="1.8" fill="#ffd8b0"/><circle cx="32" cy="33" r="1.8" fill="#e8c39e"/><rect x="17" y="36" width="17" height="5" fill="#0a84ff" opacity=".7"/>`)+
+    hs('charts',37,62,14,22,`<rect x="40" y="66" width="9" height="12" rx="1" fill="#d9e1ea"/><rect x="42" y="64" width="5" height="3" fill="#8a8a8e"/><path d="M42 70h5M42 73h5M42 76h4" stroke="#3c4a5e" stroke-width=".8"/>`)+
     hs('terminal',52,36,40,36,`<rect x="52" y="66" width="40" height="4" fill="#3c4a5e"/><rect x="70" y="62" width="4" height="4" fill="#3c4a5e"/><rect x="58" y="40" width="28" height="22" rx="2" fill="#062014" stroke="#30d158"/>${f.login?'<path d="M61 45h18M61 49h14M61 53h20M61 57h10" stroke="#30d158" stroke-width="1.2"/>':'<rect x="68" y="49" width="8" height="7" rx="1" fill="#30d158"/><path d="M69.5 49v-2a2.5 2.5 0 0 1 5 0v2" stroke="#30d158" fill="none" stroke-width="1.2"/>'}`)+
     hs('cab',94,24,30,48,f.cab
       ?`<rect x="100" y="28" width="20" height="40" fill="#05080d" stroke="#d9e1ea"/><path d="M101 41h18M101 58h18" stroke="#3c4a5e"/><polygon points="100,28 94,31 94,66 100,68" fill="#d9e1ea"/>`
@@ -892,6 +955,7 @@ medbay:{
     hn(3,28,91)+back('corridor')},
   act(id){const f=S.f;
     if(id==='terminal'){if(f.login)read('logs_title','logs');else riddle()}
+    if(id==='charts')read('z_charts','med_charts',null,artCharts());
     if(id==='photo')read('z_photo','med_photo',null,artPhoto(),null,S.coop?[t('coop_photo')]:[]);
     if(id==='cab'){if(f.cab)N('med_cab_empty');else keypad('med_cab_title',c=>{if(c!==cabCode())return false;f.cab=1;give('tube');msg=[];N('med_cab_open');return true})}
     if(id==='note')read('note_title','note',()=>{if(!f.noteRead&&!off()){f.noteRead=1;E('note_echo')}},artNote());
@@ -927,17 +991,54 @@ hydro:{
   }},
 junction:{
   intro(){N('jun_i1');E('jun_i2')},
-  scene(){const f=S.f;return base()+
+  scene(){const f=S.f,X=(x,y)=>`<path d="M${x-14} ${y-14}l28 28M${x+14} ${y-14}l-28 28" stroke="#ff453a" stroke-width="3" opacity=".8"/>`;return base()+
     `<path d="M0 12h160M0 18h160" stroke="#1e2938" stroke-width="3"/><rect x="74" y="20" width="12" height="76" fill="#0a0f17"/>`+
-    hs('scy',8,14,62,84,`<rect x="14" y="32" width="50" height="64" fill="#18212e" stroke="#3c4a5e" stroke-width="2"/>${[20,30,40,50].map((x,i)=>`<rect x="${x}" y="34" width="6" height="${f.jun?18:30+i%2*14}" fill="#8a8a8e"/>`).join('')}<path d="M14 92h50" stroke="#ffd60a" stroke-width="3" stroke-dasharray="4 4"/>${lbl(39,26,t('x_scy')+(f.jun?' ▶':''),'middle')}`,{exit:!!f.jun})+
-    hs('cha',94,14,62,84,`<circle cx="123" cy="58" r="26" fill="#0b1018" stroke="#3c4a5e" stroke-width="2"/><g class="${f.jun?'':'spin'}"><path d="M123 58l0-22M123 58l19 11M123 58l-19 11" stroke="#8a8a8e" stroke-width="7" stroke-linecap="round"/></g><circle cx="123" cy="58" r="4" fill="#3c4a5e"/>${lbl(123,26,t('x_cha')+(f.jun?' ▶':''),'middle')}`,{exit:!!f.jun})+
+    hs('scy',8,14,62,84,`<rect x="14" y="32" width="50" height="64" fill="#18212e" stroke="#3c4a5e" stroke-width="2"/>${[20,30,40,50].map((x,i)=>`<path d="M${x+3} 34v${18+i%2*8}" stroke="#8a8a8e" stroke-width="2"/><path d="M${x} ${52+i%2*8}l3 5 3-5" stroke="#8a8a8e" stroke-width="2" fill="none"/>`).join('')}<path d="M14 92h50" stroke="#ffd60a" stroke-width="3" stroke-dasharray="4 4"/>${f.jun==='cha'?X(39,64):''}${lbl(39,26,t('x_scy')+(f.jun==='scy'?' ▶':''),'middle')}`,{exit:f.jun==='scy'})+
+    hs('cha',94,14,62,84,`<circle cx="123" cy="58" r="26" fill="#0b1018" stroke="#3c4a5e" stroke-width="2"/><g class="spin"><path d="M123 58l0-22M123 58l19 11M123 58l-19 11" stroke="#8a8a8e" stroke-width="7" stroke-linecap="round"/></g><circle cx="123" cy="58" r="4" fill="#3c4a5e"/>${f.jun==='scy'?X(123,58):''}${lbl(123,26,t('x_cha')+(f.jun==='cha'?' ▶':''),'middle')}`,{exit:f.jun==='cha'})+
     hn(5,80,102)+back('hydro')},
-  act(id){const f=S.f;
+  act(id){const f=S.f,room=id==='scy'?'scylla':'charyb';
     if(id==='scy'||id==='cha'){
-      if(f.jun)return go('comms');
-      timing(id,()=>{f.jun=id;S.trust+=id==='scy'?1:-1;go('comms');if(!off())E(id==='scy'?'jun_scy_e':'jun_cha_e')});
+      if(f.jun)return f.jun===id?go(room):N('jun_sealed');
+      choice(`<p>${t('jun_q',t('r_'+room))}</p>`,[[t('jun_yes'),()=>{f.jun=id;S.trust+=id==='scy'?1:-1;go(room)}],[t('notyet'),()=>{}]]);
     }
     if(id==='back')go('hydro');
+  }},
+scylla:{
+  intro(){N('sc_i1');if(!off())E('sc_e')},
+  scene(){const f=S.f,still=f.scyOff;let arms='';
+    ['I','II','III','IV','V','VI'].forEach((n,i)=>{const x=20+i*21,len=still?44:22+((i*13)%17);arms+=`<path d="M${x} 10v${len}" stroke="${still?'#4a5568':'#8a8a8e'}" stroke-width="2.5"/><path d="M${x-5} ${10+len}l5 ${still?4:7} 5-${still?4:7}" stroke="${still?'#4a5568':'#d4a373'}" stroke-width="2.4" fill="none"/>${still?'':`<circle cx="${x}" cy="${10+len-2}" r="1.3" fill="#ff453a" class="blink"/>`}<text x="${x}" y="8" text-anchor="middle" font-size="4.5" fill="#8a8a8e">${n}</text>`});
+    return base()+`<rect x="8" y="4" width="132" height="4" fill="#2a3646"/>`+
+    hs('arms',10,4,124,58,arms)+
+    hs('brk',2,62,24,30,`<rect x="6" y="66" width="16" height="22" rx="2" fill="#111" stroke="${still?'#30d158':'#ff9f0a'}"/>${[0,1,2,3,4,5].map(i=>`<rect x="${8+(i%2)*7}" y="${68+Math.floor(i/2)*6}" width="5" height="4" fill="${still&&[1,2,5].includes(i)?'#ff453a':'#30d158'}"/>`).join('')}`)+
+    hs('sheet',28,66,16,18,`<rect x="30" y="68" width="11" height="14" fill="#f5f0e1" transform="rotate(4 35 75)"/><path d="M32 72h7M32 75h7M32 78h5" stroke="#8a8a8e" stroke-width=".7" transform="rotate(4 35 75)"/>`)+
+    hs('door',138,30,22,66,`<rect x="140" y="34" width="18" height="62" fill="#22364d" stroke="#3c4a5e" stroke-width="1.5"/>`,{exit:1,nodot:1})+hs('door',90,100,70,20,lbl(156,114,t('r_comms')+' ▶','end'),{exit:1,nodot:1})},
+  act(id){const f=S.f;
+    if(id==='arms')N('sc_arms');
+    if(id==='sheet')read('sc_sheet_t','sc_sheet');
+    if(id==='brk'){if(f.scyOff)N('sc_brk_done');else breakers(()=>{f.scyOff=1;msg=[];N('sc_off');if(!off())E('sc_off_e')})}
+    if(id==='door'){
+      const out=()=>{monster('scy');go('comms');if(!off())E(f.scyOff?'sc_out_clever':'sc_out_ran')};
+      if(f.scyOff||f.scyRan)return out();
+      choice(`<p>${t('sc_run_q')}</p>`,[[t('sc_run'),()=>{addPen(360);setTimeout(()=>timing('scy',()=>{f.scyRan=1;out()}),0)}],[t('notyet'),()=>{}]]);
+    }
+  }},
+charyb:{
+  intro(){N('cy_i1');if(!off())E('cy_e')},
+  scene(){const f=S.f;return `<rect width="160" height="120" fill="#070b12"/><path d="M30 0v120M130 0v120" stroke="#1e2938" stroke-width="3"/><g opacity=".35" stroke="#5ac8fa" stroke-width=".6" fill="none" class="blink"><path d="M40 20q40 30 80 0M40 90q40-30 80 0"/></g>`+
+    hs('turb',40,18,80,78,`<circle cx="80" cy="56" r="34" fill="#0b1018" stroke="#3c4a5e" stroke-width="2"/><g style="transform-origin:80px 56px;animation:sp ${f.dials?'3s':'.6s'} linear infinite"><path d="M80 56V26M80 56l26 15M80 56l-26 15" stroke="#8a8a8e" stroke-width="9" stroke-linecap="round"/></g><circle cx="80" cy="56" r="5" fill="#3c4a5e"/>`)+
+    hs('plac',2,22,26,24,`<rect x="5" y="26" width="20" height="14" rx="1" fill="#ffd60a"/><path d="M8 30h14M8 33h14M8 36h10" stroke="#222" stroke-width=".8"/>`)+
+    hs('dials',2,54,26,26,`<rect x="5" y="58" width="20" height="16" rx="2" fill="#111" stroke="${f.dials?'#30d158':'#5ac8fa'}"/>${[0,1,2].map(i=>`<circle cx="${10+i*5}" cy="66" r="2" fill="none" stroke="${f.dials?'#30d158':'#8a8a8e'}"/>`).join('')}`)+
+    hs('hatch',132,30,28,66,`<rect x="136" y="34" width="20" height="62" rx="3" fill="#22364d" stroke="#3c4a5e" stroke-width="1.5"/>`,{exit:1,nodot:1})+hs('hatch',90,100,70,20,lbl(156,114,t('r_comms')+' ▶','end'),{exit:1,nodot:1})},
+  act(id){const f=S.f;
+    if(id==='turb')N(f.dials?'cy_set':'cy_turb');
+    if(id==='plac')read('cy_plac_t','cy_plac');
+    if(id==='dials'){if(f.dials)N('cy_set_done');else keypad('cy_dial_t',c=>{if(c!=='386')return false;f.dials=1;msg=[];N('cy_set');return true},3,t('cy_plac').slice(1).map(x=>`<p class="clue">${x}</p>`).join(''))}
+    if(id==='hatch'){
+      const out=()=>{monster('cha');go('comms');if(!off())E(f.dials?'cy_out_clever':'jun_cha_e')};
+      if(f.chaDone)return out();
+      if(f.dials)return timing('cha2',()=>{f.chaDone=1;out()});
+      choice(`<p>${t('cy_jump_q')}</p>`,[[t('cy_jump'),()=>setTimeout(()=>timing('cha',()=>{f.chaDone=1;out()}),0)],[t('notyet'),()=>{}]]);
+    }
   }},
 comms:{
   intro(){N('com_i1')},
@@ -948,7 +1049,7 @@ comms:{
     hs('rec',8,74,30,16,`<rect x="14" y="76" width="20" height="9" rx="1.5" fill="#2a3646"/><circle cx="20" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/><circle cx="28" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/>`)+
     hs('echo',96,22,32,36,o?`<circle cx="112" cy="38" r="11" fill="#151515" stroke="#3a3a3c" stroke-width="2"/><path d="M104 50l-3 5M120 49l4 4" stroke="#ffb340" stroke-width="1"/>`:`<circle cx="112" cy="38" r="14" fill="#5ac8fa" opacity=".14" class="blink"/><circle cx="112" cy="38" r="11" fill="#0a1a24" stroke="#5ac8fa" stroke-width="2"/><circle cx="${(112+dx).toFixed(1)}" cy="${(38+dy).toFixed(1)}" r="4.5" fill="#5ac8fa"/>`)+
     hs('door',130,14,28,82,`<rect x="134" y="34" width="22" height="62" fill="${f.choice?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="145" cy="30" r="2" fill="${f.choice?'#30d158':'#ff453a'}"/>${f.choice?lbl(158,22,t('r_pod')+' ▶','end'):''}`,{exit:!!f.choice})+
-    hn(6,84,32)+back('junction')},
+    hn(6,84,32)+back(S.f.jun==='cha'?'charyb':'scylla')},
   act(id){const f=S.f;
     if(id==='radio'){if(f.radio)read('earth_title','earth');else radio(()=>{f.radio=1;read('earth_title','earth')})}
     if(id==='rec'){f.heardRec=1;read('rec_title','rec')}
@@ -964,7 +1065,7 @@ comms:{
       if(f.siren)return go('pod');
       siren(()=>{f.siren=1;go('pod');if(off())N('siren_off');else El('siren_e')});
     }
-    if(id==='back')go('junction');
+    if(id==='back')go(S.f.jun==='cha'?'charyb':'scylla');
   }},
 pod:{
   intro(){N('pod_i1');if(off())N('pod_i_off');else if(S.f.choice==='nobody')E('pod_i_nb');else E('pod_i_e')},
@@ -1018,7 +1119,7 @@ hall:{
     if(id==='drones')N('hl_drones');
     if(id==='table'){if(f.string)N('hl_table_e');else if(f.argos){f.string=1;give('string');N('hl_table_dog')}else N('hl_table')}
     if(id==='bow')N(f.strung?'hl_bow_ok':'hl_bow_nostr');
-    if(id==='tap')read('z_tap','hl_tap',null,artTapestry(null,S.coop),null,S.coop?[t('coop_tap')]:[`<span class="lm">${t('hl_tap_lm')}</span>`]);
+    if(id==='tap')read('z_tap','hl_tap',null,artTapestry(null,S.coop),null,S.coop?[t('coop_tap')]:[]);
     if(id==='axes'){if(f.shot)N('hl_axes_ok');else if(!f.strung)N('hl_axes_off');else axes(()=>{f.shot=1;msg=[];N('hl_shot');Lm('hl_shot_lm')})}
     if(id==='door'){if(f.shot)return go('loom');N('hl_door')}
     if(id==='arb'){if(f.lchoice)return go('arbor');N('hl_arbor_locked')}
@@ -1170,6 +1271,7 @@ function artPhoto(){
   cr.forEach((n,i)=>{const x=24+i*37;s+=`<circle cx="${x}" cy="32" r="9" fill="${skin[i]}"/><rect x="${x-14}" y="44" width="28" height="40" rx="8" fill="#0a84ff"/><rect x="${x-16}" y="54" width="32" height="12" rx="2" fill="#fff"/><text x="${x}" y="62.5" text-anchor="middle" font-size="5.3" font-weight="700" fill="#111">${n}</text>`});
   return s;
 }
+function artCharts(){const n=t('crewN'),a=RN().ages;return `<rect width="160" height="80" rx="6" fill="#0d131d"/>`+n.map((x,i)=>`<g transform="translate(${6+i*38} 8)"><rect width="34" height="64" rx="2" fill="#f5f0e1"/><rect x="11" y="-3" width="12" height="6" rx="1" fill="#8a8a8e"/><text x="17" y="18" text-anchor="middle" font-size="${x.length>5?5:6}" font-weight="700" fill="#222">${x}</text><text x="17" y="34" text-anchor="middle" font-size="5" fill="#666">${t('age')}</text><text x="17" y="48" text-anchor="middle" font-size="12" font-weight="800" fill="#c0392b">${a[i]}</text></g>`).join('')}
 function artNote(){return '<rect x="20" y="4" width="120" height="76" fill="#f5f0e1" transform="rotate(-3 80 42)"/><g stroke="#5a5a8a" stroke-width="1.2" opacity=".7" transform="rotate(-3 80 42)"><path d="M30 18q20-3 40 0t40 0"/><path d="M30 30q25 2 50-1t30 1"/><path d="M30 42q18-2 36 0t44-1"/><path d="M30 54q30 2 60 0"/></g><text x="112" y="72" font-size="11" fill="#c0392b" font-weight="700" transform="rotate(-3 80 42)">#46</text>'}
 function artPots(on){
   const hb=t('herbs');let s='<rect width="160" height="84" rx="6" fill="#0d131d"/><rect x="4" y="66" width="152" height="5" fill="#3c4a5e"/>';
@@ -1190,7 +1292,7 @@ function artItem(i){
 /* ================= STORY DIALOGS ================= */
 function riddle(){
   const bad=()=>{msg=[];E('riddle_bad')};
-  choice(`<p class="e">${t('med_riddle_e')}</p><p>${t('riddle_q')}</p>`,[[t('r_a1'),bad],[t('r_a2'),bad],[t('r_a3'),()=>{S.f.login=1;msg=[];read('logs_title','logs')}]]);
+  choice(`<p class="e">${t('med_riddle_e')}</p><p>${t('riddle_q')}</p>`,[[t('r_a1'),bad],[t('r_a2'),()=>{S.f.login=1;msg=[];E('riddle_ok');read('logs_title','logs')}],[t('r_a3'),bad],[t('r_a4'),bad]]);
 }
 function talk(){
   const f=S.f;
@@ -1235,7 +1337,7 @@ function ending(k){
 
 /* ================= OVERLAYS ================= */
 function ovClose(){ov.style.display='none';ov.innerHTML='';ov.onclick=null;ov.onscroll=null}
-function ovOpen(h){ov.innerHTML=h;ov.style.display='block'}
+function ovOpen(h){const fr=ov.style.display!=='block';ov.innerHTML=h;ov.style.display='block';if(fr){ov.classList.remove('fade');void ov.offsetWidth;ov.classList.add('fade')}}
 function finish(done){ovClose();done();render();scrollUp()}
 function read(tk,ak,after,art,title,extra){
   if(JR_KEYS.includes(ak)&&!JR.includes(ak)){JR.push(ak);store('kal_jr',JR);if(JR.length===JR_KEYS.length)ach('lore')}
@@ -1247,22 +1349,22 @@ function choice(html,opts){
   ovOpen(html+opts.map((o,i)=>`<button data-c="${i}">${o[0]}</button>`).join(''));ov.scrollTop=0;
   ov.onclick=e=>{const b=e.target.closest('[data-c]');if(!b)return;ovClose();opts[+b.dataset.c][1]();render();scrollUp()};
 }
-function keypad(tk,check){
+function keypad(tk,check,len=4,info=''){
   let c='';
-  const draw=err=>ovOpen(`<h1>${t(tk)}</h1><div class="kd${err?' shake':''}">${[0,1,2,3].map(i=>`<span>${c[i]||''}</span>`).join('')}</div>${err?`<p class="err">${t('wrong')}</p>`:''}<div class="kp">${['1','2','3','4','5','6','7','8','9','⌫','0','✓'].map(k=>`<button data-k="${k}">${k}</button>`).join('')}</div><button data-k="x" class="cx">${t('cancel')}</button>`);
+  const draw=err=>ovOpen(`<h1>${t(tk)}</h1>${info}<div class="kd${err?' shake':''}">${[...Array(len).keys()].map(i=>`<span>${c[i]||''}</span>`).join('')}</div>${err?`<p class="err">${t('wrong')}</p>`:''}<div class="kp">${['1','2','3','4','5','6','7','8','9','⌫','0','✓'].map(k=>`<button data-k="${k}">${k}</button>`).join('')}</div><button data-k="x" class="cx">${t('cancel')}</button>`);
   draw();ov.scrollTop=0;
   ov.onclick=e=>{
     const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;
     if(k==='x'){ovClose();return}
     if(k==='⌫'){c=c.slice(0,-1);draw();return}
-    if(k==='✓'){if(c.length<4)return;if(check(c)){ovClose();render();scrollUp()}else{c='';draw(true)}return}
-    if(c.length<4){c+=k;draw()}
+    if(k==='✓'){if(c.length<len)return;if(check(c)){ovClose();render();scrollUp()}else{c='';draw(true)}return}
+    if(c.length<len){c+=k;draw()}
   };
 }
 function mapView(){
   const c2=S.ch===2,c3=S.ch===3;
-  const P=c3?{shore:[6,46],archive:[58,46],orchard:[110,8],control:[110,84]}:c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
-  const links=c3?[['shore','archive'],['archive','orchard'],['archive','control']]:c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
+  const P=c3?{shore:[6,46],archive:[58,46],orchard:[110,8],control:[110,84]}:c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,6],corridor:[58,6],medbay:[110,6],hydro:[110,32],junction:[58,32],scylla:[6,32],charyb:[58,58],comms:[6,58],pod:[6,84]};
+  const links=c3?[['shore','archive'],['archive','orchard'],['archive','control']]:c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','scylla'],['junction','charyb'],['scylla','comms'],['charyb','comms'],['comms','pod']];
   let s='<svg viewBox="0 0 160 110" class="mg">';
   links.forEach(([a,b])=>{const A=P[a],Bp=P[b];s+=`<line x1="${A[0]+22}" y1="${A[1]+10}" x2="${Bp[0]+22}" y2="${Bp[1]+10}" stroke="${S.seen[a]&&S.seen[b]?'#5ac8fa':'#2a3646'}" stroke-width="2"/>`});
   order().forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
@@ -1313,7 +1415,7 @@ function wires(done,ro,sym){
   };
 }
 function memory(done,max){
-  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],MIN=3,MAX=max||(S&&mode==='game'&&S.hard?6:5);
+  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],MIN=3,MAX=max||(S&&mode==='game'&&S.hard?7:6);
   let seq=[],len=MIN,pos=0,busy=true,lit=-1,st='mem_watch',tm=[];
   const newSeq=()=>{seq=[];for(let i=0;i<MAX;i++)seq.push(Math.floor(Math.random()*4))};
   const clr=()=>{tm.forEach(clearTimeout);tm=[]};
@@ -1406,7 +1508,7 @@ function siren(done){
   ov.onclick=e=>{if(e.target.closest('[data-r]')&&!over){w=Math.min(1,w+.09);const wb=document.getElementById('wb');if(wb)wb.style.width=w*100+'%'}};
 }
 function timing(kind,done){
-  const hd=S&&S.hard,cfg=kind==='scy'?{need:3,zone:hd?22:30,period:1600,pen:60,miss:'scy_miss',title:'scy_title'}:{need:1,zone:hd?9:12,period:1000,pen:180,miss:'cha_miss',title:'cha_title'};
+  const hd=S&&S.hard,cfg=kind==='scy'?{need:3,zone:hd?22:30,period:1600,pen:60,miss:'scy_miss',title:'scy_title'}:kind==='cha2'?{need:1,zone:hd?18:26,period:1400,pen:60,miss:'cha2_miss',title:'cha_title'}:{need:1,zone:hd?9:12,period:1000,pen:180,miss:'cha_miss',title:'cha_title'};
   let hits=0,t0=Date.now(),zx=0,pos=0,run=true;
   const newZone=()=>{zx=10+Math.random()*(140-cfg.zone)};
   newZone();
@@ -1522,6 +1624,22 @@ function fragOrder(done){
   };
 }
 
+
+function monster(k){if(S.cp)return;const P=load('kal_paths')||[];if(!P.includes(k)){P.push(k);store('kal_paths',P)}if(P.length>=2)ach('monsters')}
+function breakers(done){
+  const st=[0,0,0,0,0,0],R=['I','II','III','IV','V','VI'],SOL=[0,1,1,0,0,1];let err=false;
+  const draw=()=>ovOpen(`<h1>${t('brk_t')}</h1>${t('sc_sheet').slice(1).map(x=>`<p class="clue">${x}</p>`).join('')}${err?`<p class="err">${t('brk_err')}</p>`:''}<div class="brk">${R.map((n,i)=>`<button data-b="${i}"${st[i]?' class="cut"':''}>${n} · ${st[i]?t('brk_cut'):t('brk_on')}</button>`).join('')}</div><button class="pri" data-ap="1">${t('brk_apply')}</button><button data-x="1" class="cx">${t('cancel')}</button>`);
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const b=e.target.closest('[data-b]');if(b){st[+b.dataset.b]^=1;err=false;const y=ov.scrollTop;draw();ov.scrollTop=y;return}
+    if(e.target.closest('[data-ap]')){
+      if(st.every((v,i)=>v===SOL[i])){ov.onclick=null;setTimeout(()=>finish(done),300);return}
+      addPen(30);err=true;const y=ov.scrollTop;draw();ov.scrollTop=y;
+    }
+  };
+}
+
 /* ================= v8 SYSTEMS ================= */
 function info(title,ps,after){
   ovOpen(`<h1>${title}</h1>${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
@@ -1552,6 +1670,7 @@ function codeEntry(){
     const cp=CP[c];if(!cp)return false;
     S=Object.assign(fresh(cp.ch||1),JSON.parse(JSON.stringify(cp)),{cp:1});
     order().slice(0,order().indexOf(S.room)).forEach(r=>S.seen[r]=1);
+    if(S.ch===1&&S.f.jun)delete S.seen[S.f.jun==='scy'?'charyb':'scylla'];
     mode='game';lastRoom=null;go(S.room);return true;
   });
 }
