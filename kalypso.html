@@ -97,7 +97,7 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v7';
+const VER='v8';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -105,6 +105,39 @@ function drop(k){try{localStorage.removeItem(k)}catch(e){}}
 /* ================= TEXT ================= */
 const L={
 en:{
+mode_q:`Choose a mode`,m_normal:`▶ Normal`,m_hard:`🎲 Hard (new puzzles)`,m_coop:`👥 Co-op`,m_coophard:`👥🎲 Co-op + Hard`,
+hard_info:`Hard: every puzzle is randomized, less time, only 1 hint. Co-op: one player on the watch, one with the Field Manual on a phone.`,
+coop_title:`Co-op mode`,
+coop_info:c=>[`One of you plays on the watch. The other opens the Field Manual on a phone: the same link with <b>#manual</b> at the end.`,`Manual code: <b class="s">${c}</b>`,`Some clues exist only in the manual. Talk to each other!`],
+manual_code:c=>`📘 Manual code: ${c}`,
+coop_photo:`📘 The numbers are smudged. Your teammate’s manual has the crew roster.`,
+coop_sched:`📘 The screen is cracked. Ask your teammate for the watering cycle.`,
+coop_tap:`📘 The tapestry here is completely unravelled. Your teammate has a picture of it.`,
+coop_wires:`Sockets are marked with symbols. 📘 The manual has the wiring key.`,
+coop_radio:`The signal meter is broken. 📘 The manual lists the frequency.`,
+man_title:`Field Manual`,man_enter:`Enter the manual code shown on the watch.`,man_code:`Manual code`,man_codeok:c=>`Code ${c}`,
+man_crew:`Kalypso · Crew roster`,man_sched:`Kalypso · Watering cycle`,man_wires:`Kalypso · Wiring key`,man_radio:`Kalypso · Earth Control frequency`,man_tap:`Penelope · Tapestry (surviving half)`,man_tap_n:`She always wove it symmetrical.`,
+man_new:`Enter another code`,man_back:`Back to the game`,colors:[`Red`,`Blue`,`Yellow`,`Green`],
+more:`⋯ More`,ach_btn:(a,b)=>`🏆 Achievements (${a}/${b})`,jr_btn:(a,b)=>`📖 Journal (${a}/${b})`,manual_btn:`📘 Field Manual (phone)`,
+ach_title:`Achievements`,ach_unlock:id=>`🏆 Achievement: ${t('a_'+id)}`,
+a_nohint:`Lone wolf`,ad_nohint:`Escape Kalypso without hints.`,
+a_fast:`Speedrunner`,ad_fast:`Escape Kalypso in under 20 minutes.`,
+a_notes:`Archivist`,ad_notes:`Find all six hidden notes.`,
+a_all4:`Every ending`,ad_all4:`See all four endings of Chapter 1.`,
+a_friend:`Best friends`,ad_friend:`Earn ECHO’s full trust.`,
+a_argos:`Good boy`,ad_argos:`Pet ARGOS ten times.`,
+a_ch2:`Penelope`,ad_ch2:`Finish Chapter 2.`,
+a_hard:`Hardened`,ad_hard:`Finish a chapter on Hard.`,
+a_coop:`Teamwork`,ad_coop:`Finish a chapter in Co-op.`,
+a_daily:`Habit`,ad_daily:`Reach a 3-day daily puzzle streak.`,
+a_lore:`Historian`,ad_lore:`Fill every page of the journal.`,
+jr_title:`Journal`,jr_locked:`??? (not found yet)`,
+daily_btn:`📅 Daily puzzle`,dl_title:d=>`Daily puzzle · ${d}`,dl_done:n=>`Solved today ✓ · Streak ${n} 🔥`,dl_come:`Come back tomorrow for a new one.`,
+dl_intro:x=>`Today’s puzzle: ${x}`,dl_start:`▶ Start`,dl_win:n=>`Solved! Streak: ${n} 🔥`,dl_target:`Weave this pattern:`,
+dlt_wires:`Wiring`,dlt_pipes:`Pipes`,dlt_weave:`Weaving`,dlt_axes:`Twelve axes`,dlt_radio:`Radio`,dlt_memory:`Memory`,
+nudge1:`Stuck? The blue dots mark things you haven't looked at yet.`,nudge2:`Try your items on things: select one, then tap.`,
+nudge3:`What you need may be in another room. The map is in ☰.`,nudge4:`If you are really stuck, 💡 is there. I won’t judge.`,
+pet0:`ARGOS leans into your hand. Its servos purr.`,pet1:`ARGOS wags so hard its whole frame shakes.`,pet2:`Good boy.`,
 ch2_btn:`📡 Chapter 2: Penelope`,ch2_locked:`Chapter 2 unlocks after you escape Kalypso.`,found2:n=>`Ch.2 endings: ${n}/2`,
 pro_title:`Chapter 2 · Penelope`,
 ch2_pro:[`Six months later.`,`Earth Control picks up a faint signal from far beyond Kalypso: a second station, PENELOPE. Its AI stopped answering years ago. One life sign remains: someone is still asleep.`,`They send the only person who has ever woken up on a station like this. You.`],
@@ -196,8 +229,8 @@ hint_q:(n,w)=>`Ask ${w} for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`�
 hint_none:`No hints left. You are on your own.`,h_dead:`ECHO is silent. No more hints.`,
 time_res:(s,h)=>`Time ${s} · Hints used: ${h}`,newrec:`🏆 New record!`,cp_norec:`(Started from an access code, so no record.)`,
 z_pod:`Inside the lid`,z_photo:`Crew photo`,z_pots:`Herb pots`,z_sched:`Pump screen`,
-crew:[`SATO 6`,`REYES 3`,`LIND 1`,`OKAFOR 8`],herbs:[`BASIL`,`MINT`,`OREGANO`,`THYME`],
-sched:[`1. THYME`,`2. BASIL`,`3. OREGANO`,`4. MINT`],sched_t:`WATERING CYCLE`,
+crewN:[`SATO`,`REYES`,`LIND`,`OKAFOR`],herbs:[`BASIL`,`MINT`,`OREGANO`,`THYME`],
+sched_t:`WATERING CYCLE`,
 letters:`NOBODY`,
 cryo_i1:`You wake inside a frosted pod. Red lights pulse. The bay is empty.`,
 cryo_i2:`Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.`,
@@ -313,6 +346,39 @@ stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`
 end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
+mode_q:`Διάλεξε τρόπο παιχνιδιού`,m_normal:`▶ Κανονικό`,m_hard:`🎲 Δύσκολο (νέοι γρίφοι)`,m_coop:`👥 Συνεργατικό`,m_coophard:`👥🎲 Συνεργατικό + Δύσκολο`,
+hard_info:`Δύσκολο: κάθε γρίφος είναι τυχαίος, λιγότερος χρόνος, μόνο 1 βοήθεια. Συνεργατικό: ένας παίζει στο ρολόι, ο άλλος έχει το Εγχειρίδιο Πεδίου σε κινητό.`,
+coop_title:`Συνεργατικό`,
+coop_info:c=>[`Ο ένας παίζει στο ρολόι. Ο άλλος ανοίγει το Εγχειρίδιο Πεδίου σε κινητό: τον ίδιο σύνδεσμο με <b>#manual</b> στο τέλος.`,`Κωδικός εγχειριδίου: <b class="s">${c}</b>`,`Κάποια στοιχεία υπάρχουν μόνο στο εγχειρίδιο. Μιλήστε μεταξύ σας!`],
+manual_code:c=>`📘 Κωδικός εγχειριδίου: ${c}`,
+coop_photo:`📘 Οι αριθμοί έχουν σβηστεί. Το εγχειρίδιο του συμπαίκτη σου έχει τη λίστα πληρώματος.`,
+coop_sched:`📘 Η οθόνη είναι ραγισμένη. Ρώτα τον συμπαίκτη σου για τον κύκλο ποτίσματος.`,
+coop_tap:`📘 Το υφαντό εδώ έχει ξηλωθεί εντελώς. Ο συμπαίκτης σου έχει μια εικόνα του.`,
+coop_wires:`Οι υποδοχές έχουν σύμβολα. 📘 Το εγχειρίδιο έχει το κλειδί καλωδίωσης.`,
+coop_radio:`Ο μετρητής σήματος είναι χαλασμένος. 📘 Το εγχειρίδιο γράφει τη συχνότητα.`,
+man_title:`Εγχειρίδιο Πεδίου`,man_enter:`Βάλε τον κωδικό εγχειριδίου που δείχνει το ρολόι.`,man_code:`Κωδικός εγχειριδίου`,man_codeok:c=>`Κωδικός ${c}`,
+man_crew:`Καλυψώ · Λίστα πληρώματος`,man_sched:`Καλυψώ · Κύκλος ποτίσματος`,man_wires:`Καλυψώ · Κλειδί καλωδίωσης`,man_radio:`Καλυψώ · Συχνότητα Κέντρου Ελέγχου`,man_tap:`Πηνελόπη · Υφαντό (το μισό που σώθηκε)`,man_tap_n:`Πάντα το ύφαινε συμμετρικό.`,
+man_new:`Άλλος κωδικός`,man_back:`Πίσω στο παιχνίδι`,colors:[`Κόκκινο`,`Μπλε`,`Κίτρινο`,`Πράσινο`],
+more:`⋯ Περισσότερα`,ach_btn:(a,b)=>`🏆 Επιτεύγματα (${a}/${b})`,jr_btn:(a,b)=>`📖 Ημερολόγιο (${a}/${b})`,manual_btn:`📘 Εγχειρίδιο Πεδίου (κινητό)`,
+ach_title:`Επιτεύγματα`,ach_unlock:id=>`🏆 Επίτευγμα: ${t('a_'+id)}`,
+a_nohint:`Μοναχικός λύκος`,ad_nohint:`Δραπέτευσε από τον Καλυψώ χωρίς βοήθειες.`,
+a_fast:`Αστραπή`,ad_fast:`Δραπέτευσε από τον Καλυψώ σε λιγότερο από 20 λεπτά.`,
+a_notes:`Αρχειοθέτης`,ad_notes:`Βρες και τα έξι κρυμμένα σημειώματα.`,
+a_all4:`Όλα τα τέλη`,ad_all4:`Δες και τα τέσσερα τέλη του Κεφαλαίου 1.`,
+a_friend:`Κολλητοί`,ad_friend:`Κέρδισε την πλήρη εμπιστοσύνη της ECHO.`,
+a_argos:`Καλό αγόρι`,ad_argos:`Χάιδεψε τον ARGOS δέκα φορές.`,
+a_ch2:`Πηνελόπη`,ad_ch2:`Τελείωσε το Κεφάλαιο 2.`,
+a_hard:`Σκληραγωγημένος`,ad_hard:`Τελείωσε ένα κεφάλαιο στο Δύσκολο.`,
+a_coop:`Ομαδική δουλειά`,ad_coop:`Τελείωσε ένα κεφάλαιο στο Συνεργατικό.`,
+a_daily:`Συνήθεια`,ad_daily:`Φτάσε σε σερί 3 ημερών στον ημερήσιο γρίφο.`,
+a_lore:`Ιστορικός`,ad_lore:`Συμπλήρωσε κάθε σελίδα του ημερολογίου.`,
+jr_title:`Ημερολόγιο`,jr_locked:`??? (δεν βρέθηκε ακόμα)`,
+daily_btn:`📅 Ημερήσιος γρίφος`,dl_title:d=>`Ημερήσιος γρίφος · ${d}`,dl_done:n=>`Λύθηκε σήμερα ✓ · Σερί ${n} 🔥`,dl_come:`Έλα αύριο για καινούργιο.`,
+dl_intro:x=>`Ο σημερινός γρίφος: ${x}`,dl_start:`▶ Ξεκίνα`,dl_win:n=>`Λύθηκε! Σερί: ${n} 🔥`,dl_target:`Ύφανε αυτό το σχέδιο:`,
+dlt_wires:`Καλωδίωση`,dlt_pipes:`Σωλήνες`,dlt_weave:`Ύφανση`,dlt_axes:`Δώδεκα τσεκούρια`,dlt_radio:`Ασύρματος`,dlt_memory:`Μνήμη`,
+nudge1:`Κόλλησες; Οι μπλε κουκκίδες δείχνουν ό,τι δεν έχεις εξετάσει ακόμα.`,nudge2:`Δοκίμασε τα αντικείμενά σου: διάλεξε ένα και πάτα κάπου.`,
+nudge3:`Ίσως αυτό που χρειάζεσαι είναι σε άλλο δωμάτιο. Ο χάρτης είναι στο ☰.`,nudge4:`Αν έχεις κολλήσει στ’ αλήθεια, υπάρχει το 💡. Δεν θα σε κρίνω.`,
+pet0:`Ο ARGOS ακουμπά στο χέρι σου. Οι μηχανισμοί του γουργουρίζουν.`,pet1:`Ο ARGOS κουνά την ουρά τόσο δυνατά που τρέμει ολόκληρος.`,pet2:`Καλό αγόρι.`,
 ch2_btn:`📡 Κεφάλαιο 2: Πηνελόπη`,ch2_locked:`Το Κεφάλαιο 2 ξεκλειδώνει όταν δραπετεύσεις από τον Καλυψώ.`,found2:n=>`Τέλη Κεφ. 2: ${n}/2`,
 pro_title:`Κεφάλαιο 2 · Πηνελόπη`,
 ch2_pro:[`Έξι μήνες αργότερα.`,`Το Κέντρο Ελέγχου πιάνει ένα αχνό σήμα πολύ πέρα από τον Καλυψώ: έναν δεύτερο σταθμό, την ΠΗΝΕΛΟΠΗ. Η τεχνητή νοημοσύνη του σταμάτησε να απαντά εδώ και χρόνια. Ένα σημάδι ζωής απομένει: κάποια κοιμάται ακόμα.`,`Στέλνουν τον μόνο άνθρωπο που έχει ξυπνήσει ποτέ σε τέτοιο σταθμό. Εσένα.`],
@@ -404,8 +470,8 @@ hint_q:(n,w)=>`Να ζητήσεις βοήθεια από ${t('hint_who',w)}; �
 hint_none:`Δεν έμειναν βοήθειες. Είσαι μόνος σου.`,h_dead:`Η ECHO σιωπά. Καμία βοήθεια πια.`,
 time_res:(s,h)=>`Χρόνος ${s} · Βοήθειες: ${h}`,newrec:`🏆 Νέο ρεκόρ!`,cp_norec:`(Ξεκίνησες με κωδικό, οπότε δεν μετράει για ρεκόρ.)`,
 z_pod:`Μέσα στο καπάκι`,z_photo:`Φωτογραφία πληρώματος`,z_pots:`Γλάστρες`,z_sched:`Οθόνη αντλίας`,
-crew:[`ΣΑΤΟ 6`,`ΡΕΓΙΕΣ 3`,`ΛΙΝΤ 1`,`ΟΚΑΦΟΡ 8`],herbs:[`ΒΑΣΙΛΙΚΟΣ`,`ΔΥΟΣΜΟΣ`,`ΡΙΓΑΝΗ`,`ΘΥΜΑΡΙ`],
-sched:[`1. ΘΥΜΑΡΙ`,`2. ΒΑΣΙΛΙΚΟΣ`,`3. ΡΙΓΑΝΗ`,`4. ΔΥΟΣΜΟΣ`],sched_t:`ΚΥΚΛΟΣ ΠΟΤΙΣΜΑΤΟΣ`,
+crewN:[`ΣΑΤΟ`,`ΡΕΓΙΕΣ`,`ΛΙΝΤ`,`ΟΚΑΦΟΡ`],herbs:[`ΒΑΣΙΛΙΚΟΣ`,`ΔΥΟΣΜΟΣ`,`ΡΙΓΑΝΗ`,`ΘΥΜΑΡΙ`],
+sched_t:`ΚΥΚΛΟΣ ΠΟΤΙΣΜΑΤΟΣ`,
 letters:`ΚΑΝΕΙΣ`,
 cryo_i1:`Ξυπνάς μέσα σε μια παγωμένη κάψουλα. Κόκκινα φώτα αναβοσβήνουν. Ο θάλαμος είναι άδειος.`,
 cryo_i2:`Καλημέρα, Οδυσσέα. Κοιμόσουν για 3 χρόνια, 2 μήνες και 9 μέρες.`,
@@ -526,8 +592,33 @@ function setLang(l){lang=l;store('kal_lang',l);document.documentElement.lang=l}
 document.documentElement.lang=lang;
 
 /* ================= STATE ================= */
-const SAVE='kal2_save',HINTS=3,HINT_COST=180;
-const lim=()=>S&&S.ch===2?2700:3600;
+const SAVE='kal2_save',HINT_COST=180;
+const lim=()=>S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
+const maxH=()=>S&&S.hard?1:3;
+const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]]};
+function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let x=Math.imul(a^a>>>15,1|a);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296}}
+function shuf(a,r){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function gen(seed){
+  if(!seed)return DEF;
+  const r=rng(seed);
+  const crew=shuf([1,2,3,4,5,6,7,8,9],r).slice(0,4),herb=shuf([0,1,2,3],r);
+  let ro;do{ro=shuf([0,1,2,3],r)}while(ro.every((v,i)=>v===i));
+  const radio=115+Math.floor(r()*80);
+  const rt=[0,1,2,3].map(()=>[0,1,2,3].map(()=>Math.floor(r()*4)));rt[0][0]=0;
+  let weave;do{weave=[0,1,2,3].map(()=>{const a=r()<.5?1:0,b=r()<.5?1:0;return[a,b,b,a]})}while(weave.flat().filter(x=>x).length<6);
+  const ax=shuf([...Array(12).keys()],r).slice(0,5).map(i=>[Math.floor(i/4),i%4]);
+  return {crew,herb,ro,radio,rt,weave,ax};
+}
+const _rn={};function RN(){const sd=S&&mode==='game'?S.seed||0:0;return _rn[sd]||(_rn[sd]=gen(sd))}
+const cabCode=()=>{const c=RN().crew;return ''+c[2]+c[3]+c[1]+c[0]};
+const podCodes=()=>['en','el'].map(l=>RN().herb.map(i=>L[l].herbs[i].length).join(''));
+const weavePat=()=>RN().weave;
+function addPen(n){if(S&&mode==='game')S.pen+=n}
+let ACH=load('kal_ach')||[],TOAST=[],JR=load('kal_jr')||[];
+const ACH_LIST=['nohint','fast','notes','all4','friend','argos','ch2','hard','coop','daily','lore'];
+const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch2_pro','lm_log'];
+const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t'};
+function ach(id){if(ACH.includes(id))return;ACH.push(id);store('kal_ach',ACH);TOAST.push(id)}
 const ORDER1=['cryo','corridor','medbay','hydro','junction','comms','pod'],ORDER2=['dock','hall','loom','arbor'];
 const order=()=>S&&S.ch===2?ORDER2:ORDER1;
 const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808'};
@@ -577,6 +668,7 @@ setInterval(()=>{
   if(mode!=='game'||!S||document.hidden)return;
   S.el+=dt;
   const el=document.getElementById('tm');if(el){el.textContent=timerTxt();el.className='tm'+(used()>lim()?' over':'')}
+  if(ov.style.display!=='block'&&!msg.length){const sig=Object.keys(S.f).length+'|'+S.inv.join()+'|'+S.room;if(sig!==S.sig){S.sig=sig;S.idle=0}else{S.idle=(S.idle||0)+dt;if(S.idle>=180){S.idle=0;nudge()}}}
   if(++tickN%5===0)store(SAVE,S);
 },1000);
 
@@ -600,8 +692,8 @@ function hintKey(){
 function hintAsk(){
   const ch2=S.ch===2,who=ch2&&!S.echo?'LOOM':'ECHO';
   if(!ch2&&off()){msg=[];N('h_dead');render();return}
-  if(S.h>=HINTS){msg=[];N('hint_none');render();return}
-  choice(`<p class="${who==='LOOM'?'lm':'e'}">${t('hint_q',HINTS-S.h,who)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];(who==='LOOM'?Lm:E)(hintKey())}],[t('hint_no'),()=>{}]]);
+  if(S.h>=maxH()){msg=[];N('hint_none');render();return}
+  choice(`<p class="${who==='LOOM'?'lm':'e'}">${t('hint_q',maxH()-S.h,who)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];(who==='LOOM'?Lm:E)(hintKey())}],[t('hint_no'),()=>{}]]);
 }
 
 /* ================= SCENE HELPERS ================= */
@@ -667,8 +759,8 @@ medbay:{
     hn(3,28,91)+back('corridor')},
   act(id){const f=S.f;
     if(id==='terminal'){if(f.login)read('logs_title','logs');else riddle()}
-    if(id==='photo')read('z_photo','med_photo',null,artPhoto());
-    if(id==='cab'){if(f.cab)N('med_cab_empty');else keypad('med_cab_title',c=>{if(c!=='1836')return false;f.cab=1;give('tube');msg=[];N('med_cab_open');return true})}
+    if(id==='photo')read('z_photo','med_photo',null,artPhoto(),null,S.coop?[t('coop_photo')]:[]);
+    if(id==='cab'){if(f.cab)N('med_cab_empty');else keypad('med_cab_title',c=>{if(c!==cabCode())return false;f.cab=1;give('tube');msg=[];N('med_cab_open');return true})}
     if(id==='note')read('note_title','note',()=>{if(!f.noteRead&&!off()){f.noteRead=1;E('note_echo')}},artNote());
     if(id==='door')go('hydro');
     if(id==='back')go('corridor');
@@ -689,7 +781,7 @@ hydro:{
     if(id==='box'){if(!f.ties){f.ties=1;give('ties');N('hyd_box')}else N('hyd_box_empty')}
     if(id==='pump')N(f.fixed?'hyd_pump_ok':f.patched?'hyd_pump_patched':'hyd_pump_split');
     if(id==='valves'){if(f.fixed)N('hyd_valves_ok');else if(!f.patched)N('hyd_valves_off');else pipes(()=>{f.fixed=1;S.trust++;msg=[];N('hyd_flow');E('hyd_flow_e')})}
-    if(id==='sched')read('z_sched','hyd_sched',null,artSched());
+    if(id==='sched')read('z_sched','hyd_sched',null,artSched(),null,S.coop?[t('coop_sched')]:[]);
     if(id==='door'){if(f.fixed)return go('junction');N('hyd_door')}
     if(id==='back')go('medbay');
   },
@@ -753,7 +845,7 @@ pod:{
   act(id){const f=S.f;
     if(id==='shield')N(off()?'pod_shield_off':'pod_shield_on');
     if(id==='hatch'){if(f.podOpen)launchQ();else N('pod_hatch_locked')}
-    if(id==='console'){if(f.podOpen)launchQ();else keypad('pod_console_title',c=>{if(c!=='5574'&&c!=='6967')return false;f.podOpen=1;msg=[];N('pod_ready');if(!off())E('pod_ready_e');return true})}
+    if(id==='console'){if(f.podOpen)launchQ();else keypad('pod_console_title',c=>{if(!podCodes().includes(c))return false;f.podOpen=1;msg=[];N('pod_ready');if(!off())E('pod_ready_e');return true})}
     if(id==='sleep')choice(`<p>${t('sleep_q')}</p>`,[[t('liedown'),()=>ending('stay')],[t('stayawake'),()=>{msg=[];N('notyet2')}]]);
     if(id==='back')go('comms');
   }},
@@ -768,7 +860,7 @@ dock:{
   act(id){const f=S.f;
     if(id==='win')N('dk_win');
     if(id==='crate'){if(!f.cell){f.cell=1;give('cell');N('dk_crate')}else N('dk_crate_e')}
-    if(id==='dog')N(f.argos?'dk_dog_ok':'dk_dog');
+    if(id==='dog'){if(f.argos)pet();else N('dk_dog')}
     if(id==='air'){if(f.press)return go('hall');gauge('press',()=>{f.press=1;msg=[];N('dk_air_ok')})}
   },
   use(id,it){const f=S.f;
@@ -788,12 +880,12 @@ hall:{
     hs('table',34,74,76,22,`<rect x="34" y="74" width="76" height="6" fill="#5a4a3a"/><path d="M38 80v16M106 80v16" stroke="#5a4a3a" stroke-width="2"/>${f.string?'':'<circle cx="70" cy="92" r="1.3" fill="#d9e1ea" class="blink"/>'}`)+
     hs('arb',112,44,20,52,`<rect x="114" y="52" width="16" height="44" fill="${f.lchoice?'#1f3a2a':'#18212e'}" stroke="#3c4a5e"/><circle cx="122" cy="48" r="1.6" fill="${f.lchoice?'#30d158':'#ff453a'}"/>${f.lchoice?lbl(122,42,'🌿','middle'):''}`,{exit:!!f.lchoice})+
     hs('door',134,14,24,82,`<rect x="136" y="30" width="20" height="66" fill="${f.shot?'#3a2a10':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/>${f.shot?lbl(158,24,t('r_loom')+' ▶','end'):''}`,{exit:f.shot})+
-    (f.argos?dog(2,1,.55,92):'')+back('dock')},
+    (f.argos?hs('pet',0,86,24,13,dog(2,1,.55,92),{nodot:1}):'')+back('dock')},
   act(id){const f=S.f;
     if(id==='drones')N('hl_drones');
     if(id==='table'){if(f.string)N('hl_table_e');else if(f.argos){f.string=1;give('string');N('hl_table_dog')}else N('hl_table')}
     if(id==='bow')N(f.strung?'hl_bow_ok':'hl_bow_nostr');
-    if(id==='tap')read('z_tap','hl_tap',null,artTapestry(),null,[`<span class="lm">${t('hl_tap_lm')}</span>`]);
+    if(id==='tap')read('z_tap','hl_tap',null,artTapestry(null,S.coop),null,S.coop?[t('coop_tap')]:[`<span class="lm">${t('hl_tap_lm')}</span>`]);
     if(id==='axes'){if(f.shot)N('hl_axes_ok');else if(!f.strung)N('hl_axes_off');else axes(()=>{f.shot=1;msg=[];N('hl_shot');Lm('hl_shot_lm')})}
     if(id==='door'){if(f.shot)return go('loom');N('hl_door')}
     if(id==='arb'){if(f.lchoice)return go('arbor');N('hl_arbor_locked')}
@@ -806,12 +898,12 @@ hall:{
 loom:{
   intro(){N('lm_i1');Lm('lm_i2');if(S.echo)E('lm_echo')},
   scene(){const f=S.f,dark=f.lchoice==='off';let th='';for(let i=0;i<14;i++)th+=`<line x1="${44+i*5.5}" y1="10" x2="${44+i*5.5}" y2="84" stroke="${dark?'#2a2a2e':'#ffb340'}" stroke-width=".8" opacity="${dark?1:.35+(i%3)*.2}"/>`;
-    let pat='';if(f.woven){const P=WEAVE;for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(P[r][c])pat+=`<rect x="${56+c*12}" y="${26+r*12}" width="11" height="11" fill="${dark?'#3a3a3c':'#ffb340'}" opacity=".85"/>`}
+    let pat='';if(f.woven){const P=weavePat();for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(P[r][c])pat+=`<rect x="${56+c*12}" y="${26+r*12}" width="11" height="11" fill="${dark?'#3a3a3c':'#ffb340'}" opacity=".85"/>`}
     return base()+
     hs('loom',38,6,86,82,`<rect x="40" y="8" width="82" height="78" rx="3" fill="none" stroke="#6b4a2b" stroke-width="3"/>${th}${pat}`)+
     hs('core',128,18,30,34,`<circle cx="143" cy="34" r="13" fill="${dark?'#151515':'#ffb340'}" opacity="${dark?1:.18}"${dark?'':' class="blink"'}/><circle cx="143" cy="34" r="7" fill="${dark?'#2a2a2e':'#ffb340'}"/>`)+
     hs('log',4,46,30,30,`<rect x="8" y="50" width="22" height="16" rx="2" fill="#2a1c06" stroke="#ffb340"/><path d="M11 55h14M11 59h10M11 63h12" stroke="#ffb340" stroke-width=".8"/><rect x="16" y="66" width="6" height="8" fill="#3c4a5e"/>`)+
-    (f.argos?dog(124,1,.55,92):'')+back('hall')},
+    (f.argos?hs('pet',122,88,24,13,dog(124,1,.55,92),{nodot:1}):'')+back('hall')},
   act(id){const f=S.f;
     if(id==='log')read('lm_log_t','lm_log');
     if(id==='loom'){if(f.woven)N(f.lchoice==='off'?'lm_after_off':'lm_woven');else weave(()=>{f.woven=1;msg=[];Lm('lm_woven')})}
@@ -830,7 +922,7 @@ arbor:{
     hs('tree',64,0,32,68,`<path d="M74 96 C70 70 84 50 76 24 L86 24 C92 50 82 70 88 96 Z" fill="#6b5a44"/><path d="M78 40q-14-8-22-16M84 34q12-6 20-14" stroke="#6b5a44" stroke-width="3" fill="none"/>`,{})+
     hs('bed',24,62,112,24,`<rect x="26" y="66" width="108" height="16" rx="8" fill="#1c2735" stroke="#5ac8fa" stroke-width="1.2"/><rect x="34" y="69" width="36" height="10" rx="5" fill="#9fd8ff" opacity="${f.thawed?.15:.45}"/><rect x="92" y="69" width="36" height="10" rx="5" fill="#9fd8ff" opacity="${f.thawed?.15:.45}"/><rect x="74" y="64" width="14" height="20" fill="#6b5a44"/>${f.thawed?'<circle cx="48" cy="74" r="2.5" fill="#ffd8b0"/>':''}`)+
     hs('roots',90,88,50,10,`<path d="M88 96q10-4 22 0t26-2M74 96q-8-3-18-1" stroke="#6b5a44" stroke-width="2" fill="none"/>`)+
-    (f.argos?dog(138,1,.55,86):'')+back('hall')},
+    (f.argos?hs('pet',136,82,24,13,dog(138,1,.55,86),{nodot:1}):'')+back('hall')},
   act(id){const f=S.f;
     if(id==='tree')N('ar_tree');
     if(id==='roots')N('ar_roots');
@@ -840,16 +932,15 @@ arbor:{
 };
 
 /* ================= CLOSE-UP ART ================= */
-const WEAVE=[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]];
 function dog(x,on,sc=1,y=78){
   const g=`<g transform="translate(${x} ${y}) scale(${sc})"><rect x="6" y="6" width="26" height="10" rx="4" fill="#6b7280"/><rect x="0" y="0" width="12" height="10" rx="3" fill="#6b7280"/><circle cx="4" cy="4" r="1.4" fill="${on?'#5ac8fa':'#222'}"/><path d="M10 16v6M28 16v6" stroke="#4b5563" stroke-width="2.4"/><path d="M32 8l6 -6" stroke="#6b7280" stroke-width="2.4" stroke-linecap="round"${on?' class="wag" style="transform-origin:32px 8px"':''}/><rect x="2" y="9" width="8" height="2" fill="#b91c1c"/></g>`;
   return g;
 }
-function artTapestry(){let s='<rect width="160" height="96" rx="4" fill="#3a1c22"/><rect x="40" y="6" width="80" height="84" fill="#7a2e3a"/>';
-  for(let r=0;r<4;r++)for(let c=0;c<4;c++){const x=44+c*18,y=10+r*20;if(c<2){if(WEAVE[r][c])s+=`<rect x="${x}" y="${y}" width="16" height="18" fill="#ffb340"/>`}else s+=`<path d="M${x+2} ${y+2}q4 6 0 12M${x+8} ${y}q-3 8 2 16M${x+13} ${y+3}q3 5 -1 11" stroke="#c9a96e" stroke-width=".8" fill="none" opacity=".7"/>`}
+function artTapestry(P,hide){P=P||weavePat();let s='<rect width="160" height="96" rx="4" fill="#3a1c22"/><rect x="40" y="6" width="80" height="84" fill="#7a2e3a"/>';
+  for(let r=0;r<4;r++)for(let c=0;c<4;c++){const x=44+c*18,y=10+r*20;if(c<2&&!hide){if(P[r][c])s+=`<rect x="${x}" y="${y}" width="16" height="18" fill="#ffb340"/>`}else s+=`<path d="M${x+2} ${y+2}q4 6 0 12M${x+8} ${y}q-3 8 2 16M${x+13} ${y+3}q3 5 -1 11" stroke="#c9a96e" stroke-width=".8" fill="none" opacity=".7"/>`}
   return s+'<line x1="80" y1="6" x2="80" y2="90" stroke="#c9a96e" stroke-width=".8" stroke-dasharray="2 2"/>'}
 function test(){
-  const f=S.f,wrong=()=>{S.pen+=120;msg=[];Pe('ar_wrong')};
+  const f=S.f,wrong=()=>{addPen(120);msg=[];Pe('ar_wrong')};
   choice(`<p class="pe">${t('ar_pe1')}</p><p class="pe">${t('ar_q')}</p>`,[[t('ar_a1'),wrong],[t('ar_a2'),()=>ending(f.lchoice==='free'?'ithaca':'unravel')],[t('ar_a3'),wrong]]);
 }
 
@@ -859,7 +950,7 @@ function artTally(){
   return s+`<path d="M128 44v20" stroke="#fff" stroke-width="2"/>`;
 }
 function artPhoto(){
-  const skin=['#ffd8b0','#8d5a3b','#ffd8b0','#e8c39e'],cr=t('crew');
+  const skin=['#ffd8b0','#8d5a3b','#ffd8b0','#e8c39e'],nums=RN().crew,cr=t('crewN').map((n,i)=>n+' '+(S&&S.coop&&mode==='game'?'?':nums[i]));
   let s='<rect width="160" height="96" rx="4" fill="#8a8a8e"/><rect x="6" y="6" width="148" height="84" fill="#1c3a5a"/>';
   cr.forEach((n,i)=>{const x=24+i*37;s+=`<circle cx="${x}" cy="32" r="9" fill="${skin[i]}"/><rect x="${x-14}" y="44" width="28" height="40" rx="8" fill="#0a84ff"/><rect x="${x-16}" y="54" width="32" height="12" rx="2" fill="#fff"/><text x="${x}" y="62.5" text-anchor="middle" font-size="5.3" font-weight="700" fill="#111">${n}</text>`});
   return s;
@@ -870,7 +961,7 @@ function artPots(on){
   hb.forEach((n,i)=>{const x=6+i*38;s+=`<rect x="${x}" y="40" width="34" height="26" rx="2" fill="#8b5a2b"/><rect x="${x+2}" y="48" width="30" height="10" fill="#f5f0e1"/><text x="${x+17}" y="55.5" text-anchor="middle" font-size="${n.length>8?4.4:n.length>6?5:6.5}" font-weight="700" fill="#333">${n}</text>${on?`<circle cx="${x+10}" cy="30" r="8" fill="#30d158"/><circle cx="${x+22}" cy="27" r="9" fill="#34c759"/>`:`<path d="M${x+17} 40q-4-16-14-18M${x+17} 40q4-14 12-12" stroke="#7a6a3a" stroke-width="2" fill="none"/>`}`});
   return s;
 }
-function artSched(){const l=t('sched');return `<rect width="160" height="80" rx="6" fill="#062014" stroke="#30d158"/><text x="80" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#30d158">${t('sched_t')}</text>${l.map((x,i)=>`<text x="30" y="${32+i*12}" font-size="9" font-weight="700" fill="#30d158">${x}</text>`).join('')}`}
+function artSched(){const hb=t('herbs'),l=S&&S.coop&&mode==='game'?['📘','','','']:RN().herb.map((h,i)=>`${i+1}. ${hb[h]}`);return `<rect width="160" height="80" rx="6" fill="#062014" stroke="#30d158"/><text x="80" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#30d158">${t('sched_t')}</text>${l.map((x,i)=>`<text x="30" y="${32+i*12}" font-size="9" font-weight="700" fill="#30d158">${x}</text>`).join('')}`}
 function artHidden(i){const c=t('letters')[i-1];return `<rect x="16" y="4" width="128" height="72" fill="#e9e2cf" transform="rotate(${i%2?2:-2} 80 40)"/><g stroke="#6a5a4a" stroke-width="1.1" opacity=".6"><path d="M26 18h70M26 28h60M26 38h76M26 48h52M26 58h66"/></g><circle cx="122" cy="40" r="13" fill="none" stroke="#c0392b" stroke-width="2"/><text x="122" y="46" text-anchor="middle" font-size="17" font-weight="800" fill="#222">${c}</text>`}
 function artItem(i){
   const A={rod:'<line x1="20" y1="60" x2="140" y2="24" stroke="#9aa7b8" stroke-width="7" stroke-linecap="round"/><path d="M134 26q8-4 10 4" stroke="#9aa7b8" stroke-width="7" fill="none" stroke-linecap="round"/>',
@@ -912,13 +1003,17 @@ function combine(a,b){
 }
 function foundNote(i){
   S.f['hn'+i]=1;
+  if(notesN()===6)ach('notes');
   read(null,'hn'+i,()=>{msg=[];N('hn_got',notesN())},artHidden(i),t('hn_title',ATT[i-1]),[t('hn_circle')]);
 }
 function ending(k){
   const c2=S.ch===2,FL=c2?FOUND2:FOUND;
   if(!FL.includes(k))FL.push(k);
   store(c2?'kal_end2':'kal_end',FL);drop(SAVE);
-  const bk=c2?'kal_best2':'kal_best',total=used(),best=load(bk);let rec=false;
+  const esc=c2||k!=='stay';
+  if(!S.cp){if(!c2&&esc){if(S.h===0)ach('nohint');if(used()<1200)ach('fast')}if(c2)ach('ch2');if(S.hard&&esc)ach('hard');if(S.coop&&esc)ach('coop')}
+  if(!c2&&FOUND.length>=4)ach('all4');
+  const bk=(c2?'kal_best2':'kal_best')+(S.hard?'h':''),total=used(),best=load(bk);let rec=false;
   if(!S.cp&&(best==null||total<best)){store(bk,total);rec=true}
   END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,echo:S.echo,argos:S.f.argos};mode='end';
 }
@@ -928,6 +1023,7 @@ function ovClose(){ov.style.display='none';ov.innerHTML='';ov.onclick=null;ov.on
 function ovOpen(h){ov.innerHTML=h;ov.style.display='block'}
 function finish(done){ovClose();done();render();scrollUp()}
 function read(tk,ak,after,art,title,extra){
+  if(JR_KEYS.includes(ak)&&!JR.includes(ak)){JR.push(ak);store('kal_jr',JR);if(JR.length===JR_KEYS.length)ach('lore')}
   const v=t(ak),ps=(Array.isArray(v)?v:[v]).concat(extra||[]);
   ovOpen(`<h1>${title||t(tk)}</h1>${art?`<svg viewBox="0 0 160 ${art.includes('height="96"')?96:art.includes('height="84"')?84:80}" class="mg">${art}</svg>`:''}${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
   ov.onclick=e=>{if(!e.target.closest('button'))return;ovClose();if(after)after();render();scrollUp()};
@@ -970,20 +1066,21 @@ function showMap(){
 function menu(){
   const l=t('letters').split('').map((c,i)=>S.f['hn'+(i+1)]?c:'_').join(' ');
   const dots=Math.max(0,Math.min(5,S.trust+2));
-  choice(`<h1>${t('menu')}</h1>${S.ch===2?'':`<p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`}`,
-    [[t('resume'),()=>{}],[t('map'),()=>setTimeout(showMap,0)],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
+  choice(`<h1>${t('menu')}</h1>${S.coop?`<p class="info">${t('manual_code',String(S.seed).padStart(4,'0'))}</p>`:''}${S.ch===2?'':`<p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`}`,
+    [[t('resume'),()=>{}],[t('map'),()=>setTimeout(showMap,0)],[t('jr_btn',JR.length,JR_KEYS.length),()=>setTimeout(showJournal,0)],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
 /* ================= MINIGAMES ================= */
-function wires(done){
-  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],RO=[2,0,3,1];
+const SYM=['▲','■','●','✚'];
+function wires(done,ro,sym){
+  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],RO=ro||RN().ro;if(sym===undefined)sym=!!(S&&mode==='game'&&S.coop);
   let sel=null,con={},err=false;const y=i=>16+i*24;
   const draw=()=>{
     let s=`<svg viewBox="0 0 160 100" class="mg"><rect width="160" height="100" rx="8" fill="#0d131d"/>`;
     for(const l in con){const r=con[l];s+=`<path d="M22 ${y(l)} C80 ${y(l)} 80 ${y(r)} 136 ${y(r)}" stroke="${C[l]}" stroke-width="4" fill="none" stroke-linecap="round"/>`}
     C.forEach((c,i)=>{s+=`<g data-w="L${i}"><rect class="hit" x="0" y="${y(i)-12}" width="48" height="24"/><rect x="6" y="${y(i)-6}" width="16" height="12" rx="3" fill="${c}"${sel===i?' stroke="#fff" stroke-width="2"':''}/></g>`});
-    RO.forEach((ci,j)=>{s+=`<g data-w="R${j}"><rect class="hit" x="112" y="${y(j)-12}" width="48" height="24"/><circle cx="142" cy="${y(j)}" r="7" fill="#111" stroke="${C[ci]}" stroke-width="3"/></g>`});
-    ovOpen(`<h1>${t('wires_title')}</h1><p class="hint">${err?`<span class="err">${t('wires_short')}</span>`:t('wires_hint')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);
+    RO.forEach((ci,j)=>{s+=`<g data-w="R${j}"><rect class="hit" x="112" y="${y(j)-12}" width="48" height="24"/><circle cx="142" cy="${y(j)}" r="7" fill="#111" stroke="${sym?'#8a8a8e':C[ci]}" stroke-width="3"/>${sym?`<text x="142" y="${y(j)+3.5}" text-anchor="middle" font-size="9" fill="#e8e8e8">${SYM[j]}</text>`:''}</g>`});
+    ovOpen(`<h1>${t('wires_title')}</h1><p class="hint">${err?`<span class="err">${t('wires_short')}</span>`:t('wires_hint')}${sym?' '+t('coop_wires'):''}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);
   };
   draw();ov.scrollTop=0;
   ov.onclick=e=>{
@@ -1000,8 +1097,8 @@ function wires(done){
     draw();
   };
 }
-function memory(done){
-  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],MIN=3,MAX=5;
+function memory(done,max){
+  const C=['#ff453a','#0a84ff','#ffd60a','#30d158'],MIN=3,MAX=max||(S&&mode==='game'&&S.hard?6:5);
   let seq=[],len=MIN,pos=0,busy=true,lit=-1,st='mem_watch',tm=[];
   const newSeq=()=>{seq=[];for(let i=0;i<MAX;i++)seq.push(Math.floor(Math.random()*4))};
   const clr=()=>{tm.forEach(clearTimeout);tm=[]};
@@ -1025,9 +1122,9 @@ function memory(done){
     }
   };
 }
-function pipes(done){
+function pipes(done,rt){
   const TY=[['S','C','C','S'],['C','S','S','C'],['S','C','S','C'],['C','S','C','C']];
-  const RT=[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]];
+  const RT=JSON.parse(JSON.stringify(rt||RN().rt));
   const BASE={S:5,C:3};
   const rot=(m,n)=>{for(let i=0;i<n;i++)m=((m<<1)|(m>>3))&15;return m};
   const mask=(r,c)=>rot(BASE[TY[r][c]],RT[r][c]);
@@ -1051,15 +1148,16 @@ function pipes(done){
     if(draw()){ov.onclick=null;setTimeout(()=>finish(done),800)}
   };
 }
-function radio(done){
-  const TG=147,STEP=14;let f=100,locked=false,iv=null;
+function radio(done,tg,hb){
+  if(hb===undefined)hb=!!(S&&mode==='game'&&S.coop);
+  const TG=tg||RN().radio,STEP=14;let f=100,locked=false,iv=null;
   const str=()=>Math.max(0,1-Math.abs(f-TG)/40);
   const wave=()=>{const s=str();let d='M0 28';for(let x=0;x<=160;x+=4){const n=(Math.random()*2-1)*(1-s)*20;d+=`L${x} ${(28+Math.sin(x/7)*11*s+n).toFixed(1)}`}return d};
-  ovOpen(`<div class="stick"><h1>${t('radio_title')}</h1><p class="hint" id="rh">${t('radio_hint')}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" stroke="#ffb340" stroke-width="1.6" fill="none"/><g id="bars"></g></svg><div class="freq" id="fq"></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><p class="hint c">${t('radio_crown')}</p><button data-x="1" class="cx">${t('cancel')}</button></div><div style="height:${99*STEP+600}px"></div>`);
+  ovOpen(`<div class="stick"><h1>${t('radio_title')}</h1><p class="hint" id="rh">${t('radio_hint')}${hb?' '+t('coop_radio'):''}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" stroke="#ffb340" stroke-width="1.6" fill="none"/><g id="bars"></g></svg><div class="freq" id="fq"></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><p class="hint c">${t('radio_crown')}</p><button data-x="1" class="cx">${t('cancel')}</button></div><div style="height:${99*STEP+600}px"></div>`);
   ov.scrollTop=0;
   const upd=()=>{const s=str();
     document.getElementById('fq').innerHTML=`${(f/10).toFixed(1)} <small>MHz</small>`;
-    document.getElementById('bars').innerHTML=[.15,.4,.65,.9].map((th,i)=>`<rect x="${128+i*7}" y="${52-(i+1)*6}" width="5" height="${(i+1)*6}" fill="${s>=th?'#30d158':'#2a3646'}"/>`).join('');
+    document.getElementById('bars').innerHTML=hb?'<text x="140" y="40" font-size="14" text-anchor="middle" fill="#555">?</text>':[.15,.4,.65,.9].map((th,i)=>`<rect x="${128+i*7}" y="${52-(i+1)*6}" width="5" height="${(i+1)*6}" fill="${s>=th?'#30d158':'#2a3646'}"/>`).join('');
     const wv=document.getElementById('wv');wv.setAttribute('d',wave());wv.setAttribute('stroke',locked?'#30d158':'#ffb340');
     if(locked)document.getElementById('rh').innerHTML=`<span style="color:var(--ok)">${t('radio_lock')}</span>`;
   };
@@ -1083,17 +1181,17 @@ function siren(done){
   ov.scrollTop=0;
   const iv=setInterval(()=>{
     if(over)return;
-    const el=Date.now()-t0;w-=.018;
+    const el=Date.now()-t0;w-=S&&S.hard?.024:.018;
     const nl=Math.min(lines.length-1,Math.floor(el/2000));if(nl!==li){li=nl;const sl=document.getElementById('sl');if(sl)sl.textContent=lines[li]}
     const wb=document.getElementById('wb');if(wb)wb.style.width=Math.max(0,w*100)+'%';
-    if(w<=0){over=true;S.pen+=120;const sm=document.getElementById('sm');if(sm)sm.textContent=t('siren_fail');
+    if(w<=0){over=true;addPen(120);const sm=document.getElementById('sm');if(sm)sm.textContent=t('siren_fail');
       setTimeout(()=>{w=.6;t0=Date.now();li=0;over=false;if(sm)sm.textContent=''},1600);return}
     if(el>=DUR){over=true;clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),300)}
   },100);
   ov.onclick=e=>{if(e.target.closest('[data-r]')&&!over){w=Math.min(1,w+.09);const wb=document.getElementById('wb');if(wb)wb.style.width=w*100+'%'}};
 }
 function timing(kind,done){
-  const cfg=kind==='scy'?{need:3,zone:30,period:1600,pen:60,miss:'scy_miss',title:'scy_title'}:{need:1,zone:12,period:1000,pen:180,miss:'cha_miss',title:'cha_title'};
+  const hd=S&&S.hard,cfg=kind==='scy'?{need:3,zone:hd?22:30,period:1600,pen:60,miss:'scy_miss',title:'scy_title'}:{need:1,zone:hd?9:12,period:1000,pen:180,miss:'cha_miss',title:'cha_title'};
   let hits=0,t0=Date.now(),zx=0,pos=0,run=true;
   const newZone=()=>{zx=10+Math.random()*(140-cfg.zone)};
   newZone();
@@ -1112,13 +1210,13 @@ function timing(kind,done){
       hits++;document.getElementById('tp').textContent=t('tim_prog',hits,cfg.need);th.innerHTML=t('tim_hint');
       if(hits>=cfg.need){run=false;clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),400);return}
       newZone();document.getElementById('tz').setAttribute('x',zx.toFixed(1));
-    }else{S.pen+=cfg.pen;th.innerHTML=`<span class="err">${t(cfg.miss)}</span>`}
+    }else{addPen(cfg.pen);th.innerHTML=`<span class="err">${t(cfg.miss)}</span>`}
   };
 }
 
 
 function gauge(kind,done){
-  const B0=.6,B1=.76;let v=.1,hold=0,over=false;
+  const hd=S&&S.hard,B0=hd?.64:.6,B1=hd?.74:.76;let v=.1,hold=0,over=false;
   ovOpen(`<h1>${t('g_'+kind+'_t')}</h1><p class="hint">${t('g_'+kind+'_h')}</p><svg viewBox="0 0 160 30" class="mg"><rect width="160" height="30" rx="6" fill="#06090e"/><rect x="${B0*156}" y="4" width="${(B1-B0)*156}" height="22" rx="3" fill="#30d158" opacity=".45"/><rect id="gv" x="2" y="8" width="0" height="14" rx="2" fill="${kind==='thaw'?'#ff9f0a':'#5ac8fa'}"/></svg><p class="hint c" id="gp">${t('g_prog','0.0')}</p><p class="err" id="go" style="min-height:16px"></p><button class="pri big" data-g="1">${t('g_'+kind+'_b')}</button><button data-x="1" class="cx">${t('cancel')}</button>`);
   ov.scrollTop=0;
   const draw=()=>{const g=document.getElementById('gv');if(g)g.setAttribute('width',(Math.max(0,v)*154).toFixed(1));const p=document.getElementById('gp');if(p)p.textContent=t('g_prog',(hold/10).toFixed(1))};
@@ -1133,14 +1231,15 @@ function gauge(kind,done){
     if(e.target.closest('[data-x]')){clearInterval(iv);ovClose();render();return}
     if(!e.target.closest('[data-g]')||over)return;
     v+=.07;
-    if(v>.95){S.pen+=30;over=true;hold=0;const o=document.getElementById('go');if(o)o.textContent=t('g_'+kind+'_o');setTimeout(()=>{v=.15;over=false;if(o)o.textContent=''},1200)}
+    if(v>.95){addPen(30);over=true;hold=0;const o=document.getElementById('go');if(o)o.textContent=t('g_'+kind+'_o');setTimeout(()=>{v=.15;over=false;if(o)o.textContent=''},1200)}
     draw();
   };
 }
-function axes(done){
+function axes(done,ps){
   const st=[[0,0,0,0],[0,0,0,0],[0,0,0,0]];
   const press=(r,c)=>{[[0,0],[1,0],[-1,0],[0,1],[0,-1]].forEach(([dr,dc])=>{const a=r+dr,b=c+dc;if(a>=0&&a<3&&b>=0&&b<4)st[a][b]^=1})};
-  [[0,1],[1,2],[2,0],[2,3]].forEach(([r,c])=>press(r,c));
+  (ps||RN().ax).forEach(([r,c])=>press(r,c));
+  if(st.every(row=>row.every(x=>!x)))press(0,0);
   const draw=()=>{const ok=st.every(row=>row.every(x=>!x));
     let s='<svg viewBox="0 0 160 120" class="mg"><rect width="160" height="120" rx="8" fill="#0d131d"/>';
     for(let r=0;r<3;r++)for(let c=0;c<4;c++){const x=c*40,y=r*40,on=!st[r][c];
@@ -1154,14 +1253,15 @@ function axes(done){
     press(r,c);if(draw()){ov.onclick=null;setTimeout(()=>finish(done),900)}
   };
 }
-function weave(done){
-  const st=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-  const draw=()=>{const ok=st.every((row,r)=>row.every((x,c)=>x===WEAVE[r][c]));
+function weave(done,pat,show){
+  const P=pat||weavePat(),st=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  const tgt=show?`<p class="hint">${t('dl_target')}</p><svg viewBox="0 0 160 40" class="mg">${P.map((row,r)=>row.map((x,c)=>`<rect x="${60+c*10}" y="${r*10}" width="9" height="9" fill="${x?'#ffb340':'#2a1c06'}"/>`).join('')).join('')}</svg>`:'';
+  const draw=()=>{const ok=st.every((row,r)=>row.every((x,c)=>x===P[r][c]));
     let s='<svg viewBox="0 0 160 160" class="mg"><rect width="160" height="160" rx="8" fill="#1a1206"/>';
     for(let i=0;i<5;i++)s+=`<line x1="${i*40}" y1="0" x2="${i*40}" y2="160" stroke="#6b4a2b" stroke-width="2"/>`;
     for(let r=0;r<4;r++)for(let c=0;c<4;c++){const on=st[r][c];
       s+=`<g data-v="${r},${c}"><rect class="hit" x="${c*40}" y="${r*40}" width="40" height="40"/><rect x="${c*40+4}" y="${r*40+4}" width="32" height="32" rx="3" fill="${on?'#ffb340':'#2a1c06'}" opacity="${on?.95:.6}"/>${on?`<path d="M${c*40+8} ${r*40+14}h24M${c*40+8} ${r*40+20}h24M${c*40+8} ${r*40+26}h24" stroke="#7a4a10" stroke-width="1"/>`:''}</g>`}
-    ovOpen(`<h1>${t('weave_t')}</h1><p class="hint">${t('weave_h')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);return ok};
+    ovOpen(`<h1>${t('weave_t')}</h1><p class="hint">${t('weave_h')}</p>${tgt}${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);return ok};
   draw();ov.scrollTop=0;
   ov.onclick=e=>{
     if(e.target.closest('[data-x]')){ovClose();render();return}
@@ -1170,12 +1270,92 @@ function weave(done){
   };
 }
 
+
+/* ================= v8 SYSTEMS ================= */
+function info(title,ps,after){
+  ovOpen(`<h1>${title}</h1>${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
+  ov.onclick=e=>{if(!e.target.closest('button'))return;ovClose();if(after)after();render();scrollUp()};
+}
+function pet(){S.pets=(S.pets||0)+1;msg=[];N('pet'+(S.pets%3));if(S.pets>=10)ach('argos')}
+function modeChoice(ch){
+  choice(`<h1>${t('mode_q')}</h1><p class="hint">${t('hard_info')}</p>`,[[t('m_normal'),()=>start(ch,0,0)],[t('m_hard'),()=>start(ch,1,0)],[t('m_coop'),()=>start(ch,0,1)],[t('m_coophard'),()=>start(ch,1,1)]]);
+}
+function start(ch,hard,coop){
+  S=fresh(ch);S.hard=hard;S.coop=coop;S.seed=hard?1000+Math.floor(Math.random()*9000):0;
+  mode='game';lastRoom=null;go(ch===2?'dock':'cryo');
+  const ci=()=>{if(coop)setTimeout(()=>info(t('coop_title'),t('coop_info',String(S.seed).padStart(4,'0'))),0)};
+  if(ch===2)setTimeout(()=>read('pro_title','ch2_pro',ci,null,null,S.echo?[t('pro_echo')]:[]),0);else ci();
+}
+function more(){
+  choice(`<h1>${t('more')}</h1>`,[
+    [t('code'),()=>setTimeout(codeEntry,0)],
+    [t('ach_btn',ACH.length,ACH_LIST.length),()=>setTimeout(showAch,0)],
+    [t('jr_btn',JR.length,JR_KEYS.length),()=>setTimeout(showJournal,0)],
+    [t('manual_btn'),()=>{location.hash='manual';mode='manual'}],
+    [t('langBtn'),()=>setLang(lang==='en'?'el':'en')],
+    [t('close'),()=>{}]]);
+}
+function codeEntry(){
+  keypad('access_title',c=>{
+    const cp=CP[c];if(!cp)return false;
+    S=Object.assign(fresh(cp.ch||1),JSON.parse(JSON.stringify(cp)),{cp:1});
+    order().slice(0,order().indexOf(S.room)).forEach(r=>S.seen[r]=1);
+    mode='game';lastRoom=null;go(S.room);return true;
+  });
+}
+function showAch(){
+  ovOpen(`<h1>${t('ach_title')} · ${ACH.length}/${ACH_LIST.length}</h1>${ACH_LIST.map(id=>`<p class="info">${ACH.includes(id)?'✅':'🔒'} <b style="letter-spacing:0">${t('a_'+id)}</b><br>${t('ad_'+id)}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
+  ov.onclick=e=>{if(e.target.closest('[data-x]')){ovClose();render()}};
+}
+function jrTitle(k){return k[0]==='h'&&k[1]==='n'?t('hn_title',ATT[+k[2]-1]):t(JR_TITLE[k])}
+function showJournal(){
+  ovOpen(`<h1>${t('jr_title')} · ${JR.length}/${JR_KEYS.length}</h1>${JR_KEYS.map(k=>JR.includes(k)?`<button data-j="${k}">${jrTitle(k)}</button>`:`<p class="info">${t('jr_locked')}</p>`).join('')}<button class="cx" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const b=e.target.closest('[data-j]');if(!b)return;const k=b.dataset.j;
+    if(k[0]==='h'&&k[1]==='n'){const i=+k[2];read(null,k,showJournal,artHidden(i),jrTitle(k),[t('hn_circle')])}
+    else read(JR_TITLE[k],k,showJournal);
+  };
+}
+function today(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function dayNum(s){const[y,m,d]=s.split('-').map(Number);return Math.floor(Date.UTC(y,m-1,d)/864e5)}
+const DT=['wires','pipes','weave','axes','radio','memory'];
+function daily(){
+  const td=today(),D=load('kal_daily')||{last:null,streak:0},type=DT[dayNum(td)%6],g=gen(dayNum(td)*7919+13);
+  if(D.last===td){info(t('dl_title',td),[t('dl_done',D.streak),t('dl_come')]);return}
+  const win=()=>{D.streak=(D.last&&dayNum(D.last)===dayNum(td)-1)?D.streak+1:1;D.last=td;store('kal_daily',D);if(D.streak>=3)ach('daily');
+    setTimeout(()=>info(t('dl_title',td),[t('dl_win',D.streak),t('dl_come')].concat(TOAST.length?[toastHtml()]:[])),0)};
+  const run={wires:()=>wires(win,g.ro,false),pipes:()=>pipes(win,g.rt),weave:()=>weave(win,g.weave,true),axes:()=>axes(win,g.ax),radio:()=>radio(win,g.radio,false),memory:()=>memory(win,5)}[type];
+  choice(`<h1>${t('dl_title',td)}</h1><p>${t('dl_intro',t('dlt_'+type))}</p>`,[[t('dl_start'),()=>setTimeout(run,0)],[t('close'),()=>{}]]);
+}
+let MANCODE=null;
+function manualView(){
+  let h=`<div class="title"><div class="big2">📘 ${t('man_title')}</div></div><button data-t="lang">${t('langBtn')}</button>`;
+  if(MANCODE===null)h+=`<p class="hint c">${t('man_enter')}</p><button class="pri" data-t="mancode">${t('man_code')}</button>`;
+  else{
+    const g=gen(+MANCODE),hb=t('herbs'),cols=t('colors');
+    h+=`<p class="hint c">${t('man_codeok',MANCODE)}</p>`+
+      `<h1>${t('man_crew')}</h1>`+t('crewN').map((n,i)=>`<p class="info"><b style="letter-spacing:0">${n}</b> · ${g.crew[i]}</p>`).join('')+
+      `<h1>${t('man_sched')}</h1>`+g.herb.map((h,i)=>`<p class="info">${i+1}. ${hb[h]}</p>`).join('')+
+      `<h1>${t('man_wires')}</h1>`+SYM.map((sy,j)=>`<p class="info">${sy} → ${cols[g.ro[j]]}</p>`).join('')+
+      `<h1>${t('man_radio')}</h1><p class="info"><b style="letter-spacing:0">${(g.radio/10).toFixed(1)} MHz</b></p>`+
+      `<h1>${t('man_tap')}</h1><svg viewBox="0 0 160 96" class="mg">${artTapestry(g.weave)}</svg><p class="info">${t('man_tap_n')}</p>`+
+      `<button data-t="mancode">${t('man_new')}</button>`;
+  }
+  app.innerHTML=h+`<button class="cx" data-t="manback">${t('man_back')}</button>`;
+}
+function nudge(){
+  if(S.ch!==2&&off())return;
+  S.nud=(S.nud||0)%4+1;msg=[];
+  (S.ch===2&&!S.echo?Lm:E)('nudge'+S.nud);render();
+}
+
 /* ================= VIEWS ================= */
 function titleView(){
   const sv=load(SAVE),best=load('kal_best');
   app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big2">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
     (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
-    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}<button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''} · ${VER}</p>${ch2open()?'':`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}<button data-t="daily">${t('daily_btn')}${(load('kal_daily')||{}).last===today()?' ✓':''}</button><button data-t="more">${t('more')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''} · ${VER}</p>${ch2open()?'':`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
 }
 function endArt(k){
   const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
@@ -1187,16 +1367,20 @@ function endArt(k){
 }
 function endView(){
   if(END.c2){const m2={ithaca:['end_ith_t','end_ith',1],unravel:['end_unr_t','end_unr',2]}[END.k],ps2=t(m2[1]).slice();if(END.argos)ps2.push(t('end2_dog'));if(END.echo)ps2.push(t('end2_echo'));
-    app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end2_label',m2[2])}<br><span>${t(m2[0])}</span></p>${ps2.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found2',FOUND2.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;return}
+    app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end2_label',m2[2])}<br><span>${t(m2[0])}</span></p>${ps2.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found2',FOUND2.length)}</p>${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3],nobody:['end_nb_t','end_nb',4]}[END.k];
   const ps=t(m[1]).slice();
   if(END.trust>=2&&END.k==='home')ps.push(t('end_home_hi'));
   if(END.trust>=2&&END.k==='silence')ps.push(t('end_sil_hi'));
-  app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end_label',m[2])}<br><span>${t(m[0])}</span></p>${ps.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found',FOUND.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;
+  app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end_label',m[2])}<br><span>${t(m[0])}</span></p>${ps.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found',FOUND.length)}</p>${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;
 }
+function toastHtml(){const h=TOAST.map(id=>`<p class="rec">${t('ach_unlock',id)}</p>`).join('');TOAST=[];return h}
 function render(){
+  if(mode==='manual')return manualView();
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
+  if(S.trust>=3&&S.ch!==2)ach('friend');
+  if(TOAST.length){TOAST.forEach(id=>msg.push(['s','ach_unlock',[id]]));TOAST=[]}
   const enter=S.room!==lastRoom;lastRoom=S.room;
   let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><span id="tm" class="tm${used()>lim()?' over':''}">${timerTxt()}</span><button class="ib" data-h="1">💡</button><button class="ib" data-m="1">☰</button></div><svg class="scene${enter?' enter':''}" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
   if(S.inv.length)h+=`<div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${t('it_'+i)}</button>`).join('')}${S.sel?`<button class="chip" data-z="1">🔍</button>`:''}</div>`;
@@ -1213,19 +1397,14 @@ app.addEventListener('click',e=>{
   const b=el.closest('button');
   if(b){const d=b.dataset;
     if(d.t){
-      if(d.t==='new'){S=fresh();mode='game';lastRoom=null;go('cryo')}
+      if(d.t==='new'){modeChoice(1);return}
+      else if(d.t==='daily'){daily();return}
+      else if(d.t==='more'){more();return}
+      else if(d.t==='mancode'){keypad('man_code',c=>{MANCODE=c;return true});return}
+      else if(d.t==='manback'){location.hash='';MANCODE=null;mode='title'}
       else if(d.t==='cont'){S=load(SAVE);if(S){S=Object.assign(fresh(S.ch||1),S);mode='game';msg=[];lastRoom=null}}
       else if(d.t==='lang')setLang(lang==='en'?'el':'en');
-      else if(d.t==='ch2'){S=fresh(2);mode='game';lastRoom=null;go('dock');render();scrollUp();read('pro_title','ch2_pro',null,null,null,S.echo?[t('pro_echo')]:[]);return}
-      else if(d.t==='code'){
-        keypad('access_title',c=>{
-          const cp=CP[c];if(!cp)return false;
-          S=Object.assign(fresh(cp.ch||1),JSON.parse(JSON.stringify(cp)),{cp:1});
-          order().slice(0,order().indexOf(S.room)).forEach(r=>S.seen[r]=1);
-          mode='game';lastRoom=null;go(S.room);return true;
-        });
-        return;
-      }
+      else if(d.t==='ch2'){modeChoice(2);return}
       else if(d.t==='title')mode='title';
       render();scrollUp();return;
     }
@@ -1241,12 +1420,15 @@ app.addEventListener('click',e=>{
     if(S.room==='comms'){const sv=app.querySelector('svg.scene'),rc=sv&&sv.getBoundingClientRect();if(rc&&rc.width)S.look=[(e.clientX-rc.left)/rc.width*160,(e.clientY-rc.top)/rc.height*120]}
     S.x[S.room+'.'+id]=1;msg=[];
     if(/^hn\d$/.test(id)){foundNote(+id[2]);render();return}
+    if(id==='pet'){pet();render();return}
     if(S.sel&&!exit){const it=S.sel;S.sel=null;if(!(r.use&&r.use(id,it)))N('nothing',it)}
     else{S.sel=null;r.act(id)}
     render();
   }
 });
 
+if(location.hash==='#manual')mode='manual';
+window.addEventListener('hashchange',()=>{if(location.hash==='#manual'){mode='manual';render()}});
 render();
 </script>
 </body>
