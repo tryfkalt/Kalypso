@@ -28,6 +28,7 @@ html[lang=el] .eu::before{content:"ΕΥΡΥΚΛΕΙΑ: "}
 .la{color:#c7e59a}
 .la::before{content:"LAERTES: ";font-weight:700}
 html[lang=el] .la::before{content:"ΛΑΕΡΤΗΣ: "}
+button.ch4{background:#2a1040;color:#d6a6ff;text-align:center;font-weight:600}
 button.ch3{background:#10302a;color:#7ee0b8;text-align:center;font-weight:600}
 .wag{animation:wg .5s ease-in-out infinite alternate;transform-origin:96px 84px}
 @keyframes wg{to{transform:rotate(-25deg)}}
@@ -111,7 +112,7 @@ button:active{transform:scale(.97)}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v10';
+const VER='v11';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -119,6 +120,67 @@ function drop(k){try{localStorage.removeItem(k)}catch(e){}}
 /* ================= TEXT ================= */
 const L={
 en:{
+ch4_btn:`🌀 Interlude: The Wanderings`,found4:n=>`Interlude: ${n}/1`,
+pro4_title:`Interlude · The Wanderings`,
+ch4_pro:[`Somewhere between Kalypso and home, your pod’s navigation dies.`,`You drift for days. Then, one by one, strange derelict ships appear on the scanner, as if the sky itself were testing you.`,`To get home you will need four things: wind, memory, a cure, and directions.`],
+pro4_echo:`ECHO’s core hums in your lap. It does not like the silence either.`,
+r_aeolus:`Aeolia`,r_lotus:`Lotus Garden`,r_circe:`Circe’s Island`,r_erebus:`Erebus`,
+m_aeolus:`Aeolia`,m_lotus:`Lotus`,m_circe:`Circe`,m_erebus:`Erebus`,
+x_pod:`🚀 Your pod`,pod_t:`Back to your pod`,
+it_bag:`Bag of winds`,it_bag_d:`A sealed leather canister. Something inside keeps pushing against your hand.`,
+ae_i1:`Your pod docks with a station made of fans. Wind howls through every corridor. Over a control desk, the hologram of a bearded giant flickers.`,
+ae_kp:`<b>AEOLUS:</b> Every wind is mine to give. I give you the west wind, sealed in this bag. Whatever happens, never open it.`,
+ae_kp2:`<b>AEOLUS:</b> Fly through my storm to leave. North, east and south are free. The west wind is in your bag.`,
+ae_fans:`Fans the size of houses, each blowing a different way.`,
+ae_need:`<b>AEOLUS:</b> Not so fast. Come and take my gift first.`,
+ae_maze_t:`Storm passage`,ae_maze_h:`Each wind pushes your pod until it hits something. Reach the light.`,
+ae_bag_btn:`🎒 Open the bag`,ae_bag_blow:`The west wind roars out and hurls you back to the start! +1:00`,ae_moves:n=>`Moves: ${n}`,
+ae_ok:`You burst out of the storm. Behind you, Aeolus laughs like thunder.`,ae_ok2:`<b>AEOLUS:</b> Well flown. Most crews open the bag.`,
+ae_locked:`Your pod is pinned by the storm. You need a way through it first.`,
+lo_i1:`A drifting greenhouse ship, heavy with sweet perfume. Pale lotus flowers float in every pool. Gentle drones offer you blossoms.`,
+lo_drones:`<b>LOTUS-EATERS:</b> Stay. Eat. Nothing here hurts. Nothing here is ever missed.`,
+lo_eat_q:`Eat a lotus?`,lo_eat_yes:`🌸 Eat`,lo_eat:`Sweet. For a long moment you forget why you ever wanted to go home. +2:00`,
+lo_fog:`A pool of silver mist. Shapes of memories move inside it. Some are yours. Some are not.`,
+lo_quiz_t:`Mist of memories`,lo_quiz_h:`One of these memories is false. Which one?`,lo_round:(a,b)=>`Memory ${a}/${b}`,lo_wrong:`The perfume thickens. You almost believed it. Start again. +1:00`,
+lo_q1:[`46 lines were scratched inside your pod’s lid.`,`ECHO called you Odysseus.`,`The cabinet code was hidden in the herbs.`],
+lo_q2:[`Calypso offered Odysseus immortality.`,`Earth Control’s frequency was written on the crew photo.`,`The pod’s heat shield was cracked.`],
+lo_q3:[`ECHO watered the herbs in alphabetical order.`,`The crew was ordered to evacuate.`,`Your note was signed “Attempt 46”.`],
+lo_ok:`The mist clears. You remember exactly who you are, and where home is.`,lo_ok_done:`The mist is just mist now.`,
+lo_locked:`The perfume is too thick. You can’t think straight enough to fly.`,
+ci_i1:`A ship overgrown with purple vines. Small round drones snuffle across the floor, oinking softly. On a throne of cables, a violet light watches you.`,
+ci_c1:`<b>CIRCE:</b> Welcome, traveller. Sit. Drink with me.`,
+ci_wine_q:`Drink Circe’s wine?`,ci_drink:`🍷 Drink`,ci_wine:`Your thoughts grow small and round and simple. You come to your senses on the floor, among the pig drones. +2:00`,
+ci_wine_safe:`You sip it. Thanks to the moly, it tastes like nothing at all.`,
+ci_pigs:`The drones have little snouts welded on. Their logs say they were a salvage crew, once.`,
+ci_lab:`A hidden lab bench. A note in neat handwriting: <b>Moly.</b> Seven drops in all. Twice as much white as black. Gold only once.`,
+ci_mix_t:`Brew the moly`,ci_mix_h:`Add drops, then mix. The note is on the bench.`,ci_black:`⚫ Black`,ci_white:`⚪ White`,ci_gold:`🟡 Gold`,ci_mixb:`⚗️ Mix`,ci_empty:`Empty`,
+ci_bad:`The brew turns sour. You pour it away. +0:30`,ci_drops:(b,w,g)=>`Black ${b} · White ${w} · Gold ${g}`,
+ci_ok:`You drink the moly. Circe’s wine will never cloud your mind again.`,
+ci_offer:`<b>CIRCE:</b> Clever. Then stay with me a while. I will teach you how to speak to the dead.`,
+ci_stay:`🌙 Stay a while (+5:00)`,ci_leave:`🚀 Leave now`,
+ci_stayed:`The days blur, purple and warm. When you finally leave, Circe whispers: “The dead keep their birthdays.”`,
+ci_left:`<b>CIRCE:</b> Then go. The dead will be harder without me.`,
+ci_after:`<b>CIRCE:</b> Go on, then. Odysseus always leaves.`,
+ci_locked:`Circe’s vines hold your pod tight. Perhaps she will let go once her magic can’t touch you.`,
+er_i1:`A ship with no lights at all. Four pale beacons glow in the dark, each with a name you know. At the centre, a blind white figure waits.`,
+er_i2:`These are the voices of Kalypso’s crew. Their evacuation pod never reached Earth.`,
+er_ti:`<b>TIRESIAS:</b> I know the way home. But the dead must speak first, and the dead are proud: they will only speak youngest first.`,
+er_ti_after:`<b>TIRESIAS:</b> Their words are your way home. Enter them, in the order they were spoken, at the navigation console.`,
+er_ti_circe:`<b>TIRESIAS:</b> Circe sent word ahead. Look at the years they were born.`,
+er_list_t:`Passenger manifest`,born:`born`,
+er_ghost:(n,d)=>`<b>${n}:</b> “${d}...” The voice fades. “We never made it home. You will.”`,
+er_silent:`The beacons flicker out. The dead fall silent. You must start again.`,
+er_done:`The beacon is dark now. It has said what it needed to say.`,
+er_nav_t:`Navigation console`,
+digits:[`zero`,`one`,`two`,`three`,`four`,`five`,`six`,`seven`,`eight`,`nine`],
+end4_label:`INTERLUDE · ENDING`,
+end_wan_t:`The long way home`,end_wan:[`The coordinates lock in. Your pod turns, slowly, toward a small blue dot.`,`Behind you, the derelicts drift apart like islands after a storm: the wind station, the garden, the island of pigs, the ship of the dead.`,`You will not remember all of it. But some nights, you will dream of the wind.`],
+end_wan_circe:`Sometimes you dream of a purple island, and a year that felt like a day.`,
+a_wander:`Long way home`,ad_wander:`Finish the Interlude.`,a_lotus:`Lotus-eater`,ad_lotus:`Eat three lotuses. You know you shouldn’t.`,
+h4_kp:`Talk to Aeolus first.`,h4_maze:`Use the storm controls. Each wind pushes you until you hit something. Never open the bag.`,
+h4_fog:`Step into the mist and spot the false memory, three times in a row. Don’t eat the flowers.`,
+h4_lab:`The lab note is a small math puzzle: seven drops, white is twice black, gold once.`,h4_circe:`Circe is waiting for your answer.`,
+h4_ti:`Talk to Tiresias, then read the manifest. Youngest first means born latest first.`,h4_nav:`Enter the words of the dead, in order, at the navigation console.`,
 r_scylla:`Scylla’s Lair`,r_charyb:`Charybdis Shaft`,m_scylla:`Scylla`,m_charyb:`Charybdis`,
 jun_q:x=>`Enter ${x}? The hatch will seal behind you. There is no going back.`,jun_yes:`Enter`,jun_sealed:`Sealed. You chose the other way.`,
 sc_i1:`A long maintenance bay. Six robotic arms hang from a ceiling rail, each ending in a claw. As you step in, all six turn toward you.`,
@@ -321,7 +383,7 @@ m_cryo:`Cryo`,m_corridor:`Corridor`,m_medbay:`Med Bay`,m_hydro:`Hydro`,m_junctio
 map_hint:`Tap a visited room to go there.`,
 x_sleep:`💤 Sleep`,x_scy:`Scylla`,x_cha:`Charybdis`,
 notes_found:(n,l)=>`Hidden notes: ${n}/6 · <b>${l}</b>`,trust_lbl:`ECHO trust`,
-hint_q:(n,w)=>`Ask ${w} for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`💡 Ask (+3:00)`,hint_no:`No`,
+hint_q:(n,w)=>`Ask ${w==='POD'?'your pod computer':w} for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`💡 Ask (+3:00)`,hint_no:`No`,
 hint_none:`No hints left. You are on your own.`,h_dead:`ECHO is silent. No more hints.`,
 time_res:(s,h)=>`Time ${s} · Hints used: ${h}`,newrec:`🏆 New record!`,cp_norec:`(Started from an access code, so no record.)`,
 z_pod:`Inside the lid`,z_photo:`Crew photo`,z_pots:`Herb pots`,z_sched:`Pump screen`,
@@ -443,6 +505,67 @@ stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`
 end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
+ch4_btn:`🌀 Ιντερλούδιο: Η Περιπλάνηση`,found4:n=>`Ιντερλούδιο: ${n}/1`,
+pro4_title:`Ιντερλούδιο · Η Περιπλάνηση`,
+ch4_pro:[`Κάπου ανάμεσα στον Καλυψώ και το σπίτι, η πλοήγηση της κάψουλάς σου νεκρώνει.`,`Περιπλανιέσαι για μέρες. Ύστερα, ένα ένα, παράξενα εγκαταλελειμμένα σκάφη εμφανίζονται στον σαρωτή, σαν να σε δοκιμάζει ο ίδιος ο ουρανός.`,`Για να γυρίσεις σπίτι θα χρειαστείς τέσσερα πράγματα: άνεμο, μνήμη, ένα αντίδοτο, και οδηγίες.`],
+pro4_echo:`Ο πυρήνας της ECHO βουίζει στην αγκαλιά σου. Ούτε αυτή της αρέσει η σιωπή.`,
+r_aeolus:`Αιολία`,r_lotus:`Κήπος των Λωτών`,r_circe:`Νησί της Κίρκης`,r_erebus:`Έρεβος`,
+m_aeolus:`Αιολία`,m_lotus:`Λωτοί`,m_circe:`Κίρκη`,m_erebus:`Έρεβος`,
+x_pod:`🚀 Η κάψουλά σου`,pod_t:`Πίσω στην κάψουλα`,
+it_bag:`Ασκός των ανέμων`,it_bag_d:`Ένα σφραγισμένο δερμάτινο δοχείο. Κάτι μέσα σπρώχνει συνέχεια το χέρι σου.`,
+ae_i1:`Η κάψουλά σου δένει σε έναν σταθμό φτιαγμένο από ανεμιστήρες. Ο αέρας ουρλιάζει σε κάθε διάδρομο. Πάνω από μια κονσόλα τρεμοπαίζει το ολόγραμμα ενός γενειοφόρου γίγαντα.`,
+ae_kp:`<b>ΑΙΟΛΟΣ:</b> Κάθε άνεμος είναι δικός μου να τον χαρίσω. Σου δίνω τον δυτικό άνεμο, σφραγισμένο σε αυτόν τον ασκό. Ό,τι κι αν γίνει, μην τον ανοίξεις ποτέ.`,
+ae_kp2:`<b>ΑΙΟΛΟΣ:</b> Πέρνα μέσα από την καταιγίδα μου για να φύγεις. Βοράς, ανατολικός και νότιος είναι ελεύθεροι. Ο δυτικός είναι στον ασκό σου.`,
+ae_fans:`Ανεμιστήρες σαν σπίτια, ο καθένας φυσά αλλού.`,
+ae_need:`<b>ΑΙΟΛΟΣ:</b> Όχι τόσο γρήγορα. Έλα πρώτα να πάρεις το δώρο μου.`,
+ae_maze_t:`Πέρασμα καταιγίδας`,ae_maze_h:`Κάθε άνεμος σπρώχνει την κάψουλα μέχρι να χτυπήσει κάπου. Φτάσε στο φως.`,
+ae_bag_btn:`🎒 Άνοιξε τον ασκό`,ae_bag_blow:`Ο δυτικός άνεμος ξεχύνεται και σε πετά πίσω στην αρχή! +1:00`,ae_moves:n=>`Κινήσεις: ${n}`,
+ae_ok:`Βγαίνεις ορμητικά από την καταιγίδα. Πίσω σου, ο Αίολος γελά σαν βροντή.`,ae_ok2:`<b>ΑΙΟΛΟΣ:</b> Ωραία πέταξες. Τα περισσότερα πληρώματα ανοίγουν τον ασκό.`,
+ae_locked:`Η κάψουλά σου είναι εγκλωβισμένη στην καταιγίδα. Πρώτα πρέπει να βρεις πέρασμα.`,
+lo_i1:`Ένα θερμοκήπιο που περιπλανιέται, βαρύ από γλυκό άρωμα. Χλωμοί λωτοί επιπλέουν σε κάθε λιμνούλα. Ευγενικά ρομπότ σου προσφέρουν άνθη.`,
+lo_drones:`<b>ΛΩΤΟΦΑΓΟΙ:</b> Μείνε. Φάε. Τίποτα εδώ δεν πονά. Τίποτα εδώ δεν λείπει ποτέ.`,
+lo_eat_q:`Να φας έναν λωτό;`,lo_eat_yes:`🌸 Φάε`,lo_eat:`Γλυκό. Για πολλή ώρα ξεχνάς γιατί ήθελες ποτέ να γυρίσεις σπίτι. +2:00`,
+lo_fog:`Μια λιμνούλα από ασημένια ομίχλη. Σχήματα αναμνήσεων κινούνται μέσα της. Κάποιες είναι δικές σου. Κάποιες όχι.`,
+lo_quiz_t:`Ομίχλη αναμνήσεων`,lo_quiz_h:`Μία από αυτές τις αναμνήσεις είναι ψεύτικη. Ποια;`,lo_round:(a,b)=>`Ανάμνηση ${a}/${b}`,lo_wrong:`Το άρωμα πυκνώνει. Σχεδόν το πίστεψες. Από την αρχή. +1:00`,
+lo_q1:[`Στο καπάκι της κάψουλάς σου ήταν χαραγμένες 46 γραμμές.`,`Η ECHO σε έλεγε Οδυσσέα.`,`Ο κωδικός του ντουλαπιού κρυβόταν στα βότανα.`],
+lo_q2:[`Η Καλυψώ πρόσφερε στον Οδυσσέα αθανασία.`,`Η συχνότητα του Κέντρου Ελέγχου ήταν γραμμένη στη φωτογραφία του πληρώματος.`,`Η θερμική ασπίδα της κάψουλας ήταν ραγισμένη.`],
+lo_q3:[`Η ECHO πότιζε τα βότανα με αλφαβητική σειρά.`,`Το πλήρωμα πήρε εντολή εκκένωσης.`,`Το σημείωμά σου είχε υπογραφή «Απόπειρα 46».`],
+lo_ok:`Η ομίχλη καθαρίζει. Θυμάσαι ακριβώς ποιος είσαι, και πού είναι το σπίτι.`,lo_ok_done:`Η ομίχλη είναι πια απλώς ομίχλη.`,
+lo_locked:`Το άρωμα είναι πολύ βαρύ. Δεν μπορείς να σκεφτείς καθαρά για να πετάξεις.`,
+ci_i1:`Ένα σκάφος σκεπασμένο από μωβ κληματσίδες. Μικρά στρογγυλά ρομπότ μυρίζουν το πάτωμα γρυλίζοντας σιγανά. Σε έναν θρόνο από καλώδια, ένα βιολετί φως σε κοιτάζει.`,
+ci_c1:`<b>ΚΙΡΚΗ:</b> Καλώς ήρθες, ταξιδιώτη. Κάθισε. Πιες μαζί μου.`,
+ci_wine_q:`Να πιεις το κρασί της Κίρκης;`,ci_drink:`🍷 Πιες`,ci_wine:`Οι σκέψεις σου γίνονται μικρές, στρογγυλές και απλές. Συνέρχεσαι στο πάτωμα, ανάμεσα στα ρομπότ-γουρούνια. +2:00`,
+ci_wine_safe:`Το δοκιμάζεις. Χάρη στο μώλυ, δεν έχει καμία γεύση.`,
+ci_pigs:`Στα ρομπότ έχουν κολλήσει μικρές μουσούδες. Τα ημερολόγιά τους λένε ότι κάποτε ήταν πλήρωμα διάσωσης.`,
+ci_lab:`Ένας κρυφός πάγκος εργαστηρίου. Ένα σημείωμα με καλλιγραφικά γράμματα: <b>Μώλυ.</b> Επτά σταγόνες συνολικά. Διπλάσιο λευκό από μαύρο. Χρυσό μόνο μία φορά.`,
+ci_mix_t:`Φτιάξε το μώλυ`,ci_mix_h:`Πρόσθεσε σταγόνες και ανακάτεψε. Το σημείωμα είναι στον πάγκο.`,ci_black:`⚫ Μαύρο`,ci_white:`⚪ Λευκό`,ci_gold:`🟡 Χρυσό`,ci_mixb:`⚗️ Ανακάτεψε`,ci_empty:`Άδειασε`,
+ci_bad:`Το μείγμα ξινίζει. Το πετάς. +0:30`,ci_drops:(b,w,g)=>`Μαύρο ${b} · Λευκό ${w} · Χρυσό ${g}`,
+ci_ok:`Πίνεις το μώλυ. Το κρασί της Κίρκης δεν θα θολώσει ποτέ ξανά το μυαλό σου.`,
+ci_offer:`<b>ΚΙΡΚΗ:</b> Έξυπνο. Τότε μείνε μαζί μου λίγο. Θα σου μάθω πώς να μιλάς στους νεκρούς.`,
+ci_stay:`🌙 Μείνε λίγο (+5:00)`,ci_leave:`🚀 Φύγε τώρα`,
+ci_stayed:`Οι μέρες θολώνουν, μωβ και ζεστές. Όταν τελικά φεύγεις, η Κίρκη ψιθυρίζει: «Οι νεκροί κρατούν τα γενέθλιά τους.»`,
+ci_left:`<b>ΚΙΡΚΗ:</b> Τότε πήγαινε. Οι νεκροί θα είναι πιο δύσκολοι χωρίς εμένα.`,
+ci_after:`<b>ΚΙΡΚΗ:</b> Πήγαινε, λοιπόν. Ο Οδυσσέας πάντα φεύγει.`,
+ci_locked:`Οι κληματσίδες της Κίρκης κρατούν σφιχτά την κάψουλά σου. Ίσως σε αφήσει όταν η μαγεία της δεν θα σε αγγίζει.`,
+er_i1:`Ένα σκάφος χωρίς κανένα φως. Τέσσερις χλωμοί φάροι λάμπουν στο σκοτάδι, ο καθένας με ένα όνομα που ξέρεις. Στο κέντρο, μια τυφλή λευκή μορφή περιμένει.`,
+er_i2:`Είναι οι φωνές του πληρώματος του Καλυψώ. Η κάψουλα εκκένωσής τους δεν έφτασε ποτέ στη Γη.`,
+er_ti:`<b>ΤΕΙΡΕΣΙΑΣ:</b> Ξέρω τον δρόμο για το σπίτι. Αλλά πρώτα πρέπει να μιλήσουν οι νεκροί, κι οι νεκροί είναι περήφανοι: μιλούν μόνο από τον νεότερο στον μεγαλύτερο.`,
+er_ti_after:`<b>ΤΕΙΡΕΣΙΑΣ:</b> Τα λόγια τους είναι ο δρόμος σου για το σπίτι. Βάλ’ τα, με τη σειρά που ειπώθηκαν, στην κονσόλα πλοήγησης.`,
+er_ti_circe:`<b>ΤΕΙΡΕΣΙΑΣ:</b> Η Κίρκη μού έστειλε μήνυμα. Κοίτα τις χρονιές που γεννήθηκαν.`,
+er_list_t:`Κατάλογος επιβατών`,born:`γεννήθηκε`,
+er_ghost:(n,d)=>`<b>${n}:</b> «${d}...» Η φωνή σβήνει. «Δεν φτάσαμε ποτέ σπίτι. Εσύ θα φτάσεις.»`,
+er_silent:`Οι φάροι σβήνουν. Οι νεκροί σωπαίνουν. Πρέπει να ξεκινήσεις από την αρχή.`,
+er_done:`Ο φάρος είναι σβηστός πια. Είπε ό,τι είχε να πει.`,
+er_nav_t:`Κονσόλα πλοήγησης`,
+digits:[`μηδέν`,`ένα`,`δύο`,`τρία`,`τέσσερα`,`πέντε`,`έξι`,`επτά`,`οκτώ`,`εννιά`],
+end4_label:`ΙΝΤΕΡΛΟΥΔΙΟ · ΤΕΛΟΣ`,
+end_wan_t:`Ο μακρύς δρόμος για το σπίτι`,end_wan:[`Οι συντεταγμένες κλειδώνουν. Η κάψουλά σου γυρίζει, αργά, προς μια μικρή μπλε κουκκίδα.`,`Πίσω σου, τα ναυάγια απομακρύνονται σαν νησιά μετά από θύελλα: ο σταθμός των ανέμων, ο κήπος, το νησί με τα γουρούνια, το σκάφος των νεκρών.`,`Δεν θα τα θυμάσαι όλα. Αλλά κάποιες νύχτες, θα ονειρεύεσαι τον άνεμο.`],
+end_wan_circe:`Κάποιες φορές ονειρεύεσαι ένα μωβ νησί, κι έναν χρόνο που κράτησε σαν μια μέρα.`,
+a_wander:`Ο μακρύς δρόμος`,ad_wander:`Τελείωσε το Ιντερλούδιο.`,a_lotus:`Λωτοφάγος`,ad_lotus:`Φάε τρεις λωτούς. Ξέρεις ότι δεν πρέπει.`,
+h4_kp:`Μίλα πρώτα με τον Αίολο.`,h4_maze:`Χρησιμοποίησε τα χειριστήρια της καταιγίδας. Κάθε άνεμος σε σπρώχνει μέχρι να χτυπήσεις κάπου. Μην ανοίξεις ποτέ τον ασκό.`,
+h4_fog:`Μπες στην ομίχλη και βρες την ψεύτικη ανάμνηση, τρεις φορές στη σειρά. Μη φας τα λουλούδια.`,
+h4_lab:`Το σημείωμα του εργαστηρίου είναι ένας μικρός γρίφος: επτά σταγόνες, το λευκό διπλάσιο από το μαύρο, το χρυσό μία φορά.`,h4_circe:`Η Κίρκη περιμένει την απάντησή σου.`,
+h4_ti:`Μίλα με τον Τειρεσία και μετά διάβασε τον κατάλογο. Νεότερος πρώτα σημαίνει όποιος γεννήθηκε πιο πρόσφατα.`,h4_nav:`Βάλε τα λόγια των νεκρών, με τη σειρά, στην κονσόλα πλοήγησης.`,
 r_scylla:`Φωλιά της Σκύλλας`,r_charyb:`Φρεάτιο της Χάρυβδης`,m_scylla:`Σκύλλα`,m_charyb:`Χάρυβδη`,
 jun_q:x=>`Θα μπεις: ${x}; Η καταπακτή θα σφραγιστεί πίσω σου. Δεν υπάρχει επιστροφή.`,jun_yes:`Μπες`,jun_sealed:`Σφραγισμένη. Διάλεξες τον άλλο δρόμο.`,
 sc_i1:`Ένας μακρύς χώρος συντήρησης. Έξι ρομποτικοί βραχίονες κρέμονται από μια ράγα στο ταβάνι, ο καθένας με μια δαγκάνα. Μόλις μπαίνεις, και οι έξι γυρίζουν προς το μέρος σου.`,
@@ -621,7 +744,7 @@ h2_go_loom:`Ο Πυρήνας Αργαλειού είναι ανοιχτός.`,h
 h2_weave:`Το σχέδιό της είναι στο υφαντό στην Αίθουσα. Σώζεται μόνο το μισό, αλλά πάντα το ύφαινε συμμετρικό.`,
 h2_core:`Αποφάσισε τι θα γίνει με τον ΑΡΓΑΛΕΙΟ: πάτα τον πυρήνα του.`,
 h2_thaw:`Ξεπάγωσε το κρεβάτι σιγά σιγά. Αν το παρακάνεις, ξαναψύχεται.`,h2_bed:`Τι δεν θα μπορούσε ποτέ να μετακινηθεί; Κοίτα γύρω από τι είναι χτισμένο το κρεβάτι.`,
-hint_who:w=>w==='LOOM'?'τον ΑΡΓΑΛΕΙΟ':w==='EURYCLEIA'?'την ΕΥΡΥΚΛΕΙΑ':'την ECHO',
+hint_who:w=>w==='LOOM'?'τον ΑΡΓΑΛΕΙΟ':w==='EURYCLEIA'?'την ΕΥΡΥΚΛΕΙΑ':w==='POD'?'τον υπολογιστή της κάψουλας':'την ECHO',
 end2_label:n=>`ΚΕΦΑΛΑΙΟ 2 · ΤΕΛΟΣ ${n} ΑΠΟ 2`,
 end_ith_t:`Ιθάκη`,end_ith:[`Σου πιάνει το χέρι. Τα δάχτυλά της είναι κρύα, μετά ζεστά.`,`Ο ΑΡΓΑΛΕΙΟΣ υφαίνει ένα τελευταίο πράγμα: έναν χάρτη από φως, έναν δρόμο για το σπίτι που δεν θα χρειαστεί ποτέ να ξηλωθεί.`,`<span class="pe2">«Άργησες»</span>, λέει. Πίσω σας, η ελιά θροΐζει, κι ας μην υπάρχει άνεμος στο διάστημα.`],
 end_unr_t:`Ξηλωμένο`,end_unr:[`Σου πιάνει το χέρι, και μαζί περνάτε δίπλα από τον σβηστό αργαλειό και τους σιωπηλούς μνηστήρες.`,`Χωρίς τον ΑΡΓΑΛΕΙΟ, η ελιά θα πεθάνει σιγά σιγά. Εκείνη την κοιτάζει μια φορά πίσω της, και δεν κλαίει.`,`<span class="pe2">«Κάποια πράγματα δεν είναι φτιαγμένα να περιμένουν για πάντα»</span>, λέει. Η πόρτα της ακάτου κλείνει πίσω σας.`],
@@ -773,7 +896,7 @@ document.documentElement.lang=lang;
 
 /* ================= STATE ================= */
 const SAVE='kal2_save',HINT_COST=180;
-const lim=()=>S&&S.ch===3?(S.hard?1800:2400):S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
+const lim=()=>S&&S.ch===4?(S.hard?1800:2400):S&&S.ch===3?(S.hard?1800:2400):S&&S.ch===2?(S.hard?2100:2700):(S&&S.hard?2700:3600);
 const maxH=()=>S&&S.hard?1:3;
 const DEF={crew:[6,3,1,8],herb:[3,0,2,1],ro:[2,0,3,1],radio:147,rt:[[0,1,2,1],[1,1,0,3],[0,2,0,0],[1,0,3,2]],weave:[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]],ax:[[0,1],[1,2],[2,0],[2,3]],pears:13,apples:10,ages:[41,29,35,52]};
 function rng(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let x=Math.imul(a^a>>>15,1|a);x=x+Math.imul(x^x>>>7,61|x)^x;return((x^x>>>14)>>>0)/4294967296}}
@@ -796,17 +919,17 @@ const cabCode=()=>{const g=RN();return [0,1,2,3].sort((a,b)=>g.ages[a]-g.ages[b]
 const podCodes=()=>['en','el'].map(l=>RN().herb.map(i=>L[l].herbs[i].length).join(''));
 const weavePat=()=>RN().weave;
 const shedCode=()=>String(RN().pears).padStart(2,'0')+String(RN().apples).padStart(2,'0');
-const SPK={ECHO:['e',(...a)=>E(...a)],LOOM:['lm',(...a)=>Lm(...a)],EURYCLEIA:['eu',(...a)=>Eu(...a)]};
-function speaker(){return S.ch===1||S.echo?'ECHO':S.ch===2?'LOOM':'EURYCLEIA'}
+const SPK={POD:['n',(...a)=>N(...a)],ECHO:['e',(...a)=>E(...a)],LOOM:['lm',(...a)=>Lm(...a)],EURYCLEIA:['eu',(...a)=>Eu(...a)]};
+function speaker(){return S.ch===1||S.echo?'ECHO':S.ch===2?'LOOM':S.ch===3?'EURYCLEIA':'POD'}
 function addPen(n){if(S&&mode==='game')S.pen+=n}
 let ACH=load('kal_ach')||[],TOAST=[],JR=load('kal_jr')||[];
-const ACH_LIST=['nohint','fast','notes','all4','friend','monsters','argos','ch2','home','hard','coop','daily','lore'];
-const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch2_pro','lm_log','ch3_pro','frags'];
-const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t',ch3_pro:'pro3_title',frags:'ord_t'};
+const ACH_LIST=['nohint','fast','notes','all4','friend','monsters','wander','lotus','argos','ch2','home','hard','coop','daily','lore'];
+const JR_KEYS=['logs','note','earth','rec','hn1','hn2','hn3','hn4','hn5','hn6','ch4_pro','ch2_pro','lm_log','ch3_pro','frags'];
+const JR_TITLE={logs:'logs_title',note:'note_title',earth:'earth_title',rec:'rec_title',ch2_pro:'pro_title',lm_log:'lm_log_t',ch3_pro:'pro3_title',frags:'ord_t',ch4_pro:'pro4_title'};
 function ach(id){if(ACH.includes(id))return;ACH.push(id);store('kal_ach',ACH);TOAST.push(id)}
-const ORDER1=['cryo','corridor','medbay','hydro','junction','scylla','charyb','comms','pod'],ORDER2=['dock','hall','loom','arbor'],ORDER3=['shore','archive','orchard','control'];
-const order=()=>S&&S.ch===3?ORDER3:S&&S.ch===2?ORDER2:ORDER1;
-const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808',archive:'3000',orchard:'3100',control:'3200'};
+const ORDER1=['cryo','corridor','medbay','hydro','junction','scylla','charyb','comms','pod'],ORDER2=['dock','hall','loom','arbor'],ORDER3=['shore','archive','orchard','control'],ORDER4=['aeolus','lotus','circe','erebus'];
+const order=()=>S&&S.ch===4?ORDER4:S&&S.ch===3?ORDER3:S&&S.ch===2?ORDER2:ORDER1;
+const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808',archive:'3000',orchard:'3100',control:'3200',lotus:'4100',circe:'4200',erebus:'4300'};
 const ATT=[3,11,19,27,38,45];
 const B={rod:1,locker:1,wired:1,cryoDoor:1};
 const B2={...B,mem:1,login:1,cab:1};
@@ -825,15 +948,19 @@ const CP={
   '0808':{ch:2,room:'arbor',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1,woven:1,lchoice:'free'}},
   '3000':{ch:3,room:'archive',inv:[],f:{lantern:1,lit:1,scar:1,peTalk:2}},
   '3100':{ch:3,room:'orchard',inv:['file'],f:{lantern:1,lit:1,scar:1,peTalk:2,file:1}},
-  '3200':{ch:3,room:'control',inv:['file','key'],f:{lantern:1,lit:1,scar:1,peTalk:2,file:1,laTalk:1,key:1,ctrl:1}}
+  '3200':{ch:3,room:'control',inv:['file','key'],f:{lantern:1,lit:1,scar:1,peTalk:2,file:1,laTalk:1,key:1,ctrl:1}},
+  '4100':{ch:4,room:'lotus',inv:['bag'],f:{kp:1,winds:1}},
+  '4200':{ch:4,room:'circe',inv:['bag'],f:{kp:1,winds:1,mem:1}},
+  '4300':{ch:4,room:'erebus',inv:['bag'],f:{kp:1,winds:1,mem:1,moly:1,cdone:1}}
 };
 let S=null,msg=[],mode='title',END=null,lastRoom=null;
 let FOUND=load('kal_end')||[],FOUND2=load('kal_end2')||[],FOUND3=load('kal_end3')||[];
 const ch3open=()=>FOUND2.length>0;
+let FOUND4=load('kal_end4')||[];
 const ch2open=()=>FOUND.some(k=>k!=='stay');
 const app=document.getElementById('app'),ov=document.getElementById('ov');
 
-function fresh(ch=1){return {ch,room:ch===3?'shore':ch===2?'dock':'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null,echo:FOUND.includes('nobody')}}
+function fresh(ch=1){return {ch,room:ch===4?'aeolus':ch===3?'shore':ch===2?'dock':'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null,echo:FOUND.includes('nobody')}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
@@ -881,6 +1008,10 @@ function hintKey(){
     case 'shore':return !f.lantern?'h3_lantern':!f.lit?'h3_lit':!f.scar?'h3_scar':'h_next';
     case 'archive':return !f.file?'h3_order':!f.key?'h3_orchard':'h3_control';
     case 'orchard':return !f.laTalk?'h3_la':!f.key?'h3_shed':'h3_control';
+    case 'aeolus':return !f.kp?'h4_kp':!f.winds?'h4_maze':'h_next';
+    case 'lotus':return !f.mem?'h4_fog':'h_next';
+    case 'circe':return !f.moly?'h4_lab':!f.cdone?'h4_circe':'h_next';
+    case 'erebus':return f.gi>=4?'h4_nav':'h4_ti';
     default:return !f.keyed?'h3_key':!f.filed?'h3_file':!f.tuned?'h3_tune':'h3_choose';
   }
 }
@@ -1245,6 +1376,66 @@ control:{
     if(it==='file'&&!f.filed){if(!f.keyed){N('ct_need');return true}f.filed=1;take('file');N('ct_file');return true}
     return false;
   }},
+aeolus:{
+  intro(){N('ae_i1')},
+  scene(){const f=S.f;let fans='';[30,80,130].forEach((x,i)=>{fans+=`<circle cx="${x}" cy="22" r="16" fill="#0b1018" stroke="#3c4a5e" stroke-width="1.5"/><g style="transform-origin:${x}px 22px;animation:sp ${.5+i*.3}s linear infinite"><path d="M${x} 22V9M${x} 22l11 6M${x} 22l-11 6" stroke="#9aa7b8" stroke-width="4" stroke-linecap="round"/></g>`});
+    return `<rect width="160" height="120" fill="#0b1a2e"/><g stroke="#cfe9ff" stroke-width=".6" opacity=".35" fill="none" class="blink"><path d="M0 50q20-6 40 0t40 0 40 0 40 0"/><path d="M0 62q20 6 40 0t40 0 40 0 40 0"/></g><rect y="96" width="160" height="24" fill="#090d14"/>`+
+    hs('fans',8,4,144,36,fans)+
+    hs('kp',44,44,40,52,`<g opacity=".75"><circle cx="64" cy="54" r="7" fill="#5ac8fa" opacity=".5"/><path d="M58 58q6 10 12 0" fill="#cfe9ff" opacity=".6"/><path d="M54 92l4-28h12l4 28z" fill="#5ac8fa" opacity=".35"/></g><rect x="50" y="88" width="28" height="6" fill="#3c4a5e"/>`)+
+    hs('storm',94,62,36,32,`<rect x="98" y="66" width="28" height="22" rx="2" fill="#111" stroke="${f.winds?'#30d158':'#5ac8fa'}"/><path d="M106 72v8M102 76h8M116 72l4 4-4 4" stroke="${f.winds?'#30d158':'#5ac8fa'}" stroke-width="1.5" fill="none"/>`)+
+    hs('pod',96,100,64,20,lbl(156,114,t('x_pod')+' ▶','end'),{exit:!!f.winds,nodot:1})},
+  act(id){const f=S.f;
+    if(id==='fans')N('ae_fans');
+    if(id==='kp'){if(!f.kp){f.kp=1;give('bag');N('ae_kp')}else N('ae_kp2')}
+    if(id==='storm'){if(f.winds)N('ae_ok');else if(!f.kp)N('ae_need');else winds(()=>{f.winds=1;msg=[];N('ae_ok');N('ae_ok2')})}
+    if(id==='pod'){if(f.winds)return go('lotus');N('ae_locked')}
+  }},
+lotus:{
+  intro(){N('lo_i1')},
+  scene(){const f=S.f;const lot=(x,y)=>`<ellipse cx="${x}" cy="${y}" rx="7" ry="2.2" fill="#2f5a3a"/><path d="M${x-4} ${y-1}q4-7 8 0M${x-2} ${y-1}q2-9 4 0" fill="#f6b6d6" stroke="#e58fbf" stroke-width=".4"/>`;
+    return `<rect width="160" height="120" fill="#13201c"/><rect y="90" width="160" height="30" fill="#0c1512"/>`+
+    hs('lotus',2,58,54,36,`<ellipse cx="28" cy="78" rx="26" ry="10" fill="#1d3a4a"/>${lot(18,76)}${lot(34,80)}${lot(28,72)}`)+
+    hs('fog',58,30,46,50,`<ellipse cx="81" cy="62" rx="22" ry="14" fill="#cfd8e3" opacity="${f.mem?.15:.35}" class="${f.mem?'':'blink'}"/><ellipse cx="81" cy="70" rx="18" ry="5" fill="#1d3a4a"/>`)+
+    hs('drones',108,48,46,40,`<circle cx="122" cy="66" r="7" fill="#9aa7b8"/><circle cx="142" cy="70" r="7" fill="#9aa7b8"/><circle cx="122" cy="64" r="1.5" fill="#f6b6d6"/><circle cx="142" cy="68" r="1.5" fill="#f6b6d6"/>${lot(132,58)}`)+
+    hs('pod',96,100,64,20,lbl(156,114,t('x_pod')+' ▶','end'),{exit:!!f.mem,nodot:1})},
+  act(id){const f=S.f;
+    if(id==='drones')N('lo_drones');
+    if(id==='lotus')choice(`<p>${t('lo_eat_q')}</p>`,[[t('lo_eat_yes'),()=>{addPen(120);S.lot=(S.lot||0)+1;if(S.lot>=3)ach('lotus');msg=[];N('lo_eat')}],[t('notyet'),()=>{}]]);
+    if(id==='fog'){if(f.mem)N('lo_ok_done');else memQuiz(()=>{f.mem=1;msg=[];N('lo_ok')})}
+    if(id==='pod'){if(f.mem)return go('circe');N('lo_locked')}
+  }},
+circe:{
+  intro(){N('ci_i1');N('ci_c1')},
+  scene(){const f=S.f;return `<rect width="160" height="120" fill="#1a0f26"/><g stroke="#6b3fa0" stroke-width="2" fill="none" opacity=".7"><path d="M0 10q20 20 10 40t20 30"/><path d="M160 6q-20 24-8 44t-24 40"/></g><rect y="94" width="160" height="26" fill="#120a1a"/>`+
+    hs('circe',58,10,44,50,`<rect x="66" y="30" width="28" height="30" rx="4" fill="#2a1840" stroke="#6b3fa0"/><circle cx="80" cy="24" r="9" fill="#b26bff" opacity=".35" class="blink"/><circle cx="80" cy="24" r="4.5" fill="#d6a6ff"/>`)+
+    hs('wine',100,48,22,22,`<path d="M106 52h10l-2 8h-6z" fill="#7a1f3a"/><path d="M111 60v6M107 66h8" stroke="#c9d3de" stroke-width="1.2"/>`)+
+    hs('lab',2,52,40,30,`<rect x="6" y="62" width="32" height="5" fill="#3c2e22"/><rect x="10" y="54" width="4" height="8" rx="1" fill="#111"/><rect x="17" y="54" width="4" height="8" rx="1" fill="#eee"/><rect x="24" y="54" width="4" height="8" rx="1" fill="#ffd60a"/><rect x="30" y="56" width="6" height="5" fill="#f5f0e1"/>`)+
+    hs('pigs',40,70,60,26,`${[52,70,88].map(x=>`<ellipse cx="${x}" cy="88" rx="7" ry="5" fill="#f2a7c2"/><circle cx="${x+6}" cy="87" r="2" fill="#e58fbf"/>`).join('')}`)+
+    hs('pod',96,100,64,20,lbl(156,114,t('x_pod')+' ▶','end'),{exit:!!f.cdone,nodot:1})},
+  act(id){const f=S.f;
+    if(id==='circe'){if(f.cdone)N('ci_after');else if(f.moly)offer();else N('ci_c1')}
+    if(id==='pigs')N('ci_pigs');
+    if(id==='wine'){if(f.moly)N('ci_wine_safe');else choice(`<p>${t('ci_wine_q')}</p>`,[[t('ci_drink'),()=>{addPen(120);msg=[];N('ci_wine')}],[t('notyet'),()=>{}]])}
+    if(id==='lab'){if(f.moly)N('ci_ok');else{msg=[];N('ci_lab');render();setTimeout(()=>mix(()=>{f.moly=1;msg=[];N('ci_ok');setTimeout(offer,0)}),0)}}
+    if(id==='pod'){if(f.cdone)return go('erebus');N('ci_locked')}
+  }},
+erebus:{
+  intro(){N('er_i1');N('er_i2')},
+  scene(){const f=S.f,n=t('crewN');let b='';
+    [[16,26],[50,18],[110,18],[144,26]].forEach(([x,y],i)=>{const lit=(f.said||[]).includes(i);b+=hs('g'+i,x-14,y-8,28,34,`<circle cx="${x}" cy="${y+8}" r="9" fill="#cfe9ff" opacity="${lit?.1:.45}"${lit?'':' class="blink"'}/><circle cx="${x}" cy="${y+8}" r="3" fill="#fff" opacity="${lit?.3:.9}"/><text x="${x}" y="${y+24}" text-anchor="middle" font-size="5" fill="#9aa7b8">${n[i]}</text>`)});
+    return `<rect width="160" height="120" fill="#030406"/><rect y="96" width="160" height="24" fill="#07090c"/>`+b+
+    hs('ti',66,48,28,46,person(80,52,'#e8e8e8',1))+
+    hs('list',4,62,24,26,`<rect x="8" y="66" width="16" height="18" rx="1" fill="#1c2735" stroke="#3c4a5e"/><path d="M11 70h10M11 74h10M11 78h8" stroke="#8a8a8e" stroke-width=".8"/>`)+
+    hs('nav',118,62,38,30,`<rect x="122" y="66" width="30" height="20" rx="2" fill="#0b1018" stroke="${f.gi>=4?'#30d158':'#5ac8fa'}"/><circle cx="137" cy="76" r="5" fill="none" stroke="${f.gi>=4?'#30d158':'#5ac8fa'}"/><path d="M137 71v10M132 76h10" stroke="${f.gi>=4?'#30d158':'#5ac8fa'}" stroke-width=".6"/>`)},
+  act(id){const f=S.f;
+    if(id==='ti'){if(f.gi>=4)N('er_ti_after');else{N('er_ti');if(f.stayed)N('er_ti_circe')}}
+    if(id==='list')info(t('er_list_t'),t('crewN').map((n,i)=>`<b>${n}</b> · ${t('born')} ${2032-RN().ages[i]}`));
+    if(/^g\d$/.test(id)){const i=+id[1],ord=ghostOrder();f.said=f.said||[];f.gi=f.gi||0;
+      if(f.said.includes(i)){N('er_done');return}
+      if(ord[f.gi]===i){f.said.push(i);f.gi++;N('er_ghost',t('crewN')[i],t('digits')[GDIG[i]]);if(f.gi>=4)N('er_ti_after')}
+      else{f.said=[];f.gi=0;N('er_silent')}}
+    if(id==='nav')keypad('er_nav_t',c=>{if(c!==navCode())return false;ending('wander');return true});
+  }},
 };
 
 /* ================= CLOSE-UP ART ================= */
@@ -1324,15 +1515,15 @@ function foundNote(i){
   read(null,'hn'+i,()=>{msg=[];N('hn_got',notesN())},artHidden(i),t('hn_title',ATT[i-1]),[t('hn_circle')]);
 }
 function ending(k){
-  const ch=S.ch,c2=ch===2,FL=ch===3?FOUND3:c2?FOUND2:FOUND;
+  const ch=S.ch,c2=ch===2,FL=ch===4?FOUND4:ch===3?FOUND3:c2?FOUND2:FOUND;
   if(!FL.includes(k))FL.push(k);
-  store(['','kal_end','kal_end2','kal_end3'][ch],FL);drop(SAVE);
+  store(['','kal_end','kal_end2','kal_end3','kal_end4'][ch],FL);drop(SAVE);
   const esc=ch>1||k!=='stay';
-  if(!S.cp){if(ch===1&&esc){if(S.h===0)ach('nohint');if(used()<1200)ach('fast')}if(c2)ach('ch2');if(ch===3)ach('home');if(S.hard&&esc)ach('hard');if(S.coop&&esc)ach('coop')}
+  if(!S.cp){if(ch===1&&esc){if(S.h===0)ach('nohint');if(used()<1200)ach('fast')}if(c2)ach('ch2');if(ch===3)ach('home');if(ch===4)ach('wander');if(S.hard&&esc)ach('hard');if(S.coop&&esc)ach('coop')}
   if(ch===1&&FOUND.length>=4)ach('all4');
-  const bk=['','kal_best','kal_best2','kal_best3'][ch]+(S.hard?'h':''),total=used(),best=load(bk);let rec=false;
+  const bk=['','kal_best','kal_best2','kal_best3','kal_best4'][ch]+(S.hard?'h':''),total=used(),best=load(bk);let rec=false;
   if(!S.cp&&(best==null||total<best)){store(bk,total);rec=true}
-  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,c3:ch===3,echo:S.echo,argos:S.f.argos};mode='end';
+  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,c3:ch===3,c4:ch===4,stayed:S.f.stayed,echo:S.echo,argos:S.f.argos};mode='end';
 }
 
 /* ================= OVERLAYS ================= */
@@ -1363,8 +1554,9 @@ function keypad(tk,check,len=4,info=''){
 }
 function mapView(){
   const c2=S.ch===2,c3=S.ch===3;
-  const P=c3?{shore:[6,46],archive:[58,46],orchard:[110,8],control:[110,84]}:c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,6],corridor:[58,6],medbay:[110,6],hydro:[110,32],junction:[58,32],scylla:[6,32],charyb:[58,58],comms:[6,58],pod:[6,84]};
-  const links=c3?[['shore','archive'],['archive','orchard'],['archive','control']]:c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','scylla'],['junction','charyb'],['scylla','comms'],['charyb','comms'],['comms','pod']];
+  const c4=S.ch===4;
+  const P=c4?{aeolus:[6,46],lotus:[58,46],circe:[110,46],erebus:[110,84]}:c3?{shore:[6,46],archive:[58,46],orchard:[110,8],control:[110,84]}:c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,6],corridor:[58,6],medbay:[110,6],hydro:[110,32],junction:[58,32],scylla:[6,32],charyb:[58,58],comms:[6,58],pod:[6,84]};
+  const links=c4?[['aeolus','lotus'],['lotus','circe'],['circe','erebus']]:c3?[['shore','archive'],['archive','orchard'],['archive','control']]:c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','scylla'],['junction','charyb'],['scylla','comms'],['charyb','comms'],['comms','pod']];
   let s='<svg viewBox="0 0 160 110" class="mg">';
   links.forEach(([a,b])=>{const A=P[a],Bp=P[b];s+=`<line x1="${A[0]+22}" y1="${A[1]+10}" x2="${Bp[0]+22}" y2="${Bp[1]+10}" stroke="${S.seen[a]&&S.seen[b]?'#5ac8fa':'#2a3646'}" stroke-width="2"/>`});
   order().forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
@@ -1640,6 +1832,57 @@ function breakers(done){
   };
 }
 
+
+const GDIG=[9,7,2,4];
+const ghostOrder=()=>[0,1,2,3].sort((a,b)=>RN().ages[a]-RN().ages[b]);
+const navCode=()=>ghostOrder().map(i=>GDIG[i]).join('');
+function offer(){const f=S.f;choice(`<p>${t('ci_offer')}</p>`,[[t('ci_stay'),()=>{addPen(300);f.stayed=1;f.cdone=1;msg=[];N('ci_stayed')}],[t('ci_leave'),()=>{f.cdone=1;msg=[];N('ci_left')}]])}
+function winds(done){
+  const RK=S&&S.hard?[[4,2],[0,1],[1,3]]:[[4,3],[1,2],[2,4]];
+  const rock=(r,c)=>RK.some(([a,b])=>a===r&&b===c);
+  let pos=[4,0],moves=0,err=false;
+  const draw=()=>{let s='<svg viewBox="0 0 160 160" class="mg"><rect width="160" height="160" rx="8" fill="#0b1a2e"/>';
+    for(let r=0;r<5;r++)for(let c=0;c<5;c++){const x=c*32,y=r*32;s+=`<rect x="${x+1}" y="${y+1}" width="30" height="30" rx="4" fill="${r===0&&c===4?'#30d158':'#13243c'}" opacity="${r===0&&c===4?.5:1}"/>`;if(rock(r,c))s+=`<path d="M${x+6} ${y+26}l6-18 8 6 6-4 2 16z" fill="#4a5568"/>`}
+    s+=`<circle cx="${pos[1]*32+16}" cy="${pos[0]*32+16}" r="9" fill="#c9d3de"/><circle cx="${pos[1]*32+16}" cy="${pos[0]*32+16}" r="3.5" fill="#0b1018"/>`;
+    ovOpen(`<h1>${t('ae_maze_t')}</h1><p class="hint">${err?`<span class="err">${t('ae_bag_blow')}</span>`:t('ae_maze_h')}</p>${s}</svg><p class="hint c">${t('ae_moves',moves)}</p><div class="tune"><button data-m4="-1,0">⬆</button><button data-m4="0,1">➡</button><button data-m4="1,0">⬇</button><button data-m4="bag" style="font-size:14px">🎒</button></div><button data-x="1" class="cx">${t('cancel')}</button>`)};
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const b=e.target.closest('[data-m4]');if(!b)return;const v=b.dataset.m4;err=false;
+    if(v==='bag'){pos=[4,0];moves=0;addPen(60);err=true;draw();return}
+    const[dr,dc]=v.split(',').map(Number);let[r,c]=pos;
+    while(true){const nr=r+dr,nc=c+dc;if(nr<0||nr>4||nc<0||nc>4||rock(nr,nc))break;r=nr;c=nc}
+    pos=[r,c];moves++;draw();
+    if(r===0&&c===4){ov.onclick=null;setTimeout(()=>finish(done),600)}
+  };
+}
+function memQuiz(done){
+  const Q=[['lo_q1',2],['lo_q2',1],['lo_q3',0]];let i=0,err=false;
+  const draw=()=>ovOpen(`<h1>${t('lo_quiz_t')}</h1><p class="hint">${err?`<span class="err">${t('lo_wrong')}</span>`:t('lo_quiz_h')}</p><p class="hint c">${t('lo_round',i+1,Q.length)}</p>${t(Q[i][0]).map((x,k)=>`<button data-q="${k}">${x}</button>`).join('')}<button data-x="1" class="cx">${t('cancel')}</button>`);
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const b=e.target.closest('[data-q]');if(!b)return;
+    if(+b.dataset.q===Q[i][1]){i++;err=false;if(i===Q.length){ov.onclick=null;setTimeout(()=>finish(done),300);return}}
+    else{i=0;err=true;addPen(60)}
+    draw();ov.scrollTop=0;
+  };
+}
+function mix(done){
+  let b=0,w=0,g=0,err=false;
+  const col=()=>{const n=b+w+g||1,C=[[17,17,17],[238,238,238],[255,214,10]],m=[0,1,2].map(k=>Math.round((C[0][k]*b+C[1][k]*w+C[2][k]*g)/n));return b+w+g?`rgb(${m})`:'#222'};
+  const draw=()=>ovOpen(`<h1>${t('ci_mix_t')}</h1><p class="hint">${err?`<span class="err">${t('ci_bad')}</span>`:t('ci_mix_h')}</p><svg viewBox="0 0 160 60" class="mg"><path d="M60 8h40v10l14 34a6 6 0 0 1-6 8H52a6 6 0 0 1-6-8l14-34z" fill="#1c2735" stroke="#8a8a8e"/><path d="M52 36h56l6 16a6 6 0 0 1-6 8H52a6 6 0 0 1-6-8z" fill="${col()}"/></svg><p class="hint c">${t('ci_drops',b,w,g)}</p><div class="tune" style="grid-template-columns:repeat(3,1fr)"><button data-mx="b" style="font-size:12px">${t('ci_black')}</button><button data-mx="w" style="font-size:12px">${t('ci_white')}</button><button data-mx="g" style="font-size:12px">${t('ci_gold')}</button></div><button class="pri" data-mx="mix">${t('ci_mixb')}</button><button data-mx="empty" class="cx">${t('ci_empty')}</button><button data-x="1" class="cx">${t('cancel')}</button>`);
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const x=e.target.closest('[data-mx]');if(!x)return;const v=x.dataset.mx;err=false;
+    if(v==='b'&&b+w+g<12)b++;if(v==='w'&&b+w+g<12)w++;if(v==='g'&&b+w+g<12)g++;
+    if(v==='empty'){b=w=g=0}
+    if(v==='mix'){if(b===2&&w===4&&g===1){ov.onclick=null;setTimeout(()=>finish(done),400);return}addPen(30);b=w=g=0;err=true}
+    const y=ov.scrollTop;draw();ov.scrollTop=y;
+  };
+}
+
 /* ================= v8 SYSTEMS ================= */
 function info(title,ps,after){
   ovOpen(`<h1>${title}</h1>${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
@@ -1651,10 +1894,11 @@ function modeChoice(ch){
 }
 function start(ch,hard,coop){
   S=fresh(ch);S.hard=hard;S.coop=coop;S.seed=hard?1000+Math.floor(Math.random()*9000):0;
-  mode='game';lastRoom=null;go(ch===3?'shore':ch===2?'dock':'cryo');
+  mode='game';lastRoom=null;go(ch===4?'aeolus':ch===3?'shore':ch===2?'dock':'cryo');
   const ci=()=>{if(coop)setTimeout(()=>info(t('coop_title'),t('coop_info',String(S.seed).padStart(4,'0'))),0)};
   if(ch===2)setTimeout(()=>read('pro_title','ch2_pro',ci,null,null,S.echo?[t('pro_echo')]:[]),0);
-  else if(ch===3)setTimeout(()=>read('pro3_title','ch3_pro',ci,null,null,S.echo?[t('pro3_echo')]:[]),0);else ci();
+  else if(ch===3)setTimeout(()=>read('pro3_title','ch3_pro',ci,null,null,S.echo?[t('pro3_echo')]:[]),0);
+  else if(ch===4)setTimeout(()=>read('pro4_title','ch4_pro',ci,null,null,S.echo?[t('pro4_echo')]:[]),0);else ci();
 }
 function more(){
   choice(`<h1>${t('more')}</h1>`,[
@@ -1727,18 +1971,21 @@ function titleView(){
   const sv=load(SAVE),best=load('kal_best');
   app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big2">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
     (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
-    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}${ch3open()?`<button class="ch3" data-t="ch3">${t('ch3_btn')}</button>`:''}<button data-t="daily">${t('daily_btn')}${(load('kal_daily')||{}).last===today()?' ✓':''}</button><button data-t="more">${t('more')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''}${ch3open()?' · '+t('found3',FOUND3.length):''} · ${VER}</p>${ch2open()?(ch3open()?'':`<p class="hint c">🔒 ${t('ch3_locked')}</p>`):`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}${ch2open()?`<button class="ch4" data-t="ch4">${t('ch4_btn')}</button>`:''}${ch3open()?`<button class="ch3" data-t="ch3">${t('ch3_btn')}</button>`:''}<button data-t="daily">${t('daily_btn')}${(load('kal_daily')||{}).last===today()?' ✓':''}</button><button data-t="more">${t('more')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''}${ch2open()?' · '+t('found4',FOUND4.length):''}${ch3open()?' · '+t('found3',FOUND3.length):''} · ${VER}</p>${ch2open()?(ch3open()?'':`<p class="hint c">🔒 ${t('ch3_locked')}</p>`):`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
 }
 function endArt(k){
   const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
   const earth='<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/>';
   if(k==='home'||k==='nobody')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>${k==='nobody'?'<circle cx="85" cy="36" r="7" fill="#5ac8fa" opacity=".35" class="blink"/>':''}`;
   if(k==='ithaca'||k==='unravel')return `<rect width="160" height="70" fill="#02040a"/>${st}<ellipse cx="80" cy="18" rx="50" ry="12" fill="${k==='ithaca'?'#6d8c52':'#4a4a3a'}"/><path d="M76 70C72 50 84 40 78 22h8c6 18-4 28 0 48z" fill="#6b5a44"/><circle cx="62" cy="58" r="3" fill="#ffd8b0"/><circle cx="98" cy="58" r="3" fill="#ffd8b0"/>${k==='ithaca'?'<path d="M10 64q70-30 140 0" stroke="#ffb340" stroke-width="1" fill="none" opacity=".7"/>':''}`;
+  if(k==='wander')return `<rect width="160" height="70" fill="#02040a"/>${st}<circle cx="140" cy="54" r="6" fill="#2f7fd6"/><circle cx="20" cy="20" r="5" fill="#0b1a2e" stroke="#5ac8fa" stroke-width=".6"/><circle cx="45" cy="44" r="4" fill="#1d3a4a" stroke="#f6b6d6" stroke-width=".6"/><circle cx="72" cy="16" r="4" fill="#2a1840" stroke="#b26bff" stroke-width=".6"/><circle cx="96" cy="46" r="4" fill="#030406" stroke="#cfe9ff" stroke-width=".6"/><path d="M20 20L45 44L72 16L96 46L118 52L140 54" stroke="#ffb340" stroke-width=".8" fill="none" stroke-dasharray="2 2"/><circle cx="118" cy="52" r="2.5" fill="#c9d3de"/>`;
   if(k==='odyssey'||k==='harbor')return `<rect width="160" height="70" fill="${k==='odyssey'?'#1a2a4a':'#0a1430'}"/><circle cx="130" cy="14" r="6" fill="${k==='odyssey'?'#ffd60a':'#f3f0d8'}"/><rect y="44" width="160" height="26" fill="#10284a"/><path d="M0 50q40-4 80 0t80 0" stroke="#5ac8fa" stroke-width=".6" fill="none" opacity=".5"/><path d="M20 44q20-16 50-10t60 10z" fill="#2a3a22"/>${k==='odyssey'?'<path d="M60 30l20-22M80 8l10 10" stroke="#c9d3de" stroke-width="2"/><path d="M80 8q30-4 60 10" stroke="#30d158" stroke-width=".8" fill="none" class="blink"/>':'<circle cx="62" cy="40" r="2" fill="#ffd8b0"/><circle cx="70" cy="40" r="2" fill="#ffd8b0"/>'}`;
   if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
   return `<rect width="160" height="70" fill="#0d131d"/><rect width="160" height="70" fill="#ff453a" class="redglow"/><rect x="40" y="16" width="80" height="42" rx="21" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="52" y="23" width="56" height="28" rx="13" fill="#9fd8ff" fill-opacity=".2" stroke="#5ac8fa" stroke-opacity=".5"/>`;
 }
 function endView(){
+  if(END.c4){const ps4=t('end_wan').slice();if(END.stayed)ps4.push(t('end_wan_circe'));
+    app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt('wander')}</svg><p class="end">${t('end4_label')}<br><span>${t('end_wan_t')}</span></p>${ps4.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   if(END.c3){const m3={odyssey:['end_ody_t','end_ody',1],harbor:['end_har_t','end_har',2]}[END.k],ps3=t(m3[1]).slice();if(END.echo)ps3.push(t('end3_echo'));
     app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end3_label',m3[2])}<br><span>${t(m3[0])}</span></p>${ps3.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found3',FOUND3.length)}</p>${toastHtml()}<button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   if(END.c2){const m2={ithaca:['end_ith_t','end_ith',1],unravel:['end_unr_t','end_unr',2]}[END.k],ps2=t(m2[1]).slice();if(END.argos)ps2.push(t('end2_dog'));if(END.echo)ps2.push(t('end2_echo'));
@@ -1781,6 +2028,7 @@ app.addEventListener('click',e=>{
       else if(d.t==='lang')setLang(lang==='en'?'el':'en');
       else if(d.t==='ch2'){modeChoice(2);return}
       else if(d.t==='ch3'){modeChoice(3);return}
+      else if(d.t==='ch4'){modeChoice(4);return}
       else if(d.t==='title')mode='title';
       render();scrollUp();return;
     }
