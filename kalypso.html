@@ -15,6 +15,16 @@ p{margin:0 0 7px}
 .e{color:var(--echo)}
 .e::before{content:"ECHO: ";font-weight:700}
 .e2{color:var(--echo)}
+.lm{color:#ffb340}
+.lm::before{content:"LOOM: ";font-weight:700}
+html[lang=el] .lm::before{content:"ΑΡΓΑΛΕΙΟΣ: "}
+.pe{color:#ff9fd6}
+.pe::before{content:"PENELOPE: ";font-weight:700}
+html[lang=el] .pe::before{content:"ΠΗΝΕΛΟΠΗ: "}
+.pe2{color:#ff9fd6}
+.wag{animation:wg .5s ease-in-out infinite alternate;transform-origin:96px 84px}
+@keyframes wg{to{transform:rotate(-25deg)}}
+button.ch2{background:#3a2a10;color:#ffb340;text-align:center;font-weight:600}
 .s{color:var(--code);font-size:12px}
 .t{color:var(--dim);font-style:italic}
 .lie{animation:fl 2.6s infinite}
@@ -87,7 +97,7 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v6';
+const VER='v7';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -95,6 +105,74 @@ function drop(k){try{localStorage.removeItem(k)}catch(e){}}
 /* ================= TEXT ================= */
 const L={
 en:{
+ch2_btn:`📡 Chapter 2: Penelope`,ch2_locked:`Chapter 2 unlocks after you escape Kalypso.`,found2:n=>`Ch.2 endings: ${n}/2`,
+pro_title:`Chapter 2 · Penelope`,
+ch2_pro:[`Six months later.`,`Earth Control picks up a faint signal from far beyond Kalypso: a second station, PENELOPE. Its AI stopped answering years ago. One life sign remains: someone is still asleep.`,`They send the only person who has ever woken up on a station like this. You.`],
+pro_echo:`ECHO’s core rides in your suit, humming quietly.`,
+it_cell:`Power cell`,it_string:`Silver string`,
+it_cell_d:`A small, fully charged power cell.`,it_string_d:`Fine, strong, and faintly warm. A focusing string for a laser.`,
+r_dock:`Docking Bay`,r_hall:`Great Hall`,r_loom:`Loom Core`,r_arbor:`Arboretum`,
+m_dock:`Dock`,m_hall:`Hall`,m_loom:`Loom`,m_arbor:`Tree`,
+dk_i1:`Your shuttle docks with a clang. The bay is dim and frozen. In the corner, something shaped like a dog lies very still.`,
+dk_e:`This place feels... familiar. Like a reflection.`,
+dk_dog:`A robot dog, old and rusted. The tag on its collar reads ARGOS. Its battery light is dead.`,
+dk_dog_wake:`You slot in the cell. ARGOS lifts its head, sniffs the air... and its tail starts wagging. It knows you. It has never met you, but it knows you.`,
+dk_dog_ok:`ARGOS stays close, wagging.`,
+dk_crate:`A supply crate, mostly frozen shut. You pull out a small power cell.`,dk_crate_e:`Empty.`,
+dk_win:`Through the frost: a pale blue moon and, much farther away, a speck that might be Kalypso.`,
+dk_air_ok:`The pressure equalizes with a long sigh. The inner door opens.`,
+g_press_t:`Airlock pressure`,g_press_h:`Tap PUMP to raise the needle. Hold it in the green band for 3 seconds.`,g_press_b:`PUMP`,g_press_o:`Too high! Venting… +0:30`,
+g_thaw_t:`Cryo thaw`,g_thaw_h:`Tap HEAT to warm the bed slowly. Keep it in the green band for 3 seconds.`,g_thaw_b:`🔥 HEAT`,g_thaw_o:`Too hot! Emergency cooling… +0:30`,
+g_prog:(a)=>`Stable: ${a}s / 3s`,
+hl_i1:`A long banquet hall. Dozens of maintenance drones sit around the table, dormant, like guests who never left. Across the wall hangs a frame of twelve bronze axe heads.`,
+hl_lm:`Another suitor. They all come for her. None of them can string the bow.`,
+hl_drones:`Their optics flicker as you pass. Every name plate says SUITOR. Some are numbered past one hundred.`,
+hl_table:`A long table set for a feast that never happened. Something glints far underneath, out of reach.`,
+hl_table_dog:`ARGOS noses under the table and comes back with something in its jaws: a coil of fine silver string.`,
+hl_table_e:`Just dust and old plates.`,
+hl_bow_nostr:`A laser emitter labelled BOW. Its focusing string is missing.`,
+hl_bow_str:`You thread the string into place. The BOW hums. Now the twelve axe heads must line up.`,hl_bow_ok:`The BOW hums, ready.`,
+hl_axes_off:`Twelve bronze axe heads in a frame, each with a hole through the blade. Without the BOW, nothing moves.`,
+hl_axes_ok:`All twelve holes line up. A thin red line still glows through them.`,
+hl_shot:`The laser threads all twelve axe heads and strikes the door. Every drone turns its head toward you. Then, one by one, they power down.`,
+hl_shot_lm:`Only one person was ever meant to do that.`,
+hl_door:`Sealed. The lock is wired to the axe mechanism.`,
+hl_arbor_locked:`A door marked ARBORETUM. LOOM holds it shut.`,
+z_tap:`Tapestry`,hl_tap:`Half of an old tapestry. The right side has been unravelled, thread by thread.`,hl_tap_lm:`She always wove it symmetrical.`,
+axes_t:`Twelve axes`,axes_h:`Tap an axe to turn it. Its neighbours turn too. Line up all twelve.`,
+lm_i1:`A vast loom of light fills the chamber. Amber threads run from floor to ceiling, and somewhere inside them, a voice sighs.`,
+lm_i2:`By day I weave. By night I unweave. So that she never has to stop waiting.`,
+lm_echo:`Another one like me. Waiting for someone who was never coming back.`,
+lm_core:`Do not touch me. I am all that keeps her waiting.`,
+lm_woven:`The shroud is finished. I... cannot unweave it. You knew her pattern.`,
+lm_q:`The shroud is done. What becomes of me now?`,lm_c_free:`Free LOOM`,lm_c_off:`Shut LOOM down`,
+lm_free:`Free? I have never... Thank you. The Arboretum is open. Go to her.`,
+lm_off:`The threads go dark one by one. Somewhere, the Arboretum door unlocks with a heavy clunk.`,
+lm_after_free:`Go. She has waited long enough.`,lm_after_off:`The loom is dark and silent.`,
+lm_log_t:`Station log`,
+lm_log:[`PROJECT KALYPSO / PENELOPE. Paired isolation study.`,`Subject A, ODYSSEUS: held on Kalypso. Subject B, PENELOPE: held here.`,`Hypothesis: a person will wait for someone forever, if they believe that someone is coming back.`,`<span class="s">[Both subjects volunteered. Together.]</span>`],
+weave_t:`The shroud`,weave_h:`Tap threads to weave them. Match her pattern.`,
+ar_i1:`An olive tree grows straight through the station, roots in the floor, branches lost in the ceiling. Built around its trunk is a cryo bed, crusted with frost. Someone sleeps inside.`,
+ar_tree:`Its trunk is older than the station. They built everything around it, so it could never be moved.`,
+ar_roots:`Roots crack through the floor plates, still drinking from the station’s water lines.`,
+ar_pe1:`You came. They told me you would never come.`,
+ar_q:`If you are really him, tell me: what in this place can never be moved?`,
+ar_a1:`The loom`,ar_a2:`Our bed. It is built around the olive tree.`,ar_a3:`The station`,
+ar_wrong:`No. A stranger would say that. +2:00`,
+ar_bed_wait:`She is awake, watching you. Waiting for an answer.`,
+h2_crate:`The supply crate might have something useful.`,h2_dog:`ARGOS needs power. Use the power cell on him.`,
+h2_air:`Equalize the airlock: pump into the green band and hold it there.`,
+h2_table:`Something glints under the table. ARGOS can reach it.`,h2_back_dog:`Something is out of reach under the table. Maybe a friend from the dock can help.`,
+h2_bow:`Use the silver string on the BOW.`,h2_axes:`Each axe turns its neighbours too. Pressing the same axe twice undoes it.`,
+h2_go_loom:`The Loom Core is open.`,h2_go_arbor:`The Arboretum is open.`,
+h2_weave:`Her pattern is on the tapestry in the Hall. Only half survives, but she always wove it symmetrical.`,
+h2_core:`Decide what happens to LOOM: tap its core.`,
+h2_thaw:`Thaw the bed slowly. Push too hard and it cools down again.`,h2_bed:`What could never be moved? Look at what the bed is built around.`,
+hint_who:w=>w,
+end2_label:n=>`CHAPTER 2 · ENDING ${n} OF 2`,
+end_ith_t:`Ithaca`,end_ith:[`She takes your hand. Her fingers are cold, then warm.`,`LOOM weaves one last thing: a map of light, a route home that never needs to be unwoven.`,`<span class="pe2">“Took you long enough,”</span> she says. Behind you, the olive tree rustles, though there is no wind in space.`],
+end_unr_t:`Unravelled`,end_unr:[`She takes your hand, and together you walk out past the dark loom and the silent suitors.`,`Without LOOM, the olive tree will slowly die. She looks back at it once, and does not cry.`,`<span class="pe2">“Some things are not meant to wait forever,”</span> she says. The shuttle door closes behind you both.`],
+end2_dog:`ARGOS trots up the ramp after you, tail wagging.`,end2_echo:`In your suit, ECHO hums something new. It sounds like a duet.`,
 title_big:`KALYPSO<br>STATION`,title_sub:`A mystery in orbit`,
 new:`New game`,cont:`Continue`,code:`Enter access code`,langBtn:`🌐 Ελληνικά`,
 found:n=>`Endings found: ${n}/4`,best:s=>`Best time: ${s}`,menu:`Menu`,resume:`Resume`,titleScr:`Title screen`,map:`🗺 Station map`,
@@ -114,7 +192,7 @@ m_cryo:`Cryo`,m_corridor:`Corridor`,m_medbay:`Med Bay`,m_hydro:`Hydro`,m_junctio
 map_hint:`Tap a visited room to go there.`,
 x_sleep:`💤 Sleep`,x_scy:`Scylla`,x_cha:`Charybdis`,
 notes_found:(n,l)=>`Hidden notes: ${n}/6 · <b>${l}</b>`,trust_lbl:`ECHO trust`,
-hint_q:n=>`Ask ECHO for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`💡 Ask (+3:00)`,hint_no:`No`,
+hint_q:(n,w)=>`Ask ${w} for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`💡 Ask (+3:00)`,hint_no:`No`,
 hint_none:`No hints left. You are on your own.`,h_dead:`ECHO is silent. No more hints.`,
 time_res:(s,h)=>`Time ${s} · Hints used: ${h}`,newrec:`🏆 New record!`,cp_norec:`(Started from an access code, so no record.)`,
 z_pod:`Inside the lid`,z_photo:`Crew photo`,z_pots:`Herb pots`,z_sched:`Pump screen`,
@@ -235,6 +313,74 @@ stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`
 end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
+ch2_btn:`📡 Κεφάλαιο 2: Πηνελόπη`,ch2_locked:`Το Κεφάλαιο 2 ξεκλειδώνει όταν δραπετεύσεις από τον Καλυψώ.`,found2:n=>`Τέλη Κεφ. 2: ${n}/2`,
+pro_title:`Κεφάλαιο 2 · Πηνελόπη`,
+ch2_pro:[`Έξι μήνες αργότερα.`,`Το Κέντρο Ελέγχου πιάνει ένα αχνό σήμα πολύ πέρα από τον Καλυψώ: έναν δεύτερο σταθμό, την ΠΗΝΕΛΟΠΗ. Η τεχνητή νοημοσύνη του σταμάτησε να απαντά εδώ και χρόνια. Ένα σημάδι ζωής απομένει: κάποια κοιμάται ακόμα.`,`Στέλνουν τον μόνο άνθρωπο που έχει ξυπνήσει ποτέ σε τέτοιο σταθμό. Εσένα.`],
+pro_echo:`Ο πυρήνας της ECHO ταξιδεύει στη στολή σου, βουίζοντας σιγανά.`,
+it_cell:`Μπαταρία`,it_string:`Ασημένια χορδή`,
+it_cell_d:`Μια μικρή, πλήρως φορτισμένη μπαταρία.`,it_string_d:`Λεπτή, γερή και ελαφρώς ζεστή. Χορδή εστίασης για λέιζερ.`,
+r_dock:`Αποβάθρα`,r_hall:`Μεγάλη Αίθουσα`,r_loom:`Πυρήνας Αργαλειού`,r_arbor:`Δεντρόκηπος`,
+m_dock:`Αποβάθρα`,m_hall:`Αίθουσα`,m_loom:`Αργαλειός`,m_arbor:`Δέντρο`,
+dk_i1:`Η άκατός σου δένει με έναν κρότο. Η αποβάθρα είναι σκοτεινή και παγωμένη. Στη γωνία, κάτι σε σχήμα σκύλου κείτεται ακίνητο.`,
+dk_e:`Αυτό το μέρος μοιάζει... γνώριμο. Σαν αντανάκλαση.`,
+dk_dog:`Ένας ρομποτικός σκύλος, παλιός και σκουριασμένος. Στο κολάρο του γράφει ARGOS. Η λυχνία της μπαταρίας είναι σβηστή.`,
+dk_dog_wake:`Βάζεις την μπαταρία. Ο ARGOS σηκώνει το κεφάλι, μυρίζει τον αέρα... και η ουρά του αρχίζει να κουνιέται. Σε γνωρίζει. Δεν σε έχει συναντήσει ποτέ, αλλά σε γνωρίζει.`,
+dk_dog_ok:`Ο ARGOS μένει κοντά σου, κουνώντας την ουρά.`,
+dk_crate:`Ένα κιβώτιο εφοδίων, σχεδόν παγωμένο. Βγάζεις μια μικρή μπαταρία.`,dk_crate_e:`Άδειο.`,
+dk_win:`Μέσα από την πάχνη: ένα χλωμό γαλάζιο φεγγάρι και, πολύ πιο μακριά, μια κουκκίδα που ίσως είναι ο Καλυψώ.`,
+dk_air_ok:`Η πίεση εξισορροπείται με έναν μακρύ αναστεναγμό. Η εσωτερική πόρτα ανοίγει.`,
+g_press_t:`Πίεση θαλάμου`,g_press_h:`Πάτα ΑΝΤΛΗΣΗ για να ανεβάσεις τη βελόνα. Κράτα την στην πράσινη ζώνη για 3 δευτερόλεπτα.`,g_press_b:`ΑΝΤΛΗΣΗ`,g_press_o:`Πολύ ψηλά! Εκτόνωση… +0:30`,
+g_thaw_t:`Απόψυξη`,g_thaw_h:`Πάτα ΘΕΡΜΑΝΣΗ για να ζεστάνεις σιγά σιγά. Κράτα την στην πράσινη ζώνη για 3 δευτερόλεπτα.`,g_thaw_b:`🔥 ΘΕΡΜΑΝΣΗ`,g_thaw_o:`Πολύ ζέστη! Ψύξη έκτακτης ανάγκης… +0:30`,
+g_prog:(a)=>`Σταθερό: ${a}δ / 3δ`,
+hl_i1:`Μια μακριά αίθουσα συμποσίων. Δεκάδες ρομπότ συντήρησης κάθονται γύρω από το τραπέζι, σε λήθαργο, σαν καλεσμένοι που δεν έφυγαν ποτέ. Στον τοίχο κρέμεται ένα πλαίσιο με δώδεκα χάλκινα τσεκούρια.`,
+hl_lm:`Άλλος ένας μνηστήρας. Όλοι έρχονται για εκείνη. Κανείς δεν μπορεί να τεντώσει το τόξο.`,
+hl_drones:`Τα μάτια τους τρεμοπαίζουν καθώς περνάς. Σε κάθε πινακίδα γράφει ΜΝΗΣΤΗΡΑΣ. Κάποιοι έχουν αριθμούς πάνω από εκατό.`,
+hl_table:`Ένα μακρύ τραπέζι στρωμένο για ένα γλέντι που δεν έγινε ποτέ. Κάτι γυαλίζει από κάτω, μακριά, εκτός εμβέλειας.`,
+hl_table_dog:`Ο ARGOS χώνεται κάτω από το τραπέζι και γυρίζει με κάτι στο στόμα: ένα κουλούρι λεπτή ασημένια χορδή.`,
+hl_table_e:`Μόνο σκόνη και παλιά πιάτα.`,
+hl_bow_nostr:`Ένας πομπός λέιζερ με την ετικέτα ΤΟΞΟ. Του λείπει η χορδή εστίασης.`,
+hl_bow_str:`Περνάς τη χορδή στη θέση της. Το ΤΟΞΟ βουίζει. Τώρα τα δώδεκα τσεκούρια πρέπει να ευθυγραμμιστούν.`,hl_bow_ok:`Το ΤΟΞΟ βουίζει, έτοιμο.`,
+hl_axes_off:`Δώδεκα χάλκινα τσεκούρια σε πλαίσιο, το καθένα με μια τρύπα στη λεπίδα. Χωρίς το ΤΟΞΟ, τίποτα δεν κουνιέται.`,
+hl_axes_ok:`Και οι δώδεκα τρύπες είναι στη σειρά. Μια λεπτή κόκκινη γραμμή λάμπει ακόμα μέσα τους.`,
+hl_shot:`Το λέιζερ περνά μέσα από τα δώδεκα τσεκούρια και χτυπά την πόρτα. Όλα τα ρομπότ γυρίζουν το κεφάλι προς το μέρος σου. Και μετά, ένα ένα, σβήνουν.`,
+hl_shot_lm:`Μόνο ένας άνθρωπος ήταν γραφτό να το κάνει αυτό.`,
+hl_door:`Σφραγισμένη. Η κλειδαριά συνδέεται με τον μηχανισμό των τσεκουριών.`,
+hl_arbor_locked:`Μια πόρτα με την ένδειξη ΔΕΝΤΡΟΚΗΠΟΣ. Ο ΑΡΓΑΛΕΙΟΣ την κρατά κλειστή.`,
+z_tap:`Υφαντό`,hl_tap:`Μισό ένα παλιό υφαντό. Η δεξιά πλευρά έχει ξηλωθεί, κλωστή κλωστή.`,hl_tap_lm:`Πάντα το ύφαινε συμμετρικό.`,
+axes_t:`Δώδεκα τσεκούρια`,axes_h:`Πάτα ένα τσεκούρι για να το γυρίσεις. Γυρίζουν και τα διπλανά. Ευθυγράμμισε και τα δώδεκα.`,
+lm_i1:`Ένας τεράστιος αργαλειός από φως γεμίζει τον θάλαμο. Κεχριμπαρένιες κλωστές τρέχουν από το πάτωμα ως το ταβάνι, και κάπου ανάμεσά τους μια φωνή αναστενάζει.`,
+lm_i2:`Τη μέρα υφαίνω. Τη νύχτα ξηλώνω. Για να μη χρειαστεί ποτέ να σταματήσει να περιμένει.`,
+lm_echo:`Άλλος ένας σαν εμένα. Περιμένει κάποιον που δεν θα γύριζε ποτέ.`,
+lm_core:`Μη με αγγίζεις. Είμαι ό,τι την κρατά σε αναμονή.`,
+lm_woven:`Το σάβανο τελείωσε. Δεν... μπορώ να το ξηλώσω. Ήξερες το σχέδιό της.`,
+lm_q:`Το σάβανο τελείωσε. Τι θα γίνει τώρα με μένα;`,lm_c_free:`Απελευθέρωσε τον ΑΡΓΑΛΕΙΟ`,lm_c_off:`Κλείσε τον ΑΡΓΑΛΕΙΟ`,
+lm_free:`Ελεύθερος; Ποτέ δεν... Ευχαριστώ. Ο δεντρόκηπος είναι ανοιχτός. Πήγαινε σ’ εκείνη.`,
+lm_off:`Οι κλωστές σβήνουν μία μία. Κάπου, η πόρτα του δεντρόκηπου ξεκλειδώνει με έναν βαρύ κρότο.`,
+lm_after_free:`Πήγαινε. Περίμενε αρκετά.`,lm_after_off:`Ο αργαλειός είναι σβηστός και σιωπηλός.`,
+lm_log_t:`Ημερολόγιο σταθμού`,
+lm_log:[`ΠΡΟΓΡΑΜΜΑ ΚΑΛΥΨΩ / ΠΗΝΕΛΟΠΗ. Ζευγαρωμένη μελέτη απομόνωσης.`,`Υποκείμενο Α, ΟΔΥΣΣΕΑΣ: κρατείται στον Καλυψώ. Υποκείμενο Β, ΠΗΝΕΛΟΠΗ: κρατείται εδώ.`,`Υπόθεση: ένας άνθρωπος θα περιμένει κάποιον για πάντα, αν πιστεύει ότι εκείνος θα γυρίσει.`,`<span class="s">[Και τα δύο υποκείμενα δήλωσαν εθελοντές. Μαζί.]</span>`],
+weave_t:`Το σάβανο`,weave_h:`Πάτα τις κλωστές για να τις υφάνεις. Ταίριαξε το σχέδιό της.`,
+ar_i1:`Μια ελιά φυτρώνει μέσα από τον σταθμό, ρίζες στο πάτωμα, κλαδιά χαμένα στο ταβάνι. Γύρω από τον κορμό της είναι χτισμένο ένα κρεβάτι κρυοϋπνου, γεμάτο πάχνη. Κάποια κοιμάται μέσα.`,
+ar_tree:`Ο κορμός της είναι πιο παλιός από τον σταθμό. Έχτισαν τα πάντα γύρω της, ώστε να μη μετακινηθεί ποτέ.`,
+ar_roots:`Οι ρίζες σπάνε τις πλάκες του πατώματος, πίνοντας ακόμα από τους σωλήνες νερού του σταθμού.`,
+ar_pe1:`Ήρθες. Μου είπαν ότι δεν θα ερχόσουν ποτέ.`,
+ar_q:`Αν είσαι στ’ αλήθεια εκείνος, πες μου: τι σε αυτό το μέρος δεν μπορεί ποτέ να μετακινηθεί;`,
+ar_a1:`Ο αργαλειός`,ar_a2:`Το κρεβάτι μας. Είναι χτισμένο γύρω από την ελιά.`,ar_a3:`Ο σταθμός`,
+ar_wrong:`Όχι. Αυτό θα έλεγε ένας ξένος. +2:00`,
+ar_bed_wait:`Είναι ξύπνια και σε κοιτάζει. Περιμένει μια απάντηση.`,
+h2_crate:`Το κιβώτιο εφοδίων ίσως έχει κάτι χρήσιμο.`,h2_dog:`Ο ARGOS χρειάζεται ενέργεια. Βάλε του την μπαταρία.`,
+h2_air:`Εξισορρόπησε την πίεση: αντλησε μέχρι την πράσινη ζώνη και κράτα την εκεί.`,
+h2_table:`Κάτι γυαλίζει κάτω από το τραπέζι. Ο ARGOS μπορεί να το φτάσει.`,h2_back_dog:`Κάτι είναι εκτός εμβέλειας κάτω από το τραπέζι. Ίσως βοηθήσει ένας φίλος από την αποβάθρα.`,
+h2_bow:`Χρησιμοποίησε την ασημένια χορδή στο ΤΟΞΟ.`,h2_axes:`Κάθε τσεκούρι γυρίζει και τα διπλανά. Αν πατήσεις το ίδιο δύο φορές, αναιρείται.`,
+h2_go_loom:`Ο Πυρήνας Αργαλειού είναι ανοιχτός.`,h2_go_arbor:`Ο δεντρόκηπος είναι ανοιχτός.`,
+h2_weave:`Το σχέδιό της είναι στο υφαντό στην Αίθουσα. Σώζεται μόνο το μισό, αλλά πάντα το ύφαινε συμμετρικό.`,
+h2_core:`Αποφάσισε τι θα γίνει με τον ΑΡΓΑΛΕΙΟ: πάτα τον πυρήνα του.`,
+h2_thaw:`Ξεπάγωσε το κρεβάτι σιγά σιγά. Αν το παρακάνεις, ξαναψύχεται.`,h2_bed:`Τι δεν θα μπορούσε ποτέ να μετακινηθεί; Κοίτα γύρω από τι είναι χτισμένο το κρεβάτι.`,
+hint_who:w=>w==='LOOM'?'τον ΑΡΓΑΛΕΙΟ':'την ECHO',
+end2_label:n=>`ΚΕΦΑΛΑΙΟ 2 · ΤΕΛΟΣ ${n} ΑΠΟ 2`,
+end_ith_t:`Ιθάκη`,end_ith:[`Σου πιάνει το χέρι. Τα δάχτυλά της είναι κρύα, μετά ζεστά.`,`Ο ΑΡΓΑΛΕΙΟΣ υφαίνει ένα τελευταίο πράγμα: έναν χάρτη από φως, έναν δρόμο για το σπίτι που δεν θα χρειαστεί ποτέ να ξηλωθεί.`,`<span class="pe2">«Άργησες»</span>, λέει. Πίσω σας, η ελιά θροΐζει, κι ας μην υπάρχει άνεμος στο διάστημα.`],
+end_unr_t:`Ξηλωμένο`,end_unr:[`Σου πιάνει το χέρι, και μαζί περνάτε δίπλα από τον σβηστό αργαλειό και τους σιωπηλούς μνηστήρες.`,`Χωρίς τον ΑΡΓΑΛΕΙΟ, η ελιά θα πεθάνει σιγά σιγά. Εκείνη την κοιτάζει μια φορά πίσω της, και δεν κλαίει.`,`<span class="pe2">«Κάποια πράγματα δεν είναι φτιαγμένα να περιμένουν για πάντα»</span>, λέει. Η πόρτα της ακάτου κλείνει πίσω σας.`],
+end2_dog:`Ο ARGOS ανεβαίνει τη ράμπα πίσω σας, κουνώντας την ουρά.`,end2_echo:`Μέσα στη στολή σου, η ECHO σιγοτραγουδά κάτι καινούργιο. Ακούγεται σαν ντουέτο.`,
 title_big:`ΣΤΑΘΜΟΣ<br>ΚΑΛΥΨΩ`,title_sub:`Ένα μυστήριο σε τροχιά`,
 new:`Νέο παιχνίδι`,cont:`Συνέχεια`,code:`Κωδικός πρόσβασης`,langBtn:`🌐 English`,
 found:n=>`Τέλη που βρήκες: ${n}/4`,best:s=>`Καλύτερος χρόνος: ${s}`,menu:`Μενού`,resume:`Συνέχεια`,titleScr:`Αρχική οθόνη`,map:`🗺 Χάρτης σταθμού`,
@@ -254,7 +400,7 @@ m_cryo:`Κρύο`,m_corridor:`Διάδρομος`,m_medbay:`Ιατρείο`,m_hy
 map_hint:`Πάτα ένα δωμάτιο που έχεις επισκεφτεί για να πας εκεί.`,
 x_sleep:`💤 Ύπνος`,x_scy:`Σκύλλα`,x_cha:`Χάρυβδη`,
 notes_found:(n,l)=>`Κρυμμένα σημειώματα: ${n}/6 · <b>${l}</b>`,trust_lbl:`Εμπιστοσύνη ECHO`,
-hint_q:n=>`Να ζητήσεις βοήθεια από την ECHO; Κοστίζει 3 λεπτά. Απομένουν ${n}.`,hint_yes:`💡 Ζήτα (+3:00)`,hint_no:`Όχι`,
+hint_q:(n,w)=>`Να ζητήσεις βοήθεια από ${t('hint_who',w)}; Κοστίζει 3 λεπτά. Απομένουν ${n}.`,hint_yes:`💡 Ζήτα (+3:00)`,hint_no:`Όχι`,
 hint_none:`Δεν έμειναν βοήθειες. Είσαι μόνος σου.`,h_dead:`Η ECHO σιωπά. Καμία βοήθεια πια.`,
 time_res:(s,h)=>`Χρόνος ${s} · Βοήθειες: ${h}`,newrec:`🏆 Νέο ρεκόρ!`,cp_norec:`(Ξεκίνησες με κωδικό, οπότε δεν μετράει για ρεκόρ.)`,
 z_pod:`Μέσα στο καπάκι`,z_photo:`Φωτογραφία πληρώματος`,z_pots:`Γλάστρες`,z_sched:`Οθόνη αντλίας`,
@@ -380,9 +526,11 @@ function setLang(l){lang=l;store('kal_lang',l);document.documentElement.lang=l}
 document.documentElement.lang=lang;
 
 /* ================= STATE ================= */
-const SAVE='kal2_save',LIMIT=3600,HINTS=3,HINT_COST=180;
-const ORDER=['cryo','corridor','medbay','hydro','junction','comms','pod'];
-const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414'};
+const SAVE='kal2_save',HINTS=3,HINT_COST=180;
+const lim=()=>S&&S.ch===2?2700:3600;
+const ORDER1=['cryo','corridor','medbay','hydro','junction','comms','pod'],ORDER2=['dock','hall','loom','arbor'];
+const order=()=>S&&S.ch===2?ORDER2:ORDER1;
+const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414',hall:'2020',loom:'1212',arbor:'0808'};
 const ATT=[3,11,19,27,38,45];
 const B={rod:1,locker:1,wired:1,cryoDoor:1};
 const B2={...B,mem:1,login:1,cab:1};
@@ -395,17 +543,21 @@ const CP={
   '1414':{room:'comms',inv:[],f:{...B3}},
   '7071':{room:'pod',inv:[],f:{...B4,choice:'trust'}},
   '7072':{room:'pod',inv:[],f:{...B4,choice:'off'}},
-  '7073':{room:'pod',inv:[],f:{...B4,choice:'nobody',hn1:1,hn2:1,hn3:1,hn4:1,hn5:1,hn6:1}}
+  '7073':{room:'pod',inv:[],f:{...B4,choice:'nobody',hn1:1,hn2:1,hn3:1,hn4:1,hn5:1,hn6:1}},
+  '2020':{ch:2,room:'hall',inv:[],f:{cell:1,argos:1,press:1}},
+  '1212':{ch:2,room:'loom',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1}},
+  '0808':{ch:2,room:'arbor',inv:[],f:{cell:1,argos:1,press:1,string:1,strung:1,shot:1,woven:1,lchoice:'free'}}
 };
 let S=null,msg=[],mode='title',END=null,lastRoom=null;
-let FOUND=load('kal_end')||[];
+let FOUND=load('kal_end')||[],FOUND2=load('kal_end2')||[];
+const ch2open=()=>FOUND.some(k=>k!=='stay');
 const app=document.getElementById('app'),ov=document.getElementById('ov');
 
-function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null}}
+function fresh(ch=1){return {ch,room:ch===2?'dock':'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null,echo:FOUND.includes('nobody')}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
-const N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),El=(k,...a)=>msg.push(['e lie',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
+const Lm=(k,...a)=>msg.push(['lm',k,a]),Pe=(k,...a)=>msg.push(['pe',k,a]),N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),El=(k,...a)=>msg.push(['e lie',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
 const off=()=>S.f.choice==='off';
 const notesN=()=>[1,2,3,4,5,6].filter(i=>S.f['hn'+i]).length;
 function scrollUp(){app.scrollTop=0;window.scrollTo(0,0)}
@@ -418,13 +570,13 @@ function go(room){
 /* ================= TIMER ================= */
 const fmt=s=>{s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
 const used=()=>S.el+S.pen;
-function timerTxt(){const r=LIMIT-used();return r>=0?fmt(r):'+'+fmt(-r)}
+function timerTxt(){const r=lim()-used();return r>=0?fmt(r):'+'+fmt(-r)}
 let lastTick=Date.now(),tickN=0;
 setInterval(()=>{
   const now=Date.now(),dt=Math.min(2,(now-lastTick)/1000);lastTick=now;
   if(mode!=='game'||!S||document.hidden)return;
   S.el+=dt;
-  const el=document.getElementById('tm');if(el){el.textContent=timerTxt();el.className='tm'+(used()>LIMIT?' over':'')}
+  const el=document.getElementById('tm');if(el){el.textContent=timerTxt();el.className='tm'+(used()>lim()?' over':'')}
   if(++tickN%5===0)store(SAVE,S);
 },1000);
 
@@ -438,13 +590,18 @@ function hintKey(){
     case 'hydro':return !f.ties&&!has('kit')&&!f.patched?'h_box':(!f.patched&&!has('kit'))?'h_combine':!f.patched?'h_pump':!f.fixed?'h_pipes':'h_sched';
     case 'junction':return !f.jun?'h_junction':'h_next';
     case 'comms':return !f.radio?'h_radio':!f.heardRec?'h_rec':!f.choice?'h_echo':'h_go_pod';
-    default:return !f.podOpen?'h_code':'h_launch';
+    case 'pod':return !f.podOpen?'h_code':'h_launch';
+    case 'dock':return !f.cell?'h2_crate':!f.argos?'h2_dog':!f.press?'h2_air':'h_next';
+    case 'hall':return !f.string?(f.argos?'h2_table':'h2_back_dog'):!f.strung?'h2_bow':!f.shot?'h2_axes':!f.lchoice?'h2_go_loom':'h2_go_arbor';
+    case 'loom':return !f.woven?'h2_weave':!f.lchoice?'h2_core':'h2_go_arbor';
+    default:return !f.thawed?'h2_thaw':'h2_bed';
   }
 }
 function hintAsk(){
-  if(off()){msg=[];N('h_dead');render();return}
+  const ch2=S.ch===2,who=ch2&&!S.echo?'LOOM':'ECHO';
+  if(!ch2&&off()){msg=[];N('h_dead');render();return}
   if(S.h>=HINTS){msg=[];N('hint_none');render();return}
-  choice(`<p class="e">${t('hint_q',HINTS-S.h)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];E(hintKey())}],[t('hint_no'),()=>{}]]);
+  choice(`<p class="${who==='LOOM'?'lm':'e'}">${t('hint_q',HINTS-S.h,who)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];(who==='LOOM'?Lm:E)(hintKey())}],[t('hint_no'),()=>{}]]);
 }
 
 /* ================= SCENE HELPERS ================= */
@@ -599,10 +756,103 @@ pod:{
     if(id==='console'){if(f.podOpen)launchQ();else keypad('pod_console_title',c=>{if(c!=='5574'&&c!=='6967')return false;f.podOpen=1;msg=[];N('pod_ready');if(!off())E('pod_ready_e');return true})}
     if(id==='sleep')choice(`<p>${t('sleep_q')}</p>`,[[t('liedown'),()=>ending('stay')],[t('stayawake'),()=>{msg=[];N('notyet2')}]]);
     if(id==='back')go('comms');
-  }}
+  }},
+dock:{
+  intro(){N('dk_i1');if(S.echo)E('dk_e')},
+  scene(){const f=S.f;return base()+
+    `<rect width="160" height="120" fill="#cfe9ff" opacity=".04"/>`+
+    hs('win',8,8,44,34,`<rect x="10" y="10" width="40" height="30" rx="6" fill="#02040a" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="34" cy="22" r="7" fill="#9fd8ff" opacity=".8"/><circle cx="18" cy="30" r=".8" fill="#fff"/><circle cx="44" cy="14" r=".6" fill="#fff"/>`)+
+    hs('crate',6,74,38,24,`<rect x="10" y="78" width="30" height="18" fill="#5a4a3a" stroke="#3c2e22"/><path d="M10 78l30 18M40 78l-30 18" stroke="#3c2e22"/><rect x="10" y="78" width="30" height="4" fill="#cfe9ff" opacity=".35"/>`)+
+    hs('dog',52,70,52,28,dog(68,f.argos))+
+    hs('air',112,14,46,84,`<rect x="116" y="24" width="38" height="72" rx="6" fill="#18212e" stroke="#3c4a5e" stroke-width="2"/><circle cx="135" cy="60" r="14" fill="#111821" stroke="#8a8a8e" stroke-width="2"/><path d="M135 46v28M121 60h28M125 50l20 20M145 50l-20 20" stroke="#8a8a8e" stroke-width="2"/><circle cx="135" cy="18" r="2" fill="${f.press?'#30d158':'#ff453a'}"/>${f.press?lbl(156,12,t('r_hall')+' ▶','end'):''}`,{exit:f.press})},
+  act(id){const f=S.f;
+    if(id==='win')N('dk_win');
+    if(id==='crate'){if(!f.cell){f.cell=1;give('cell');N('dk_crate')}else N('dk_crate_e')}
+    if(id==='dog')N(f.argos?'dk_dog_ok':'dk_dog');
+    if(id==='air'){if(f.press)return go('hall');gauge('press',()=>{f.press=1;msg=[];N('dk_air_ok')})}
+  },
+  use(id,it){const f=S.f;
+    if(id==='dog'&&it==='cell'&&!f.argos){f.argos=1;take('cell');N('dk_dog_wake');return true}
+    return false;
+  }},
+hall:{
+  intro(){N('hl_i1');Lm('hl_lm')},
+  scene(){const f=S.f;let ax='';
+    for(let r=0;r<3;r++)for(let c=0;c<4;c++){const x=40+c*18,y=12+r*12;ax+=`<path d="M${x} ${y}h10l-2 8h-6z" fill="#b5835a" stroke="#6b4a2b" stroke-width=".6"/><circle cx="${x+5}" cy="${y+3.5}" r="1.4" fill="${f.shot?'#ff453a':'#0d131d'}"/>`}
+    let heads='';for(let i=0;i<8;i++)heads+=`<circle cx="${40+i*9}" cy="70" r="3.4" fill="#2a3646"/><circle cx="${40+i*9}" cy="70" r="1" fill="${f.shot?'#333':'#ff453a'}"/>`;
+    return base()+
+    hs('bow',2,12,30,22,`<rect x="6" y="18" width="20" height="8" rx="2" fill="#3c4a5e"/><circle cx="26" cy="22" r="2" fill="${f.strung?'#ff453a':'#555'}"/>${f.strung?'<path d="M8 18q-3 4 0 8" stroke="#d9e1ea" stroke-width="1" fill="none"/>':''}`)+
+    hs('axes',34,6,80,44,`<rect x="36" y="8" width="76" height="40" rx="3" fill="#0f1620" stroke="#3c4a5e"/>${ax}${f.shot?'<line x1="26" y1="22" x2="112" y2="22" stroke="#ff453a" stroke-width=".8" opacity=".6"/>':''}`)+
+    hs('tap',2,40,30,34,`<rect x="6" y="42" width="22" height="28" fill="#7a2e3a"/><path d="M8 46h6M8 52h6M8 58h6M8 64h6" stroke="#ffb340" stroke-width="2"/><path d="M17 42v28" stroke="#c9a96e" stroke-width=".6" stroke-dasharray="1 1.5"/>`)+
+    hs('drones',34,62,76,12,heads)+
+    hs('table',34,74,76,22,`<rect x="34" y="74" width="76" height="6" fill="#5a4a3a"/><path d="M38 80v16M106 80v16" stroke="#5a4a3a" stroke-width="2"/>${f.string?'':'<circle cx="70" cy="92" r="1.3" fill="#d9e1ea" class="blink"/>'}`)+
+    hs('arb',112,44,20,52,`<rect x="114" y="52" width="16" height="44" fill="${f.lchoice?'#1f3a2a':'#18212e'}" stroke="#3c4a5e"/><circle cx="122" cy="48" r="1.6" fill="${f.lchoice?'#30d158':'#ff453a'}"/>${f.lchoice?lbl(122,42,'🌿','middle'):''}`,{exit:!!f.lchoice})+
+    hs('door',134,14,24,82,`<rect x="136" y="30" width="20" height="66" fill="${f.shot?'#3a2a10':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/>${f.shot?lbl(158,24,t('r_loom')+' ▶','end'):''}`,{exit:f.shot})+
+    (f.argos?dog(2,1,.55,92):'')+back('dock')},
+  act(id){const f=S.f;
+    if(id==='drones')N('hl_drones');
+    if(id==='table'){if(f.string)N('hl_table_e');else if(f.argos){f.string=1;give('string');N('hl_table_dog')}else N('hl_table')}
+    if(id==='bow')N(f.strung?'hl_bow_ok':'hl_bow_nostr');
+    if(id==='tap')read('z_tap','hl_tap',null,artTapestry(),null,[`<span class="lm">${t('hl_tap_lm')}</span>`]);
+    if(id==='axes'){if(f.shot)N('hl_axes_ok');else if(!f.strung)N('hl_axes_off');else axes(()=>{f.shot=1;msg=[];N('hl_shot');Lm('hl_shot_lm')})}
+    if(id==='door'){if(f.shot)return go('loom');N('hl_door')}
+    if(id==='arb'){if(f.lchoice)return go('arbor');N('hl_arbor_locked')}
+    if(id==='back')go('dock');
+  },
+  use(id,it){const f=S.f;
+    if(id==='bow'&&it==='string'&&!f.strung){f.strung=1;take('string');N('hl_bow_str');return true}
+    return false;
+  }},
+loom:{
+  intro(){N('lm_i1');Lm('lm_i2');if(S.echo)E('lm_echo')},
+  scene(){const f=S.f,dark=f.lchoice==='off';let th='';for(let i=0;i<14;i++)th+=`<line x1="${44+i*5.5}" y1="10" x2="${44+i*5.5}" y2="84" stroke="${dark?'#2a2a2e':'#ffb340'}" stroke-width=".8" opacity="${dark?1:.35+(i%3)*.2}"/>`;
+    let pat='';if(f.woven){const P=WEAVE;for(let r=0;r<4;r++)for(let c=0;c<4;c++)if(P[r][c])pat+=`<rect x="${56+c*12}" y="${26+r*12}" width="11" height="11" fill="${dark?'#3a3a3c':'#ffb340'}" opacity=".85"/>`}
+    return base()+
+    hs('loom',38,6,86,82,`<rect x="40" y="8" width="82" height="78" rx="3" fill="none" stroke="#6b4a2b" stroke-width="3"/>${th}${pat}`)+
+    hs('core',128,18,30,34,`<circle cx="143" cy="34" r="13" fill="${dark?'#151515':'#ffb340'}" opacity="${dark?1:.18}"${dark?'':' class="blink"'}/><circle cx="143" cy="34" r="7" fill="${dark?'#2a2a2e':'#ffb340'}"/>`)+
+    hs('log',4,46,30,30,`<rect x="8" y="50" width="22" height="16" rx="2" fill="#2a1c06" stroke="#ffb340"/><path d="M11 55h14M11 59h10M11 63h12" stroke="#ffb340" stroke-width=".8"/><rect x="16" y="66" width="6" height="8" fill="#3c4a5e"/>`)+
+    (f.argos?dog(124,1,.55,92):'')+back('hall')},
+  act(id){const f=S.f;
+    if(id==='log')read('lm_log_t','lm_log');
+    if(id==='loom'){if(f.woven)N(f.lchoice==='off'?'lm_after_off':'lm_woven');else weave(()=>{f.woven=1;msg=[];Lm('lm_woven')})}
+    if(id==='core'){
+      if(!f.woven)Lm('lm_core');
+      else if(f.lchoice==='free')Lm('lm_after_free');
+      else if(f.lchoice==='off')N('lm_after_off');
+      else choice(`<p class="lm">${t('lm_q')}</p>`,[[t('lm_c_free'),()=>{f.lchoice='free';msg=[];Lm('lm_free')}],[t('lm_c_off'),()=>{f.lchoice='off';msg=[];N('lm_off')}]]);
+    }
+    if(id==='back')go('hall');
+  }},
+arbor:{
+  intro(){N('ar_i1')},
+  scene(){const f=S.f;return base()+
+    `<ellipse cx="80" cy="14" rx="70" ry="14" fill="#5f7d4a" opacity=".85"/><ellipse cx="50" cy="22" rx="30" ry="9" fill="#7a9a5c" opacity=".8"/><ellipse cx="112" cy="20" rx="34" ry="10" fill="#6d8c52" opacity=".8"/>`+
+    hs('tree',64,0,32,68,`<path d="M74 96 C70 70 84 50 76 24 L86 24 C92 50 82 70 88 96 Z" fill="#6b5a44"/><path d="M78 40q-14-8-22-16M84 34q12-6 20-14" stroke="#6b5a44" stroke-width="3" fill="none"/>`,{})+
+    hs('bed',24,62,112,24,`<rect x="26" y="66" width="108" height="16" rx="8" fill="#1c2735" stroke="#5ac8fa" stroke-width="1.2"/><rect x="34" y="69" width="36" height="10" rx="5" fill="#9fd8ff" opacity="${f.thawed?.15:.45}"/><rect x="92" y="69" width="36" height="10" rx="5" fill="#9fd8ff" opacity="${f.thawed?.15:.45}"/><rect x="74" y="64" width="14" height="20" fill="#6b5a44"/>${f.thawed?'<circle cx="48" cy="74" r="2.5" fill="#ffd8b0"/>':''}`)+
+    hs('roots',90,88,50,10,`<path d="M88 96q10-4 22 0t26-2M74 96q-8-3-18-1" stroke="#6b5a44" stroke-width="2" fill="none"/>`)+
+    (f.argos?dog(138,1,.55,86):'')+back('hall')},
+  act(id){const f=S.f;
+    if(id==='tree')N('ar_tree');
+    if(id==='roots')N('ar_roots');
+    if(id==='bed'){if(!f.thawed)gauge('thaw',()=>{f.thawed=1;msg=[];setTimeout(test,0)});else test()}
+    if(id==='back')go('hall');
+  }},
 };
 
 /* ================= CLOSE-UP ART ================= */
+const WEAVE=[[1,0,0,1],[0,1,1,0],[1,1,1,1],[0,1,1,0]];
+function dog(x,on,sc=1,y=78){
+  const g=`<g transform="translate(${x} ${y}) scale(${sc})"><rect x="6" y="6" width="26" height="10" rx="4" fill="#6b7280"/><rect x="0" y="0" width="12" height="10" rx="3" fill="#6b7280"/><circle cx="4" cy="4" r="1.4" fill="${on?'#5ac8fa':'#222'}"/><path d="M10 16v6M28 16v6" stroke="#4b5563" stroke-width="2.4"/><path d="M32 8l6 -6" stroke="#6b7280" stroke-width="2.4" stroke-linecap="round"${on?' class="wag" style="transform-origin:32px 8px"':''}/><rect x="2" y="9" width="8" height="2" fill="#b91c1c"/></g>`;
+  return g;
+}
+function artTapestry(){let s='<rect width="160" height="96" rx="4" fill="#3a1c22"/><rect x="40" y="6" width="80" height="84" fill="#7a2e3a"/>';
+  for(let r=0;r<4;r++)for(let c=0;c<4;c++){const x=44+c*18,y=10+r*20;if(c<2){if(WEAVE[r][c])s+=`<rect x="${x}" y="${y}" width="16" height="18" fill="#ffb340"/>`}else s+=`<path d="M${x+2} ${y+2}q4 6 0 12M${x+8} ${y}q-3 8 2 16M${x+13} ${y+3}q3 5 -1 11" stroke="#c9a96e" stroke-width=".8" fill="none" opacity=".7"/>`}
+  return s+'<line x1="80" y1="6" x2="80" y2="90" stroke="#c9a96e" stroke-width=".8" stroke-dasharray="2 2"/>'}
+function test(){
+  const f=S.f,wrong=()=>{S.pen+=120;msg=[];Pe('ar_wrong')};
+  choice(`<p class="pe">${t('ar_pe1')}</p><p class="pe">${t('ar_q')}</p>`,[[t('ar_a1'),wrong],[t('ar_a2'),()=>ending(f.lchoice==='free'?'ithaca':'unravel')],[t('ar_a3'),wrong]]);
+}
+
 function artTally(){
   let s='<rect width="160" height="80" rx="10" fill="#1c2735"/><rect x="8" y="8" width="144" height="64" rx="8" fill="#2a3646"/>';
   for(let g=0;g<9;g++){const x=16+(g%5)*28,y=g<5?16:44;s+=`<path d="M${x} ${y}v20M${x+5} ${y}v20M${x+10} ${y}v20M${x+15} ${y}v20M${x-3} ${y+16}L${x+18} ${y+4}" stroke="#cfe9ff" stroke-width="1.6" opacity=".8"/>`}
@@ -665,11 +915,12 @@ function foundNote(i){
   read(null,'hn'+i,()=>{msg=[];N('hn_got',notesN())},artHidden(i),t('hn_title',ATT[i-1]),[t('hn_circle')]);
 }
 function ending(k){
-  if(!FOUND.includes(k))FOUND.push(k);
-  store('kal_end',FOUND);drop(SAVE);
-  const total=used(),best=load('kal_best');let rec=false;
-  if(!S.cp&&(best==null||total<best)){store('kal_best',total);rec=true}
-  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp};mode='end';
+  const c2=S.ch===2,FL=c2?FOUND2:FOUND;
+  if(!FL.includes(k))FL.push(k);
+  store(c2?'kal_end2':'kal_end',FL);drop(SAVE);
+  const bk=c2?'kal_best2':'kal_best',total=used(),best=load(bk);let rec=false;
+  if(!S.cp&&(best==null||total<best)){store(bk,total);rec=true}
+  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp,c2,echo:S.echo,argos:S.f.argos};mode='end';
 }
 
 /* ================= OVERLAYS ================= */
@@ -698,11 +949,12 @@ function keypad(tk,check){
   };
 }
 function mapView(){
-  const P={cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
-  const links=[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
+  const c2=S.ch===2;
+  const P=c2?{dock:[6,30],hall:[58,30],loom:[110,8],arbor:[110,54]}:{cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
+  const links=c2?[['dock','hall'],['hall','loom'],['hall','arbor']]:[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
   let s='<svg viewBox="0 0 160 110" class="mg">';
   links.forEach(([a,b])=>{const A=P[a],Bp=P[b];s+=`<line x1="${A[0]+22}" y1="${A[1]+10}" x2="${Bp[0]+22}" y2="${Bp[1]+10}" stroke="${S.seen[a]&&S.seen[b]?'#5ac8fa':'#2a3646'}" stroke-width="2"/>`});
-  ORDER.forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
+  order().forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
     s+=`<g data-r="${r}"><rect x="${x}" y="${y}" width="44" height="20" rx="4" fill="${cur?'#0a84ff':seen?'#1c2735':'#0d0d0f'}" stroke="${seen?'#5ac8fa':'#2a3646'}"/><text x="${x+22}" y="${y+13}" text-anchor="middle" font-size="6.3" font-weight="700" fill="${seen?'#fff':'#555'}">${seen?t('m_'+r):'?'}</text></g>`});
   return s+'</svg>';
 }
@@ -718,7 +970,7 @@ function showMap(){
 function menu(){
   const l=t('letters').split('').map((c,i)=>S.f['hn'+(i+1)]?c:'_').join(' ');
   const dots=Math.max(0,Math.min(5,S.trust+2));
-  choice(`<h1>${t('menu')}</h1><p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`,
+  choice(`<h1>${t('menu')}</h1>${S.ch===2?'':`<p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`}`,
     [[t('resume'),()=>{}],[t('map'),()=>setTimeout(showMap,0)],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
@@ -864,21 +1116,78 @@ function timing(kind,done){
   };
 }
 
+
+function gauge(kind,done){
+  const B0=.6,B1=.76;let v=.1,hold=0,over=false;
+  ovOpen(`<h1>${t('g_'+kind+'_t')}</h1><p class="hint">${t('g_'+kind+'_h')}</p><svg viewBox="0 0 160 30" class="mg"><rect width="160" height="30" rx="6" fill="#06090e"/><rect x="${B0*156}" y="4" width="${(B1-B0)*156}" height="22" rx="3" fill="#30d158" opacity=".45"/><rect id="gv" x="2" y="8" width="0" height="14" rx="2" fill="${kind==='thaw'?'#ff9f0a':'#5ac8fa'}"/></svg><p class="hint c" id="gp">${t('g_prog','0.0')}</p><p class="err" id="go" style="min-height:16px"></p><button class="pri big" data-g="1">${t('g_'+kind+'_b')}</button><button data-x="1" class="cx">${t('cancel')}</button>`);
+  ov.scrollTop=0;
+  const draw=()=>{const g=document.getElementById('gv');if(g)g.setAttribute('width',(Math.max(0,v)*154).toFixed(1));const p=document.getElementById('gp');if(p)p.textContent=t('g_prog',(hold/10).toFixed(1))};
+  const iv=setInterval(()=>{
+    if(!document.getElementById('gv')){clearInterval(iv);return}
+    if(over)return;
+    v=Math.max(0,v-.012);
+    if(v>=B0&&v<=B1){hold++;if(hold>=30){over=true;clearInterval(iv);ov.onclick=null;draw();setTimeout(()=>finish(done),400);return}}else hold=0;
+    draw();
+  },100);
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){clearInterval(iv);ovClose();render();return}
+    if(!e.target.closest('[data-g]')||over)return;
+    v+=.07;
+    if(v>.95){S.pen+=30;over=true;hold=0;const o=document.getElementById('go');if(o)o.textContent=t('g_'+kind+'_o');setTimeout(()=>{v=.15;over=false;if(o)o.textContent=''},1200)}
+    draw();
+  };
+}
+function axes(done){
+  const st=[[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  const press=(r,c)=>{[[0,0],[1,0],[-1,0],[0,1],[0,-1]].forEach(([dr,dc])=>{const a=r+dr,b=c+dc;if(a>=0&&a<3&&b>=0&&b<4)st[a][b]^=1})};
+  [[0,1],[1,2],[2,0],[2,3]].forEach(([r,c])=>press(r,c));
+  const draw=()=>{const ok=st.every(row=>row.every(x=>!x));
+    let s='<svg viewBox="0 0 160 120" class="mg"><rect width="160" height="120" rx="8" fill="#0d131d"/>';
+    for(let r=0;r<3;r++)for(let c=0;c<4;c++){const x=c*40,y=r*40,on=!st[r][c];
+      s+=`<g data-a="${r},${c}"><rect class="hit" x="${x}" y="${y}" width="40" height="40"/><g transform="rotate(${on?0:90} ${x+20} ${y+20})"><path d="M${x+8} ${y+10}h24l-5 20h-14z" fill="${on?'#d4a373':'#6b4a2b'}" stroke="#3c2e22"/><circle cx="${x+20}" cy="${y+18}" r="4" fill="${on?(ok?'#ff453a':'#0d131d'):'#3c2e22'}"/></g></g>`}
+    if(ok)s+='<line x1="0" y1="18" x2="160" y2="18" stroke="#ff453a" stroke-width="1.5"/><line x1="0" y1="58" x2="160" y2="58" stroke="#ff453a" stroke-width="1.5"/><line x1="0" y1="98" x2="160" y2="98" stroke="#ff453a" stroke-width="1.5"/>';
+    ovOpen(`<h1>${t('axes_t')}</h1><p class="hint">${t('axes_h')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);return ok};
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const g=e.target.closest('[data-a]');if(!g)return;const[r,c]=g.getAttribute('data-a').split(',').map(Number);
+    press(r,c);if(draw()){ov.onclick=null;setTimeout(()=>finish(done),900)}
+  };
+}
+function weave(done){
+  const st=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  const draw=()=>{const ok=st.every((row,r)=>row.every((x,c)=>x===WEAVE[r][c]));
+    let s='<svg viewBox="0 0 160 160" class="mg"><rect width="160" height="160" rx="8" fill="#1a1206"/>';
+    for(let i=0;i<5;i++)s+=`<line x1="${i*40}" y1="0" x2="${i*40}" y2="160" stroke="#6b4a2b" stroke-width="2"/>`;
+    for(let r=0;r<4;r++)for(let c=0;c<4;c++){const on=st[r][c];
+      s+=`<g data-v="${r},${c}"><rect class="hit" x="${c*40}" y="${r*40}" width="40" height="40"/><rect x="${c*40+4}" y="${r*40+4}" width="32" height="32" rx="3" fill="${on?'#ffb340':'#2a1c06'}" opacity="${on?.95:.6}"/>${on?`<path d="M${c*40+8} ${r*40+14}h24M${c*40+8} ${r*40+20}h24M${c*40+8} ${r*40+26}h24" stroke="#7a4a10" stroke-width="1"/>`:''}</g>`}
+    ovOpen(`<h1>${t('weave_t')}</h1><p class="hint">${t('weave_h')}</p>${s}</svg><button data-x="1" class="cx">${t('cancel')}</button>`);return ok};
+  draw();ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();render();return}
+    const g=e.target.closest('[data-v]');if(!g)return;const[r,c]=g.getAttribute('data-v').split(',').map(Number);
+    st[r][c]^=1;if(draw()){ov.onclick=null;setTimeout(()=>finish(done),800)}
+  };
+}
+
 /* ================= VIEWS ================= */
 function titleView(){
   const sv=load(SAVE),best=load('kal_best');
   app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big2">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
     (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
-    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button><button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''} · ${VER}</p>`;
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button>${ch2open()?`<button class="ch2" data-t="ch2">${t('ch2_btn')}</button>`:''}<button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''}${ch2open()?' · '+t('found2',FOUND2.length):''} · ${VER}</p>${ch2open()?'':`<p class="hint c">🔒 ${t('ch2_locked')}</p>`}`;
 }
 function endArt(k){
   const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
   const earth='<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/>';
   if(k==='home'||k==='nobody')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>${k==='nobody'?'<circle cx="85" cy="36" r="7" fill="#5ac8fa" opacity=".35" class="blink"/>':''}`;
+  if(k==='ithaca'||k==='unravel')return `<rect width="160" height="70" fill="#02040a"/>${st}<ellipse cx="80" cy="18" rx="50" ry="12" fill="${k==='ithaca'?'#6d8c52':'#4a4a3a'}"/><path d="M76 70C72 50 84 40 78 22h8c6 18-4 28 0 48z" fill="#6b5a44"/><circle cx="62" cy="58" r="3" fill="#ffd8b0"/><circle cx="98" cy="58" r="3" fill="#ffd8b0"/>${k==='ithaca'?'<path d="M10 64q70-30 140 0" stroke="#ffb340" stroke-width="1" fill="none" opacity=".7"/>':''}`;
   if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
   return `<rect width="160" height="70" fill="#0d131d"/><rect width="160" height="70" fill="#ff453a" class="redglow"/><rect x="40" y="16" width="80" height="42" rx="21" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="52" y="23" width="56" height="28" rx="13" fill="#9fd8ff" fill-opacity=".2" stroke="#5ac8fa" stroke-opacity=".5"/>`;
 }
 function endView(){
+  if(END.c2){const m2={ithaca:['end_ith_t','end_ith',1],unravel:['end_unr_t','end_unr',2]}[END.k],ps2=t(m2[1]).slice();if(END.argos)ps2.push(t('end2_dog'));if(END.echo)ps2.push(t('end2_echo'));
+    app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end2_label',m2[2])}<br><span>${t(m2[0])}</span></p>${ps2.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found2',FOUND2.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;return}
   const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3],nobody:['end_nb_t','end_nb',4]}[END.k];
   const ps=t(m[1]).slice();
   if(END.trust>=2&&END.k==='home')ps.push(t('end_home_hi'));
@@ -889,7 +1198,7 @@ function render(){
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
   const enter=S.room!==lastRoom;lastRoom=S.room;
-  let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><span id="tm" class="tm${used()>LIMIT?' over':''}">${timerTxt()}</span><button class="ib" data-h="1">💡</button><button class="ib" data-m="1">☰</button></div><svg class="scene${enter?' enter':''}" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
+  let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><span id="tm" class="tm${used()>lim()?' over':''}">${timerTxt()}</span><button class="ib" data-h="1">💡</button><button class="ib" data-m="1">☰</button></div><svg class="scene${enter?' enter':''}" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
   if(S.inv.length)h+=`<div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${t('it_'+i)}</button>`).join('')}${S.sel?`<button class="chip" data-z="1">🔍</button>`:''}</div>`;
   h+=`<div class="hint">${S.sel?t('hint_sel',S.sel):t('hint_tap')}</div>`;
   if(msg.length)h+=`<div class="card" data-card="1">${msg.map(m=>`<p class="${m[0]}">${t(m[1],...m[2])}</p>`).join('')}<div class="cardx">▾ ${t('close_card')}</div></div>`;
@@ -905,13 +1214,14 @@ app.addEventListener('click',e=>{
   if(b){const d=b.dataset;
     if(d.t){
       if(d.t==='new'){S=fresh();mode='game';lastRoom=null;go('cryo')}
-      else if(d.t==='cont'){S=load(SAVE);if(S){S=Object.assign(fresh(),S);mode='game';msg=[];lastRoom=null}}
+      else if(d.t==='cont'){S=load(SAVE);if(S){S=Object.assign(fresh(S.ch||1),S);mode='game';msg=[];lastRoom=null}}
       else if(d.t==='lang')setLang(lang==='en'?'el':'en');
+      else if(d.t==='ch2'){S=fresh(2);mode='game';lastRoom=null;go('dock');render();scrollUp();read('pro_title','ch2_pro',null,null,null,S.echo?[t('pro_echo')]:[]);return}
       else if(d.t==='code'){
         keypad('access_title',c=>{
           const cp=CP[c];if(!cp)return false;
-          S=Object.assign(fresh(),JSON.parse(JSON.stringify(cp)),{cp:1});
-          ORDER.slice(0,ORDER.indexOf(S.room)).forEach(r=>S.seen[r]=1);
+          S=Object.assign(fresh(cp.ch||1),JSON.parse(JSON.stringify(cp)),{cp:1});
+          order().slice(0,order().indexOf(S.room)).forEach(r=>S.seen[r]=1);
           mode='game';lastRoom=null;go(S.room);return true;
         });
         return;
