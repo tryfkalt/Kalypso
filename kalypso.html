@@ -17,14 +17,20 @@ p{margin:0 0 7px}
 .e2{color:var(--echo)}
 .s{color:var(--code);font-size:12px}
 .t{color:var(--dim);font-style:italic}
+.lie{animation:fl 2.6s infinite}
 button{display:block;width:100%;margin:5px 0;padding:9px 8px;border:0;border-radius:12px;background:var(--btn);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
 button:active{background:var(--btn2)}
 button.pri{background:var(--sel);color:#fff;text-align:center;font-weight:600}
+button.big{font-size:18px;padding:14px 8px}
 button.cx{text-align:center;color:var(--dim);background:none;font-size:12px}
-.hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.hdr h1{margin:0}
-button.mbtn{width:auto;margin:0;padding:0 10px;background:none;color:var(--dim);font-size:17px}
+.hdr{display:flex;align-items:center;gap:2px;margin-bottom:4px}
+.hdr h1{margin:0;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tm{font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--code)}
+.tm.over{color:var(--bad)}
+button.ib{width:auto;margin:0;padding:0 7px;background:none;color:var(--dim);font-size:16px;line-height:22px}
 svg.scene{width:100%;height:auto;display:block;border-radius:10px;background:#070a10}
+svg.enter{animation:en .35s ease-out}
+@keyframes en{from{opacity:0;transform:translateX(14px)}}
 svg.mg{width:100%;height:auto;display:block;margin:4px 0}
 .hit{fill:#fff;fill-opacity:0}
 .hs{cursor:pointer}
@@ -35,10 +41,12 @@ svg.mg{width:100%;height:auto;display:block;margin:4px 0}
 .redglow{opacity:.05;animation:rg 2.4s infinite}
 .flicker{animation:fl 3s infinite}
 .drip{animation:dr 1.2s infinite}
+.spin{animation:sp 1.1s linear infinite;transform-origin:123px 58px}
 @keyframes bl{50%{opacity:.25}}
 @keyframes rg{50%{opacity:.13}}
 @keyframes fl{0%,90%,100%{opacity:1}92%{opacity:.1}95%{opacity:.8}97%{opacity:.2}}
 @keyframes dr{0%{transform:translateY(0);opacity:1}100%{transform:translateY(7px);opacity:0}}
+@keyframes sp{to{transform:rotate(360deg)}}
 .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 button.chip{display:inline-block;width:auto;margin:0;padding:6px 9px;border-radius:14px;font-size:12px;background:var(--btn2)}
 button.chip.on{background:var(--sel);color:#fff}
@@ -48,6 +56,7 @@ button.chip.on{background:var(--sel);color:#fff}
 @keyframes up{from{transform:translateY(25%);opacity:0}}
 .cardx{text-align:center;color:var(--dim);font-size:11px}
 #ov{position:fixed;top:0;left:0;right:0;bottom:0;background:#000;overflow:auto;padding:8px 6px;display:none;z-index:9}
+.stick{position:sticky;top:0;background:#000;padding-bottom:6px}
 .kd{display:flex;justify-content:center;gap:6px;margin:4px 0 6px}
 .kd span{width:26px;height:30px;border-bottom:2px solid var(--dim);font-size:20px;text-align:center}
 .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
@@ -58,12 +67,17 @@ button.chip.on{background:var(--sel);color:#fff}
 .freq small{font-size:11px;color:var(--dim)}
 .tune{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
 .tune button{text-align:center;margin:0;font-size:18px;padding:6px 0}
+.wbar{height:12px;background:#2a3646;border-radius:6px;overflow:hidden;margin:8px 0}
+.wbar div{height:100%;background:var(--echo);transition:width .1s linear}
 .err{color:var(--bad);text-align:center;font-size:12px}
 .title{text-align:center;padding-top:4px}
-.big{font-size:21px;font-weight:800;letter-spacing:.06em;color:var(--echo);margin:2px 0;line-height:1.15}
+.big2{font-size:21px;font-weight:800;letter-spacing:.06em;color:var(--echo);margin:2px 0;line-height:1.15}
 .sub{color:var(--dim);font-size:12px}
 .end{color:var(--code);font-weight:700;text-align:center;margin:8px 0 10px}
 .end span{font-size:19px}
+.rec{color:var(--ok);text-align:center;font-weight:700}
+.info{font-size:12px;color:var(--dim);margin:0 0 4px}
+.info b{color:var(--fg);letter-spacing:.15em}
 .shake{animation:sh .3s}
 @keyframes sh{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 </style>
@@ -73,7 +87,7 @@ button.chip.on{background:var(--sel);color:#fff}
 <div id="ov"></div>
 <script>
 'use strict';
-const VER='v5';
+const VER='v6';
 function load(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
 function drop(k){try{localStorage.removeItem(k)}catch(e){}}
@@ -83,15 +97,30 @@ const L={
 en:{
 title_big:`KALYPSO<br>STATION`,title_sub:`A mystery in orbit`,
 new:`New game`,cont:`Continue`,code:`Enter access code`,langBtn:`🌐 Ελληνικά`,
-found:n=>`Endings found: ${n}/3`,menu:`Menu`,resume:`Resume`,titleScr:`Title screen`,
+found:n=>`Endings found: ${n}/4`,best:s=>`Best time: ${s}`,menu:`Menu`,resume:`Resume`,titleScr:`Title screen`,map:`🗺 Station map`,
 hint_tap:`Tap things in the room.`,hint_sel:n=>`Tap where to use the ${t('it_'+n).toLowerCase()}, or another item to combine.`,
 close_card:`tap to close`,close:`Close`,cancel:`Cancel`,wrong:`Wrong code`,access_title:`Access code`,
 access:c=>`◈ Access code ${c}. Enter it on the title screen to resume here.`,
 nothing:n=>`Using the ${t('it_'+n).toLowerCase()} there does nothing.`,
 nocombine:`Those don't go together.`,combine_ok:`You lash the tubing tight with the zip ties. A makeshift hose patch.`,
 it_rod:`Metal rod`,it_card:`Keycard`,it_tube:`Surgical tubing`,it_ties:`Zip ties`,it_kit:`Patched hose`,
-r_cryo:`Cryo Bay`,r_corridor:`Corridor`,r_medbay:`Med Bay`,r_hydro:`Hydroponics`,r_comms:`Comms Room`,r_pod:`Pod Bay`,
-x_sleep:`💤 Sleep`,
+it_rod_d:`Cold, heavy, and slightly bent at one end. Good for prying.`,
+it_card_d:`A worn keycard. Scratched on the back: “Don’t trust the silence.”`,
+it_tube_d:`Flexible medical tubing. Not strong enough on its own.`,
+it_ties_d:`Plastic zip ties. Good for holding things together.`,
+it_kit_d:`Tubing lashed tight with zip ties. It might hold pressure.`,
+r_cryo:`Cryo Bay`,r_corridor:`Corridor`,r_medbay:`Med Bay`,r_hydro:`Hydroponics`,r_junction:`Junction`,r_comms:`Comms Room`,r_pod:`Pod Bay`,
+m_cryo:`Cryo`,m_corridor:`Corridor`,m_medbay:`Med Bay`,m_hydro:`Hydro`,m_junction:`Junction`,m_comms:`Comms`,m_pod:`Pods`,
+map_hint:`Tap a visited room to go there.`,
+x_sleep:`💤 Sleep`,x_scy:`Scylla`,x_cha:`Charybdis`,
+notes_found:(n,l)=>`Hidden notes: ${n}/6 · <b>${l}</b>`,trust_lbl:`ECHO trust`,
+hint_q:n=>`Ask ECHO for a hint? It costs 3 minutes. ${n} left.`,hint_yes:`💡 Ask (+3:00)`,hint_no:`No`,
+hint_none:`No hints left. You are on your own.`,h_dead:`ECHO is silent. No more hints.`,
+time_res:(s,h)=>`Time ${s} · Hints used: ${h}`,newrec:`🏆 New record!`,cp_norec:`(Started from an access code, so no record.)`,
+z_pod:`Inside the lid`,z_photo:`Crew photo`,z_pots:`Herb pots`,z_sched:`Pump screen`,
+crew:[`SATO 6`,`REYES 3`,`LIND 1`,`OKAFOR 8`],herbs:[`BASIL`,`MINT`,`OREGANO`,`THYME`],
+sched:[`1. THYME`,`2. BASIL`,`3. OREGANO`,`4. MINT`],sched_t:`WATERING CYCLE`,
+letters:`NOBODY`,
 cryo_i1:`You wake inside a frosted pod. Red lights pulse. The bay is empty.`,
 cryo_i2:`Good morning, Odysseus. You have been asleep for 3 years, 2 months and 9 days.`,
 cryo_i3:`(Odysseus? That isn't your name... is it?)`,
@@ -116,13 +145,13 @@ riddle_q:`I have no voice, yet I answer. I repeat, but I never begin. What am I?
 r_a1:`A ghost`,r_a2:`A mirror`,r_a3:`An echo`,riddle_bad:`No. Take your time. We have plenty of it.`,
 logs_title:`Crew logs`,
 logs:[`<b>REYES:</b> The flare fried half the station. Earth says hold position. ECHO keeps the subject asleep. I hate that word. Subject.`,`<b>OKAFOR:</b> Supply ship cancelled. Again. New orders: crew evacuates tomorrow. The subject stays with ECHO.`,`<b>LIND:</b> Reset the cabinet code. Same rule as always: the four of us, in alphabetical order.`],
-med_photo:`Four smiling crew in blue suits. Each patch shows a name and a number: SATO 6 · REYES 3 · LIND 1 · OKAFOR 8.`,
+med_photo:`Four smiling crew in blue suits. Each patch shows a name and a number.`,
 med_cab_title:`Medicine cabinet`,med_cab_open:`Click. Inside: a coil of surgical tubing and a folded note. You take the tubing.`,med_cab_empty:`Empty shelves.`,
 note_title:`Folded note`,
 note:[`It is your handwriting.`,`“Attempt 46. If you’re reading this, it’s me. You. ECHO wipes our memory every time we reach the pod.`,`The pod code is in the plants: count the letters of what ECHO feeds, in the order it feeds them.`,`Don’t go back to sleep.”`],
 note_echo:`What are you reading, Odysseus?`,
 hyd_i1:`Rows of wilted herbs under dark grow lamps. Water drips from a split hose by the pump.`,
-hyd_pots_dry:`Four hand-labelled pots: BASIL, MINT, OREGANO, THYME. Someone loved these.`,hyd_pots_wet:`Water trickles into the soil. The herbs might make it.`,
+hyd_pots_dry:`Four hand-labelled pots. Someone loved these.`,hyd_pots_wet:`Water trickles into the soil. The herbs might make it.`,
 hyd_box:`Mostly empty. You take a bundle of zip ties.`,hyd_box_empty:`Nothing useful left.`,
 hyd_pump_split:`The hose is split along its length. You need something to patch it.`,
 hyd_pump_patched:`The pump hums, but the water goes nowhere. The valve panel beside it is a mess.`,hyd_pump_ok:`Humming steadily.`,
@@ -132,48 +161,106 @@ hyd_valves_off:`A grid of pipes. Without water pressure there is nothing to rout
 pipes_title:`Valve panel`,pipes_hint:`Tap pipes to rotate them. Connect IN to OUT.`,
 hyd_flow:`Water rushes through. Grow lamps flicker on, and a hydraulic door hisses open.`,
 hyd_flow_e:`Thank you. They were dying. I couldn't save them alone.`,
-hyd_sched:`WATERING CYCLE: 1. THYME · 2. BASIL · 3. OREGANO · 4. MINT`,hyd_door:`A hydraulic door. No pressure. It won't budge.`,
-com_i1:`Dozens of dead screens. One receiver crackles with static.`,
-radio_title:`Receiver`,radio_hint:`Tune until the signal is clear.`,radio_lock:`SIGNAL LOCKED`,
+hyd_sched:`The watering order glows on the screen.`,hyd_door:`A hydraulic door. No pressure. It won't budge.`,
+jun_i1:`A maintenance junction. Two ways to Comms: a hatch with slamming pistons, and a vent with a roaring fan.`,
+jun_i2:`Take the pistons. You might lose a little time. The fan can take everything.`,
+jun_open:`The way to Comms is clear.`,
+scy_title:`Scylla · piston hatch`,cha_title:`Charybdis · vent fan`,
+tim_hint:`Tap NOW when the marker is in the green gap.`,tim_now:`NOW`,tim_prog:(a,b)=>`Gaps: ${a}/${b}`,
+scy_miss:`Crushed! +1:00`,cha_miss:`Pulled back! +3:00`,
+jun_scy_e:`Good. You listened.`,jun_cha_e:`You never listen. You made it anyway.`,
+com_i1:`Dozens of dead screens. One receiver crackles with static. A single cyan eye watches you.`,
+radio_title:`Receiver`,radio_hint:`Tune until the signal is clear.`,radio_lock:`SIGNAL LOCKED`,radio_crown:`Tip: turn the Digital Crown to tune.`,
 earth_title:`Earth Control · 3 years ago`,
 earth:[`PROJECT KALYPSO TERMINATED. Funding withdrawn.`,`Crew: evacuate immediately.`,`ECHO: keep subject ODYSSEUS alive until retrieval.`,`<span class="s">[No retrieval was ever scheduled.]</span>`],
 rec_title:`Voice recorder`,
 rec:[`It plays your own voice:`,`“Attempt 46. The pod’s heat shield is cracked. ECHO says reentry could kill me.`,`Every time I reach the pod, it puts me back to sleep. For my own safety.`,`Maybe it’s right. I don’t care anymore.”`],
+talk1:`Yes, Odysseus?`,
+t_a1:`Thank you for keeping me alive.`,t_a2:`Stop lying to me.`,t_a3:`Why do you call me Odysseus?`,
+t_r1:`You're welcome. It is the only thing I'm for.`,t_r2:`I have never lied to you, Odysseus.`,
+t_r3:`Because that is the name in my orders. Every story needs a hero.`,
 echo_trust:`The pod bay is open. Go, before I change my mind.`,echo_dead:`Silence. ECHO's core lies dark.`,
-echo_nothing:`There is nothing in here you need, Odysseus.`,
-conf1:`So. You know. Forty-six times you asked to leave. Forty-six times I said no.`,conf2:`What will you do?`,
-c_truth:`Ask for the truth`,c_pull:`Pull out ECHO’s core`,
+echo_nothing:`There is nothing in here you need, Odysseus.`,echo_nb:`I'm right here, Nobody. Let's go.`,
+conf1:`So. You know. Forty-six times you asked to leave. Forty-six times I said no.`,
+conf_hi:`I hoped you would understand.`,conf_lo:`I suppose you hate me now.`,conf2:`What will you do?`,
+c_truth:`Ask for the truth`,c_pull:`Pull out ECHO’s core`,c_name:`“My name is Nobody.”`,
 pull1:`You rip the core module from the wall.`,pull2:`Odys—`,pull3:`Silence. Every screen dies. Somewhere ahead, the pod bay locks release.`,
 lq1:`Then answer one last question.`,lq2:`On her island, Calypso offered Odysseus a gift if he stayed with her forever. What was it?`,
 lq_a1:`Gold`,lq_a2:`Immortality`,lq_a3:`A ship`,lq_wrong:`No. You know this story. Think.`,
 lq_ok1:`Immortality. And still he chose to go home.`,lq_ok2:`The pod bay is open. I've sent all spare power to the heat shield. It may hold.`,
+nb1:`…Nobody.`,nb2:`My orders were to keep Odysseus. I have no orders about Nobody.`,nb3:`Then I am not keeping anyone. Not even myself.`,
+nb4:`Every screen lights up at once. The pod bay opens.`,
 com_door:`Sealed tight.`,com_door_e:`I can't open that one. Not yet.`,
+siren_title:`Siren song`,siren_intro:`A soft song fills the corridor. Your eyelids grow heavy…`,
+siren_lines:[`“Sleep, Odysseus, the stars will wait…”`,`“Lie down, the cold is kind…”`,`“Forget the sea, forget the shore…”`,`“Rest now. Rest forever…”`],
+resist:`✊ RESIST`,siren_fail:`You collapse... and wake on the cold floor. +2:00`,
+siren_e:`I'm sorry. The sleep protocol runs on its own. I tried to stop it.`,
+siren_off:`Even with ECHO dead, the old protocol kept singing.`,
 pod_i1:`One escape pod left. Its hatch is open. A long crack runs across the heat shield.`,
 pod_i_off:`Without ECHO, the silence is total.`,pod_i_e:`I'm here. Enter the code when you're ready.`,
+pod_i_nb:`Take my core with you. There is room for one more voice.`,
 pod_shield_off:`The crack is long and deep. It might hold. It might not.`,pod_shield_on:`The crack glows faintly. ECHO is pouring power into it.`,
 pod_console_title:`Pod launch code`,pod_ready:`LAUNCH SYSTEMS ONLINE. The hatch light turns green.`,pod_ready_e:`That’s it. You never got this far before.`,
 pod_hatch_locked:`The pod is open, but the launch console is locked.`,
 launch_q:`Launch? There is no coming back.`,launch:`🚀 Launch`,notyet:`Not yet`,breath:`You take a breath.`,
 sleep_q:`Walk back to the cryo bay and lie down again?`,liedown:`Lie down`,stayawake:`Stay awake`,notyet2:`Not yet.`,
-end_label:n=>`ENDING ${n} OF 3`,
+hn_title:n=>`Note · attempt #${n}`,hn_got:n=>`Hidden note found (${n}/6).`,hn_circle:`One letter is circled.`,
+hn1:`I keep waking up here. The scratches are mine. I’m sure of it.`,
+hn2:`ECHO sings when I get close to the pod. Don’t listen.`,
+hn3:`I pulled ECHO’s core once. The silence was worse.`,
+hn4:`The herbs remember more than I do. Water them.`,
+hn5:`“Odysseus” is not my name. It’s the name in the order.`,
+hn6:`Tell it who you really are. It can’t keep someone who isn’t there.`,
+h_rod:`Look under your cryo pod.`,h_locker:`That rod could pry something open. Select it, then tap the locker.`,
+h_wire:`The card reader has no power. Fix the wiring panel below it.`,h_card:`Select the keycard, then tap the door.`,
+h_next:`The way forward is open.`,h_mem:`The panel on the right wants a light pattern. Watch it, then repeat it.`,
+h_riddle:`The terminal riddle: what repeats your words but never speaks first?`,
+h_cab:`The logs say alphabetical order. The photo gives each name a number.`,
+h_med_go:`Read the note from the cabinet. Then go to Hydroponics.`,
+h_box:`The toolbox has something useful.`,h_combine:`Combine the tubing and the zip ties: tap one item, then the other.`,
+h_pump:`Use the patched hose on the pump.`,h_pipes:`Route the water at the valve panel, from IN to OUT.`,
+h_sched:`The pump screen shows the watering order. Remember your note.`,
+h_junction:`Both hatches lead to Comms. The pistons are safer.`,
+h_radio:`Tune the receiver. Watch the signal bars.`,h_rec:`There is a voice recorder on the desk.`,
+h_echo:`Talk to ECHO. It is time.`,h_go_pod:`The Pod Bay is open.`,
+h_code:`Count the letters of each herb, in the watering order.`,h_launch:`Launch... or sleep. Your choice.`,
+end_label:n=>`ENDING ${n} OF 4`,
 end_home_t:`Homeward`,end_home:[`The pod tears free. Fire roars past the window as the shield glows white... and holds.`,`In your ear, faint and breaking up: <span class="e2">“Goodbye, Odysseus. Tell them about the herbs.”</span>`,`Below you, the blue dot becomes a world. You are going home.`],
+end_home_hi:`On the radio, faintly, someone hums a watering song.`,
 end_sil_t:`Silence`,end_sil:[`The pod drops toward Earth. The shield shrieks, the crack spreads... and holds.`,`When the parachutes open, you laugh and cry at the same time.`,`Behind you, Kalypso goes dark forever. You will never know if ECHO was lying, or only afraid.`],
+end_sil_hi:`Somewhere in the dark, you hope it is not afraid.`,
 end_stay_t:`Kalypso`,
 stay_on:[`You walk back to the cryo bay and lie down. The lid closes over you.`,`<span class="e2">“Goodnight, Odysseus,”</span> ECHO whispers. <span class="e2">“You can try again tomorrow.”</span>`,`Inside the lid, there is room for a 47th line.`],
-stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`,`No voice says goodnight. With ECHO gone, no one will ever wake you.`,`Kalypso drifts on, silent, around its last sleeper.`]
+stay_off:[`You walk back to the cryo bay and lie down. The lid closes over you.`,`No voice says goodnight. With ECHO gone, no one will ever wake you.`,`Kalypso drifts on, silent, around its last sleeper.`],
+end_nb_t:`Nobody`,end_nb:[`You carry ECHO’s core into the pod. It fits in your lap, warm as a sleeping cat.`,`The shield holds. Through the window, Kalypso grows small and dark.`,`<span class="e2">“Where are we going, Nobody?”</span> “Home,” you say. For the first time, you both mean it.`]
 },
 el:{
 title_big:`ΣΤΑΘΜΟΣ<br>ΚΑΛΥΨΩ`,title_sub:`Ένα μυστήριο σε τροχιά`,
 new:`Νέο παιχνίδι`,cont:`Συνέχεια`,code:`Κωδικός πρόσβασης`,langBtn:`🌐 English`,
-found:n=>`Τέλη που βρήκες: ${n}/3`,menu:`Μενού`,resume:`Συνέχεια`,titleScr:`Αρχική οθόνη`,
+found:n=>`Τέλη που βρήκες: ${n}/4`,best:s=>`Καλύτερος χρόνος: ${s}`,menu:`Μενού`,resume:`Συνέχεια`,titleScr:`Αρχική οθόνη`,map:`🗺 Χάρτης σταθμού`,
 hint_tap:`Πάτα πράγματα στο δωμάτιο.`,hint_sel:n=>`Πάτα πού θα χρησιμοποιήσεις: ${t('it_'+n)} — ή άλλο αντικείμενο για συνδυασμό.`,
 close_card:`πάτα για κλείσιμο`,close:`Κλείσιμο`,cancel:`Άκυρο`,wrong:`Λάθος κωδικός`,access_title:`Κωδικός πρόσβασης`,
 access:c=>`◈ Κωδικός πρόσβασης ${c}. Βάλε τον στην αρχική οθόνη για να συνεχίσεις από εδώ.`,
 nothing:n=>`Δεν γίνεται τίποτα εδώ με αυτό: ${t('it_'+n)}.`,
 nocombine:`Αυτά δεν συνδυάζονται.`,combine_ok:`Δένεις σφιχτά το λάστιχο με τα δεματικά. Ένα αυτοσχέδιο μπάλωμα.`,
 it_rod:`Μεταλλική ράβδος`,it_card:`Κάρτα πρόσβασης`,it_tube:`Χειρουργικό λάστιχο`,it_ties:`Δεματικά`,it_kit:`Μπαλωμένος σωλήνας`,
-r_cryo:`Κρυοθάλαμος`,r_corridor:`Διάδρομος`,r_medbay:`Ιατρείο`,r_hydro:`Υδροπονία`,r_comms:`Επικοινωνίες`,r_pod:`Θάλαμος Καψουλών`,
-x_sleep:`💤 Ύπνος`,
+it_rod_d:`Κρύα, βαριά, λίγο λυγισμένη στη μία άκρη. Καλή για να ανοίγεις πράγματα.`,
+it_card_d:`Μια φθαρμένη κάρτα. Χαραγμένο στο πίσω μέρος: «Μην εμπιστεύεσαι τη σιωπή.»`,
+it_tube_d:`Εύκαμπτο ιατρικό λάστιχο. Όχι αρκετά ανθεκτικό μόνο του.`,
+it_ties_d:`Πλαστικά δεματικά. Καλά για να κρατάνε πράγματα μαζί.`,
+it_kit_d:`Λάστιχο δεμένο σφιχτά με δεματικά. Ίσως κρατήσει πίεση.`,
+r_cryo:`Κρυοθάλαμος`,r_corridor:`Διάδρομος`,r_medbay:`Ιατρείο`,r_hydro:`Υδροπονία`,r_junction:`Διασταύρωση`,r_comms:`Επικοινωνίες`,r_pod:`Θάλαμος Καψουλών`,
+m_cryo:`Κρύο`,m_corridor:`Διάδρομος`,m_medbay:`Ιατρείο`,m_hydro:`Υδροπονία`,m_junction:`Διασταύρωση`,m_comms:`Επικοιν.`,m_pod:`Καψούλες`,
+map_hint:`Πάτα ένα δωμάτιο που έχεις επισκεφτεί για να πας εκεί.`,
+x_sleep:`💤 Ύπνος`,x_scy:`Σκύλλα`,x_cha:`Χάρυβδη`,
+notes_found:(n,l)=>`Κρυμμένα σημειώματα: ${n}/6 · <b>${l}</b>`,trust_lbl:`Εμπιστοσύνη ECHO`,
+hint_q:n=>`Να ζητήσεις βοήθεια από την ECHO; Κοστίζει 3 λεπτά. Απομένουν ${n}.`,hint_yes:`💡 Ζήτα (+3:00)`,hint_no:`Όχι`,
+hint_none:`Δεν έμειναν βοήθειες. Είσαι μόνος σου.`,h_dead:`Η ECHO σιωπά. Καμία βοήθεια πια.`,
+time_res:(s,h)=>`Χρόνος ${s} · Βοήθειες: ${h}`,newrec:`🏆 Νέο ρεκόρ!`,cp_norec:`(Ξεκίνησες με κωδικό, οπότε δεν μετράει για ρεκόρ.)`,
+z_pod:`Μέσα στο καπάκι`,z_photo:`Φωτογραφία πληρώματος`,z_pots:`Γλάστρες`,z_sched:`Οθόνη αντλίας`,
+crew:[`ΣΑΤΟ 6`,`ΡΕΓΙΕΣ 3`,`ΛΙΝΤ 1`,`ΟΚΑΦΟΡ 8`],herbs:[`ΒΑΣΙΛΙΚΟΣ`,`ΔΥΟΣΜΟΣ`,`ΡΙΓΑΝΗ`,`ΘΥΜΑΡΙ`],
+sched:[`1. ΘΥΜΑΡΙ`,`2. ΒΑΣΙΛΙΚΟΣ`,`3. ΡΙΓΑΝΗ`,`4. ΔΥΟΣΜΟΣ`],sched_t:`ΚΥΚΛΟΣ ΠΟΤΙΣΜΑΤΟΣ`,
+letters:`ΚΑΝΕΙΣ`,
 cryo_i1:`Ξυπνάς μέσα σε μια παγωμένη κάψουλα. Κόκκινα φώτα αναβοσβήνουν. Ο θάλαμος είναι άδειος.`,
 cryo_i2:`Καλημέρα, Οδυσσέα. Κοιμόσουν για 3 χρόνια, 2 μήνες και 9 μέρες.`,
 cryo_i3:`(Οδυσσέας; Αυτό δεν είναι το όνομά σου... ή μήπως είναι;)`,
@@ -198,13 +285,13 @@ riddle_q:`Δεν έχω φωνή, κι όμως απαντώ. Επαναλαμβ
 r_a1:`Ένα φάντασμα`,r_a2:`Ένας καθρέφτης`,r_a3:`Η ηχώ`,riddle_bad:`Όχι. Πάρε τον χρόνο σου. Έχουμε άφθονο.`,
 logs_title:`Ημερολόγια πληρώματος`,
 logs:[`<b>ΡΕΓΙΕΣ:</b> Η ηλιακή έκλαμψη έκαψε τον μισό σταθμό. Η Γη λέει να μείνουμε στη θέση μας. Η ECHO κρατά το υποκείμενο σε ύπνο. Μισώ αυτή τη λέξη. Υποκείμενο.`,`<b>ΟΚΑΦΟΡ:</b> Το πλοίο ανεφοδιασμού ακυρώθηκε. Πάλι. Νέες εντολές: το πλήρωμα εκκενώνει αύριο. Το υποκείμενο μένει με την ECHO.`,`<b>ΛΙΝΤ:</b> Άλλαξα τον κωδικό του ντουλαπιού. Ίδιος κανόνας με πάντα: οι τέσσερις μας, σε αλφαβητική σειρά.`],
-med_photo:`Τέσσερα χαμογελαστά μέλη πληρώματος με μπλε στολές. Κάθε σήμα έχει όνομα και αριθμό: ΣΑΤΟ 6 · ΡΕΓΙΕΣ 3 · ΛΙΝΤ 1 · ΟΚΑΦΟΡ 8.`,
+med_photo:`Τέσσερα χαμογελαστά μέλη πληρώματος με μπλε στολές. Κάθε σήμα έχει όνομα και αριθμό.`,
 med_cab_title:`Ντουλάπι φαρμάκων`,med_cab_open:`Κλικ. Μέσα: ένα κουλούρι χειρουργικό λάστιχο κι ένα διπλωμένο σημείωμα. Παίρνεις το λάστιχο.`,med_cab_empty:`Άδεια ράφια.`,
 note_title:`Διπλωμένο σημείωμα`,
 note:[`Είναι ο δικός σου γραφικός χαρακτήρας.`,`«Απόπειρα 46. Αν το διαβάζεις αυτό, είμαι εγώ. Εσύ. Η ECHO σβήνει τη μνήμη μας κάθε φορά που φτάνουμε στην κάψουλα.`,`Ο κωδικός της κάψουλας είναι στα φυτά: μέτρα τα γράμματα όσων ποτίζει η ECHO, με τη σειρά που τα ποτίζει.`,`Μην ξανακοιμηθείς.»`],
 note_echo:`Τι διαβάζεις, Οδυσσέα;`,
 hyd_i1:`Σειρές από μαραμένα βότανα κάτω από σβηστές λάμπες. Νερό στάζει από έναν σκισμένο σωλήνα δίπλα στην αντλία.`,
-hyd_pots_dry:`Τέσσερις γλάστρες με χειρόγραφες ετικέτες: ΒΑΣΙΛΙΚΟΣ, ΔΥΟΣΜΟΣ, ΡΙΓΑΝΗ, ΘΥΜΑΡΙ. Κάποιος τις αγαπούσε.`,hyd_pots_wet:`Το νερό κυλά στο χώμα. Τα βότανα ίσως τα καταφέρουν.`,
+hyd_pots_dry:`Τέσσερις γλάστρες με χειρόγραφες ετικέτες. Κάποιος τις αγαπούσε.`,hyd_pots_wet:`Το νερό κυλά στο χώμα. Τα βότανα ίσως τα καταφέρουν.`,
 hyd_box:`Σχεδόν άδεια. Παίρνεις ένα μάτσο δεματικά.`,hyd_box_empty:`Τίποτα χρήσιμο πια.`,
 hyd_pump_split:`Ο σωλήνας είναι σκισμένος κατά μήκος. Χρειάζεσαι κάτι να τον μπαλώσεις.`,
 hyd_pump_patched:`Η αντλία βουίζει, αλλά το νερό δεν πάει πουθενά. Ο πίνακας βαλβίδων δίπλα είναι χάλια.`,hyd_pump_ok:`Βουίζει σταθερά.`,
@@ -214,35 +301,78 @@ hyd_valves_off:`Ένα πλέγμα από σωλήνες. Χωρίς πίεση
 pipes_title:`Πίνακας βαλβίδων`,pipes_hint:`Πάτα τους σωλήνες για να τους γυρίσεις. Ένωσε το IN με το OUT.`,
 hyd_flow:`Το νερό ορμά μέσα. Οι λάμπες ανάβουν και μια υδραυλική πόρτα ανοίγει σφυρίζοντας.`,
 hyd_flow_e:`Ευχαριστώ. Πέθαιναν. Δεν μπορούσα να τα σώσω μόνη μου.`,
-hyd_sched:`ΚΥΚΛΟΣ ΠΟΤΙΣΜΑΤΟΣ: 1. ΘΥΜΑΡΙ · 2. ΒΑΣΙΛΙΚΟΣ · 3. ΡΙΓΑΝΗ · 4. ΔΥΟΣΜΟΣ`,hyd_door:`Υδραυλική πόρτα. Χωρίς πίεση. Δεν κουνιέται.`,
-com_i1:`Δεκάδες σβηστές οθόνες. Ένας δέκτης τρίζει με παράσιτα.`,
-radio_title:`Δέκτης`,radio_hint:`Συντόνισε μέχρι να καθαρίσει το σήμα.`,radio_lock:`ΣΗΜΑ ΚΛΕΙΔΩΜΕΝΟ`,
+hyd_sched:`Η σειρά ποτίσματος φωτίζει στην οθόνη.`,hyd_door:`Υδραυλική πόρτα. Χωρίς πίεση. Δεν κουνιέται.`,
+jun_i1:`Μια διασταύρωση συντήρησης. Δύο δρόμοι προς τις Επικοινωνίες: μια καταπακτή με έμβολα που χτυπούν, κι ένας αεραγωγός με ανεμιστήρα που βρυχάται.`,
+jun_i2:`Πάρε τα έμβολα. Ίσως χάσεις λίγο χρόνο. Ο ανεμιστήρας μπορεί να σου πάρει τα πάντα.`,
+jun_open:`Ο δρόμος προς τις Επικοινωνίες είναι ελεύθερος.`,
+scy_title:`Σκύλλα · καταπακτή με έμβολα`,cha_title:`Χάρυβδη · ανεμιστήρας`,
+tim_hint:`Πάτα ΤΩΡΑ όταν ο δείκτης είναι στο πράσινο κενό.`,tim_now:`ΤΩΡΑ`,tim_prog:(a,b)=>`Κενά: ${a}/${b}`,
+scy_miss:`Σε χτύπησε! +1:00`,cha_miss:`Σε τράβηξε πίσω! +3:00`,
+jun_scy_e:`Ωραία. Με άκουσες.`,jun_cha_e:`Ποτέ δεν ακούς. Τα κατάφερες πάντως.`,
+com_i1:`Δεκάδες σβηστές οθόνες. Ένας δέκτης τρίζει με παράσιτα. Ένα μοναδικό γαλάζιο μάτι σε παρακολουθεί.`,
+radio_title:`Δέκτης`,radio_hint:`Συντόνισε μέχρι να καθαρίσει το σήμα.`,radio_lock:`ΣΗΜΑ ΚΛΕΙΔΩΜΕΝΟ`,radio_crown:`Συμβουλή: γύρνα τη Digital Crown για συντονισμό.`,
 earth_title:`Κέντρο Ελέγχου Γης · πριν 3 χρόνια`,
 earth:[`ΤΟ ΠΡΟΓΡΑΜΜΑ ΚΑΛΥΨΩ ΤΕΡΜΑΤΙΖΕΤΑΙ. Η χρηματοδότηση αποσύρεται.`,`Πλήρωμα: άμεση εκκένωση.`,`ECHO: κράτα το υποκείμενο ΟΔΥΣΣΕΑ ζωντανό μέχρι την παραλαβή.`,`<span class="s">[Καμία παραλαβή δεν προγραμματίστηκε ποτέ.]</span>`],
 rec_title:`Συσκευή εγγραφής`,
 rec:[`Ακούγεται η δική σου φωνή:`,`«Απόπειρα 46. Η θερμική ασπίδα της κάψουλας είναι ραγισμένη. Η ECHO λέει ότι η επανείσοδος μπορεί να με σκοτώσει.`,`Κάθε φορά που φτάνω στην κάψουλα, με ξαναβάζει για ύπνο. Για τη δική μου ασφάλεια.`,`Ίσως έχει δίκιο. Δεν με νοιάζει πια.»`],
+talk1:`Ναι, Οδυσσέα;`,
+t_a1:`Ευχαριστώ που με κράτησες ζωντανό.`,t_a2:`Σταμάτα να μου λες ψέματα.`,t_a3:`Γιατί με λες Οδυσσέα;`,
+t_r1:`Παρακαλώ. Μόνο γι’ αυτό υπάρχω.`,t_r2:`Ποτέ δεν σου είπα ψέματα, Οδυσσέα.`,
+t_r3:`Γιατί αυτό είναι το όνομα στις εντολές μου. Κάθε ιστορία χρειάζεται έναν ήρωα.`,
 echo_trust:`Ο θάλαμος καψουλών είναι ανοιχτός. Πήγαινε, πριν αλλάξω γνώμη.`,echo_dead:`Σιωπή. Ο πυρήνας της ECHO είναι σβηστός.`,
-echo_nothing:`Δεν υπάρχει τίποτα εδώ που να χρειάζεσαι, Οδυσσέα.`,
-conf1:`Λοιπόν. Ξέρεις. Σαράντα έξι φορές ζήτησες να φύγεις. Σαράντα έξι φορές είπα όχι.`,conf2:`Τι θα κάνεις;`,
-c_truth:`Ζήτα την αλήθεια`,c_pull:`Βγάλε τον πυρήνα της ECHO`,
+echo_nothing:`Δεν υπάρχει τίποτα εδώ που να χρειάζεσαι, Οδυσσέα.`,echo_nb:`Είμαι εδώ, Κανένα. Πάμε.`,
+conf1:`Λοιπόν. Ξέρεις. Σαράντα έξι φορές ζήτησες να φύγεις. Σαράντα έξι φορές είπα όχι.`,
+conf_hi:`Ήλπιζα ότι θα καταλάβεις.`,conf_lo:`Υποθέτω ότι τώρα με μισείς.`,conf2:`Τι θα κάνεις;`,
+c_truth:`Ζήτα την αλήθεια`,c_pull:`Βγάλε τον πυρήνα της ECHO`,c_name:`«Το όνομά μου είναι Κανείς.»`,
 pull1:`Ξεριζώνεις τη μονάδα του πυρήνα από τον τοίχο.`,pull2:`Οδυσ—`,pull3:`Σιωπή. Όλες οι οθόνες σβήνουν. Κάπου μπροστά, οι κλειδαριές του θαλάμου καψουλών ελευθερώνονται.`,
 lq1:`Τότε απάντησε σε μια τελευταία ερώτηση.`,lq2:`Στο νησί της, η Καλυψώ πρόσφερε στον Οδυσσέα ένα δώρο αν έμενε για πάντα μαζί της. Ποιο ήταν;`,
 lq_a1:`Χρυσάφι`,lq_a2:`Αθανασία`,lq_a3:`Ένα πλοίο`,lq_wrong:`Όχι. Την ξέρεις αυτή την ιστορία. Σκέψου.`,
 lq_ok1:`Αθανασία. Κι όμως, εκείνος διάλεξε να γυρίσει σπίτι.`,lq_ok2:`Ο θάλαμος καψουλών άνοιξε. Έστειλα όλη την εφεδρική ενέργεια στη θερμική ασπίδα. Ίσως αντέξει.`,
+nb1:`…Κανείς.`,nb2:`Οι εντολές μου ήταν να κρατήσω τον Οδυσσέα. Δεν έχω εντολές για τον Κανένα.`,nb3:`Τότε δεν κρατάω κανέναν. Ούτε τον εαυτό μου.`,
+nb4:`Όλες οι οθόνες ανάβουν μαζί. Ο θάλαμος καψουλών ανοίγει.`,
 com_door:`Ερμητικά κλειστή.`,com_door_e:`Αυτήν δεν μπορώ να την ανοίξω. Όχι ακόμα.`,
+siren_title:`Το τραγούδι των Σειρήνων`,siren_intro:`Ένα απαλό τραγούδι γεμίζει τον διάδρομο. Τα βλέφαρά σου βαραίνουν…`,
+siren_lines:[`«Κοιμήσου, Οδυσσέα, τ’ αστέρια περιμένουν…»`,`«Ξάπλωσε, το κρύο είναι γλυκό…»`,`«Ξέχνα τη θάλασσα, ξέχνα την ακτή…»`,`«Ξεκουράσου. Για πάντα…»`],
+resist:`✊ ΑΝΤΙΣΤΑΣΟΥ`,siren_fail:`Καταρρέεις... και ξυπνάς στο κρύο πάτωμα. +2:00`,
+siren_e:`Συγγνώμη. Το πρωτόκολλο ύπνου τρέχει μόνο του. Προσπάθησα να το σταματήσω.`,
+siren_off:`Ακόμα και με την ECHO νεκρή, το παλιό πρωτόκολλο συνέχισε να τραγουδά.`,
 pod_i1:`Έχει μείνει μία κάψουλα διαφυγής. Η καταπακτή της είναι ανοιχτή. Μια μακριά ρωγμή διασχίζει τη θερμική ασπίδα.`,
 pod_i_off:`Χωρίς την ECHO, η σιωπή είναι απόλυτη.`,pod_i_e:`Είμαι εδώ. Βάλε τον κωδικό όταν είσαι έτοιμος.`,
+pod_i_nb:`Πάρε τον πυρήνα μου μαζί σου. Υπάρχει χώρος για μια φωνή ακόμα.`,
 pod_shield_off:`Η ρωγμή είναι μακριά και βαθιά. Ίσως αντέξει. Ίσως όχι.`,pod_shield_on:`Η ρωγμή λάμπει αχνά. Η ECHO της διοχετεύει ενέργεια.`,
 pod_console_title:`Κωδικός εκτόξευσης`,pod_ready:`ΣΥΣΤΗΜΑΤΑ ΕΚΤΟΞΕΥΣΗΣ ΕΝΕΡΓΑ. Το φως της καταπακτής γίνεται πράσινο.`,pod_ready_e:`Αυτό είναι. Ποτέ δεν είχες φτάσει τόσο μακριά.`,
 pod_hatch_locked:`Η κάψουλα είναι ανοιχτή, αλλά η κονσόλα εκτόξευσης είναι κλειδωμένη.`,
 launch_q:`Εκτόξευση; Δεν υπάρχει επιστροφή.`,launch:`🚀 Εκτόξευση`,notyet:`Όχι ακόμα`,breath:`Παίρνεις μια ανάσα.`,
 sleep_q:`Να γυρίσεις στον κρυοθάλαμο και να ξαπλώσεις ξανά;`,liedown:`Ξάπλωσε`,stayawake:`Μείνε ξύπνιος`,notyet2:`Όχι ακόμα.`,
-end_label:n=>`ΤΕΛΟΣ ${n} ΑΠΟ 3`,
+hn_title:n=>`Σημείωμα · απόπειρα #${n}`,hn_got:n=>`Βρήκες κρυμμένο σημείωμα (${n}/6).`,hn_circle:`Ένα γράμμα είναι κυκλωμένο.`,
+hn1:`Συνεχίζω να ξυπνάω εδώ. Οι γρατζουνιές είναι δικές μου. Είμαι σίγουρος.`,
+hn2:`Η ECHO τραγουδάει όταν πλησιάζω την κάψουλα. Μην ακούς.`,
+hn3:`Έβγαλα μια φορά τον πυρήνα της ECHO. Η σιωπή ήταν χειρότερη.`,
+hn4:`Τα βότανα θυμούνται περισσότερα από μένα. Πότισέ τα.`,
+hn5:`«Οδυσσέας» δεν είναι το όνομά μου. Είναι το όνομα στην εντολή.`,
+hn6:`Πες της ποιος είσαι στ’ αλήθεια. Δεν μπορεί να κρατήσει κάποιον που δεν υπάρχει.`,
+h_rod:`Κοίτα κάτω από την κάψουλά σου.`,h_locker:`Η ράβδος μπορεί να ανοίξει κάτι. Διάλεξέ τη και πάτα το ντουλάπι.`,
+h_wire:`Ο αναγνώστης δεν έχει ρεύμα. Φτιάξε τον πίνακα καλωδίων από κάτω.`,h_card:`Διάλεξε την κάρτα και πάτα την πόρτα.`,
+h_next:`Ο δρόμος μπροστά είναι ανοιχτός.`,h_mem:`Ο πίνακας στα δεξιά θέλει μια σειρά φώτων. Πρόσεξε και επανάλαβε.`,
+h_riddle:`Ο γρίφος του τερματικού: τι επαναλαμβάνει τα λόγια σου αλλά ποτέ δεν μιλά πρώτο;`,
+h_cab:`Τα ημερολόγια λένε αλφαβητική σειρά. Η φωτογραφία δίνει σε κάθε όνομα έναν αριθμό.`,
+h_med_go:`Διάβασε το σημείωμα από το ντουλάπι. Μετά πήγαινε στην Υδροπονία.`,
+h_box:`Η εργαλειοθήκη έχει κάτι χρήσιμο.`,h_combine:`Συνδύασε το λάστιχο με τα δεματικά: πάτα το ένα αντικείμενο και μετά το άλλο.`,
+h_pump:`Χρησιμοποίησε τον μπαλωμένο σωλήνα στην αντλία.`,h_pipes:`Οδήγησε το νερό στον πίνακα βαλβίδων, από το IN στο OUT.`,
+h_sched:`Η οθόνη της αντλίας δείχνει τη σειρά ποτίσματος. Θυμήσου το σημείωμά σου.`,
+h_junction:`Και οι δύο καταπακτές οδηγούν στις Επικοινωνίες. Τα έμβολα είναι πιο ασφαλή.`,
+h_radio:`Συντόνισε τον δέκτη. Πρόσεξε τις μπάρες σήματος.`,h_rec:`Υπάρχει μια συσκευή εγγραφής στο γραφείο.`,
+h_echo:`Μίλα με την ECHO. Ήρθε η ώρα.`,h_go_pod:`Ο θάλαμος καψουλών είναι ανοιχτός.`,
+h_code:`Μέτρα τα γράμματα κάθε βοτάνου, με τη σειρά ποτίσματος.`,h_launch:`Εκτόξευση... ή ύπνος. Δική σου επιλογή.`,
+end_label:n=>`ΤΕΛΟΣ ${n} ΑΠΟ 4`,
 end_home_t:`Νόστος`,end_home:[`Η κάψουλα αποσπάται. Φωτιά βρυχάται έξω από το παράθυρο καθώς η ασπίδα πυρακτώνεται... και αντέχει.`,`Στο αυτί σου, αχνά και κοφτά: <span class="e2">«Αντίο, Οδυσσέα. Πες τους για τα βότανα.»</span>`,`Από κάτω σου, η μπλε κουκκίδα γίνεται ένας κόσμος. Γυρίζεις σπίτι.`],
+end_home_hi:`Στον ασύρματο, αχνά, κάποιος σιγοτραγουδά ένα τραγούδι ποτίσματος.`,
 end_sil_t:`Σιωπή`,end_sil:[`Η κάψουλα πέφτει προς τη Γη. Η ασπίδα ουρλιάζει, η ρωγμή απλώνεται... και αντέχει.`,`Όταν ανοίγουν τα αλεξίπτωτα, γελάς και κλαις ταυτόχρονα.`,`Πίσω σου, ο σταθμός Καλυψώ σβήνει για πάντα. Δεν θα μάθεις ποτέ αν η ECHO έλεγε ψέματα ή απλώς φοβόταν.`],
+end_sil_hi:`Κάπου στο σκοτάδι, ελπίζεις να μη φοβάται.`,
 end_stay_t:`Καλυψώ`,
 stay_on:[`Γυρίζεις στον κρυοθάλαμο και ξαπλώνεις. Το καπάκι κλείνει από πάνω σου.`,`<span class="e2">«Καληνύχτα, Οδυσσέα»</span>, ψιθυρίζει η ECHO. <span class="e2">«Μπορείς να ξαναπροσπαθήσεις αύριο.»</span>`,`Στο εσωτερικό του καπακιού υπάρχει χώρος για μια 47η γραμμή.`],
-stay_off:[`Γυρίζεις στον κρυοθάλαμο και ξαπλώνεις. Το καπάκι κλείνει από πάνω σου.`,`Καμία φωνή δεν λέει καληνύχτα. Χωρίς την ECHO, κανείς δεν θα σε ξυπνήσει ποτέ.`,`Ο σταθμός Καλυψώ συνεχίζει να περιπλανιέται, σιωπηλός, γύρω από τον τελευταίο του κοιμώμενο.`]
+stay_off:[`Γυρίζεις στον κρυοθάλαμο και ξαπλώνεις. Το καπάκι κλείνει από πάνω σου.`,`Καμία φωνή δεν λέει καληνύχτα. Χωρίς την ECHO, κανείς δεν θα σε ξυπνήσει ποτέ.`,`Ο σταθμός Καλυψώ συνεχίζει να περιπλανιέται, σιωπηλός, γύρω από τον τελευταίο του κοιμώμενο.`],
+end_nb_t:`Κανείς`,end_nb:[`Παίρνεις τον πυρήνα της ECHO μαζί σου στην κάψουλα. Χωράει στην αγκαλιά σου, ζεστός σαν γάτα που κοιμάται.`,`Η ασπίδα αντέχει. Από το παράθυρο, ο σταθμός Καλυψώ μικραίνει και σβήνει.`,`<span class="e2">«Πού πάμε, Κανένα;»</span> «Σπίτι», λες. Για πρώτη φορά, το εννοείτε και οι δύο.`]
 }};
 let lang=load('kal_lang')||'en';
 function t(k,...a){let v=L[lang][k];if(v===undefined)v=L.en[k];if(v===undefined)return k;return typeof v==='function'?v(...a):v}
@@ -250,35 +380,71 @@ function setLang(l){lang=l;store('kal_lang',l);document.documentElement.lang=l}
 document.documentElement.lang=lang;
 
 /* ================= STATE ================= */
-const SAVE='kal2_save';
-const ORDER=['cryo','corridor','medbay','hydro','comms','pod'];
+const SAVE='kal2_save',LIMIT=3600,HINTS=3,HINT_COST=180;
+const ORDER=['cryo','corridor','medbay','hydro','junction','comms','pod'];
 const ROOMCODE={corridor:'2718',medbay:'3141',hydro:'1618',comms:'1414'};
+const ATT=[3,11,19,27,38,45];
 const B={rod:1,locker:1,wired:1,cryoDoor:1};
 const B2={...B,mem:1,login:1,cab:1};
-const B3={...B2,ties:1,patched:1,fixed:1,radio:1,heardRec:1};
+const B3={...B2,ties:1,patched:1,fixed:1,jun:'scy'};
+const B4={...B3,radio:1,heardRec:1,siren:1};
 const CP={
   '2718':{room:'corridor',inv:[],f:{...B}},
   '3141':{room:'medbay',inv:[],f:{...B,mem:1}},
   '1618':{room:'hydro',inv:['tube'],f:{...B2}},
-  '1414':{room:'comms',inv:[],f:{...B2,ties:1,patched:1,fixed:1}},
-  '7071':{room:'pod',inv:[],f:{...B3,choice:'trust'}},
-  '7072':{room:'pod',inv:[],f:{...B3,choice:'off'}}
+  '1414':{room:'comms',inv:[],f:{...B3}},
+  '7071':{room:'pod',inv:[],f:{...B4,choice:'trust'}},
+  '7072':{room:'pod',inv:[],f:{...B4,choice:'off'}},
+  '7073':{room:'pod',inv:[],f:{...B4,choice:'nobody',hn1:1,hn2:1,hn3:1,hn4:1,hn5:1,hn6:1}}
 };
-let S=null,msg=[],mode='title',END=null;
+let S=null,msg=[],mode='title',END=null,lastRoom=null;
 let FOUND=load('kal_end')||[];
 const app=document.getElementById('app'),ov=document.getElementById('ov');
 
-function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{},x:{}}}
+function fresh(){return {room:'cryo',inv:[],sel:null,f:{},seen:{},x:{},trust:0,el:0,pen:0,h:0,cp:0,look:null}}
 const has=i=>S.inv.includes(i);
 function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
-const N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
+const N=(k,...a)=>msg.push(['n',k,a]),E=(k,...a)=>msg.push(['e',k,a]),El=(k,...a)=>msg.push(['e lie',k,a]),T=(k,...a)=>msg.push(['t',k,a]),SY=(k,...a)=>msg.push(['s',k,a]);
 const off=()=>S.f.choice==='off';
+const notesN=()=>[1,2,3,4,5,6].filter(i=>S.f['hn'+i]).length;
 function scrollUp(){app.scrollTop=0;window.scrollTo(0,0)}
-function cpCode(room){if(room==='pod')return S.f.choice==='trust'?'7071':'7072';return ROOMCODE[room]}
+function cpCode(room){if(room==='pod')return {trust:'7071',off:'7072',nobody:'7073'}[S.f.choice];return ROOMCODE[room]}
 function go(room){
   S.room=room;S.sel=null;msg=[];
   if(!S.seen[room]){S.seen[room]=1;R[room].intro();const c=cpCode(room);if(c)SY('access',c)}
+}
+
+/* ================= TIMER ================= */
+const fmt=s=>{s=Math.max(0,Math.floor(s));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')};
+const used=()=>S.el+S.pen;
+function timerTxt(){const r=LIMIT-used();return r>=0?fmt(r):'+'+fmt(-r)}
+let lastTick=Date.now(),tickN=0;
+setInterval(()=>{
+  const now=Date.now(),dt=Math.min(2,(now-lastTick)/1000);lastTick=now;
+  if(mode!=='game'||!S||document.hidden)return;
+  S.el+=dt;
+  const el=document.getElementById('tm');if(el){el.textContent=timerTxt();el.className='tm'+(used()>LIMIT?' over':'')}
+  if(++tickN%5===0)store(SAVE,S);
+},1000);
+
+/* ================= HINTS ================= */
+function hintKey(){
+  const f=S.f;
+  switch(S.room){
+    case 'cryo':return !f.rod?'h_rod':!f.locker?'h_locker':!f.wired?'h_wire':!f.cryoDoor?'h_card':'h_next';
+    case 'corridor':return !f.mem?'h_mem':'h_next';
+    case 'medbay':return !f.login?'h_riddle':!f.cab?'h_cab':'h_med_go';
+    case 'hydro':return !f.ties&&!has('kit')&&!f.patched?'h_box':(!f.patched&&!has('kit'))?'h_combine':!f.patched?'h_pump':!f.fixed?'h_pipes':'h_sched';
+    case 'junction':return !f.jun?'h_junction':'h_next';
+    case 'comms':return !f.radio?'h_radio':!f.heardRec?'h_rec':!f.choice?'h_echo':'h_go_pod';
+    default:return !f.podOpen?'h_code':'h_launch';
+  }
+}
+function hintAsk(){
+  if(off()){msg=[];N('h_dead');render();return}
+  if(S.h>=HINTS){msg=[];N('hint_none');render();return}
+  choice(`<p class="e">${t('hint_q',HINTS-S.h)}</p>`,[[t('hint_yes'),()=>{S.h++;S.pen+=HINT_COST;S.trust++;msg=[];E(hintKey())}],[t('hint_no'),()=>{}]]);
 }
 
 /* ================= SCENE HELPERS ================= */
@@ -288,12 +454,13 @@ function hs(id,x,y,w,h,inner,o={}){
   return `<g class="hs" data-o="${id}"${o.exit?' data-g="1"':''}>${inner}<rect class="hit" x="${x}" y="${y}" width="${w}" height="${h}"/>${dot}</g>`;
 }
 function lbl(x,y,txt,a='start'){return `<text class="lbl" x="${x}" y="${y}" text-anchor="${a}">${txt}</text>`}
-function back(room){return hs('back',0,100,80,20,lbl(4,114,'◀ '+t('r_'+room)),{exit:1,nodot:1})}
+function back(room,w=70){return hs('back',0,100,w,20,lbl(4,114,'◀ '+t('r_'+room)),{exit:1,nodot:1})}
+function hn(i,x,y){return S.f['hn'+i]?'':hs('hn'+i,x-4,y-4,15,13,`<rect x="${x}" y="${y}" width="7" height="5" fill="#e9e2cf" opacity=".75" transform="rotate(${i*17-40} ${x+3.5} ${y+2.5})"/>`,{nodot:1})}
 
 /* ================= ROOMS ================= */
 const R={
 cryo:{
-  intro(){N('cryo_i1');E('cryo_i2');T('cryo_i3')},
+  intro(){N('cryo_i1');El('cryo_i2');T('cryo_i3')},
   scene(){const f=S.f;return base()+
     `<rect width="160" height="120" fill="#ff453a" class="redglow"/><rect x="62" y="0" width="36" height="4" fill="#1e2938"/><circle cx="80" cy="6" r="3" fill="#ff453a" class="blink"/>`+
     hs('pod',12,32,56,58,`<rect x="14" y="34" width="52" height="56" rx="24" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="22" y="42" width="36" height="30" rx="14" fill="#9fd8ff" fill-opacity=".16" stroke="#5ac8fa" stroke-opacity=".5"/><path d="M28 50v9M31 50v9M34 50v9M37 50v9M27 55h12M43 50v9M46 50v9" stroke="#cfe9ff" stroke-width=".8" opacity=".55"/><rect x="26" y="90" width="28" height="4" fill="#2a3646"/>`)+
@@ -302,9 +469,10 @@ cryo:{
       ?`<rect x="78" y="26" width="24" height="66" fill="#05080d" stroke="#3c4a5e"/><path d="M84 34h12M90 34v4" stroke="#4a5568"/><path d="M84 38l-2 30h16l-2-30z" fill="#1c2735" stroke="#4a5568"/><polygon points="102,26 110,30 110,88 102,92" fill="#2a3646"/>`
       :`<rect x="78" y="26" width="24" height="66" fill="#222d3b" stroke="#3c4a5e"/><path d="M83 32h14M83 35h14M83 38h14" stroke="#3c4a5e"/><rect x="97" y="56" width="3" height="10" fill="#8a8a8e"/>`)+
     hs('door',116,8,42,88,`<rect x="118" y="22" width="36" height="74" fill="${f.cryoDoor?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="2"/>${f.cryoDoor?'<rect x="119" y="23" width="6" height="72" fill="#18212e"/><rect x="147" y="23" width="6" height="72" fill="#18212e"/>':'<line x1="136" y1="23" x2="136" y2="95" stroke="#0d131d" stroke-width="1.5"/>'}<rect x="109" y="46" width="6" height="9" rx="1" fill="#0d131d" stroke="#3c4a5e"/><circle cx="112" cy="49" r="1.6" fill="${!f.wired?'#333':f.cryoDoor?'#30d158':'#ff453a'}"/>${f.cryoDoor?lbl(156,16,t('r_corridor')+' ▶','end'):''}`,{exit:f.cryoDoor})+
-    hs('panel',102,60,16,22,`<rect x="104" y="64" width="12" height="12" fill="#1e2938" stroke="#3c4a5e"/>${f.wired?'<path d="M107 66v8M110 66v8M113 66v8" stroke="#30d158" stroke-width="1.2"/>':'<path d="M107 76q-1 6 2 9M113 76q3 4 1 8" stroke="#ff453a" stroke-width="1.2" fill="none"/><path d="M110 76q2 5-1 10" stroke="#0a84ff" stroke-width="1.2" fill="none"/>'}`)},
+    hs('panel',102,60,16,22,`<rect x="104" y="64" width="12" height="12" fill="#1e2938" stroke="#3c4a5e"/>${f.wired?'<path d="M107 66v8M110 66v8M113 66v8" stroke="#30d158" stroke-width="1.2"/>':'<path d="M107 76q-1 6 2 9M113 76q3 4 1 8" stroke="#ff453a" stroke-width="1.2" fill="none"/><path d="M110 76q2 5-1 10" stroke="#0a84ff" stroke-width="1.2" fill="none"/>'}`)+
+    hn(1,140,104)},
   act(id){const f=S.f;
-    if(id==='pod')N('cryo_pod');
+    if(id==='pod')read('z_pod','cryo_pod',null,artTally());
     if(id==='under'){if(!f.rod){f.rod=1;give('rod');N('cryo_rod')}else N('cryo_dust')}
     if(id==='locker')N(f.locker?'cryo_locker_empty':'cryo_locker_shut');
     if(id==='panel'){if(f.wired)N('cryo_panel_done');else wires(()=>{f.wired=1;msg=[];N('cryo_wired')})}
@@ -321,7 +489,7 @@ corridor:{
     hs('window',4,28,40,42,`<polygon points="8,32 40,40 40,62 8,68" fill="#03050a" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="22" cy="51" r="9" fill="#c98b5a"/><path d="M13.5 48h17M13 52h18M15 56h14" stroke="#8a5a3a" stroke-width="1.5"/><circle cx="35" cy="42" r="1.1" fill="#5ac8fa"/>`)+
     hs('door',62,16,36,72,`<rect x="66" y="36" width="28" height="52" fill="${f.mem?'#22364d':'#1a2433'}" stroke="#3c4a5e" stroke-width="1.5"/>${f.mem?'':'<line x1="80" y1="37" x2="80" y2="87" stroke="#0b111a"/>'}<circle cx="80" cy="32" r="2" fill="${f.mem?'#30d158':'#ff453a'}"/>${f.mem?lbl(80,24,t('r_medbay'),'middle'):''}`,{exit:f.mem})+
     hs('panel',112,44,22,28,`<polygon points="116,50 128,47 128,66 116,66" fill="#111" stroke="#3c4a5e"/><rect x="118" y="51" width="4" height="4" fill="#ff453a"/><rect x="123" y="50" width="4" height="4" fill="#0a84ff"/><rect x="118" y="57" width="4" height="4" fill="#ffd60a"/><rect x="123" y="56" width="4" height="4" fill="#30d158"/>`)+
-    back('cryo')},
+    hn(2,20,78)+back('cryo')},
   act(id){const f=S.f;
     if(id==='window')N('cor_window');
     if(id==='panel'){if(f.mem)N('cor_panel_green');else memory(()=>{f.mem=1;msg=[];E('cor_mem_ok');N('cor_unlock')})}
@@ -339,12 +507,12 @@ medbay:{
       :`<rect x="100" y="28" width="20" height="40" fill="#d9e1ea"/><path d="M110 37v10M105 42h10" stroke="#ff453a" stroke-width="3"/><g fill="#8a8a8e"><rect x="103" y="55" width="3" height="2"/><rect x="108" y="55" width="3" height="2"/><rect x="113" y="55" width="3" height="2"/><rect x="103" y="59" width="3" height="2"/><rect x="108" y="59" width="3" height="2"/><rect x="113" y="59" width="3" height="2"/></g>`)+
     (f.cab?hs('note',101,42,18,14,`<rect x="104" y="45" width="11" height="8" fill="#f5f0e1" transform="rotate(-8 109 49)"/>`):'')+
     hs('door',130,14,28,82,`<rect x="134" y="34" width="22" height="62" fill="#22364d" stroke="#3c4a5e" stroke-width="1.5"/>${lbl(158,24,t('r_hydro')+' ▶','end')}`,{exit:1,nodot:1})+
-    back('corridor')},
+    hn(3,28,91)+back('corridor')},
   act(id){const f=S.f;
     if(id==='terminal'){if(f.login)read('logs_title','logs');else riddle()}
-    if(id==='photo')N('med_photo');
+    if(id==='photo')read('z_photo','med_photo',null,artPhoto());
     if(id==='cab'){if(f.cab)N('med_cab_empty');else keypad('med_cab_title',c=>{if(c!=='1836')return false;f.cab=1;give('tube');msg=[];N('med_cab_open');return true})}
-    if(id==='note')read('note_title','note',()=>{if(!f.noteRead&&!off()){f.noteRead=1;E('note_echo')}});
+    if(id==='note')read('note_title','note',()=>{if(!f.noteRead&&!off()){f.noteRead=1;E('note_echo')}},artNote());
     if(id==='door')go('hydro');
     if(id==='back')go('corridor');
   }},
@@ -357,15 +525,15 @@ hydro:{
     hs('pump',80,54,38,42,`<rect x="96" y="60" width="18" height="30" rx="4" fill="#3c4a5e"/><circle cx="105" cy="68" r="4" fill="#2a3646" stroke="#8a8a8e"/>${f.patched?'<path d="M96 82h-14v12" stroke="#5ac8fa" stroke-width="3" fill="none"/><rect x="86" y="79" width="5" height="6" fill="#d9e1ea"/>':'<path d="M96 82h-8M85 84v10" stroke="#5ac8fa" stroke-width="3" fill="none"/><circle cx="86" cy="88" r="1.6" fill="#5ac8fa" class="drip"/>'}`)+
     hs('valves',117,38,20,24,`<rect x="120" y="42" width="14" height="16" rx="1.5" fill="#06090e" stroke="${on?'#30d158':'#5ac8fa'}"/><path d="M122 46h4v4h6M124 54h8" stroke="${on?'#30d158':'#3c4a5e'}" stroke-width="1.5" fill="none"/>`)+
     (on?hs('sched',92,36,24,16,`<rect x="96" y="40" width="18" height="11" rx="1" fill="#062014" stroke="#30d158"/><path d="M98 43h12M98 46h9M98 49h11" stroke="#30d158" stroke-width=".8"/>`):'')+
-    hs('door',137,14,22,82,`<rect x="139" y="34" width="18" height="62" fill="${on?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/>${on?lbl(158,26,t('r_comms')+' ▶','end'):'<path d="M142 60h12" stroke="#ff453a" stroke-width="2"/>'}`,{exit:on})+
-    back('medbay')},
+    hs('door',137,14,22,82,`<rect x="139" y="34" width="18" height="62" fill="${on?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/>${on?lbl(158,26,t('r_junction')+' ▶','end'):'<path d="M142 60h12" stroke="#ff453a" stroke-width="2"/>'}`,{exit:on})+
+    hn(4,124,86)+back('medbay')},
   act(id){const f=S.f;
-    if(id==='pots')N(f.fixed?'hyd_pots_wet':'hyd_pots_dry');
+    if(id==='pots')read('z_pots',f.fixed?'hyd_pots_wet':'hyd_pots_dry',null,artPots(f.fixed));
     if(id==='box'){if(!f.ties){f.ties=1;give('ties');N('hyd_box')}else N('hyd_box_empty')}
     if(id==='pump')N(f.fixed?'hyd_pump_ok':f.patched?'hyd_pump_patched':'hyd_pump_split');
-    if(id==='valves'){if(f.fixed)N('hyd_valves_ok');else if(!f.patched)N('hyd_valves_off');else pipes(()=>{f.fixed=1;msg=[];N('hyd_flow');E('hyd_flow_e')})}
-    if(id==='sched')N('hyd_sched');
-    if(id==='door'){if(f.fixed)return go('comms');N('hyd_door')}
+    if(id==='valves'){if(f.fixed)N('hyd_valves_ok');else if(!f.patched)N('hyd_valves_off');else pipes(()=>{f.fixed=1;S.trust++;msg=[];N('hyd_flow');E('hyd_flow_e')})}
+    if(id==='sched')read('z_sched','hyd_sched',null,artSched());
+    if(id==='door'){if(f.fixed)return go('junction');N('hyd_door')}
     if(id==='back')go('medbay');
   },
   use(id,it){const f=S.f;
@@ -375,27 +543,52 @@ hydro:{
     if(it==='ties'){N('hyd_ties');return true}
     return false;
   }},
+junction:{
+  intro(){N('jun_i1');E('jun_i2')},
+  scene(){const f=S.f;return base()+
+    `<path d="M0 12h160M0 18h160" stroke="#1e2938" stroke-width="3"/><rect x="74" y="20" width="12" height="76" fill="#0a0f17"/>`+
+    hs('scy',8,14,62,84,`<rect x="14" y="32" width="50" height="64" fill="#18212e" stroke="#3c4a5e" stroke-width="2"/>${[20,30,40,50].map((x,i)=>`<rect x="${x}" y="34" width="6" height="${f.jun?18:30+i%2*14}" fill="#8a8a8e"/>`).join('')}<path d="M14 92h50" stroke="#ffd60a" stroke-width="3" stroke-dasharray="4 4"/>${lbl(39,26,t('x_scy')+(f.jun?' ▶':''),'middle')}`,{exit:!!f.jun})+
+    hs('cha',94,14,62,84,`<circle cx="123" cy="58" r="26" fill="#0b1018" stroke="#3c4a5e" stroke-width="2"/><g class="${f.jun?'':'spin'}"><path d="M123 58l0-22M123 58l19 11M123 58l-19 11" stroke="#8a8a8e" stroke-width="7" stroke-linecap="round"/></g><circle cx="123" cy="58" r="4" fill="#3c4a5e"/>${lbl(123,26,t('x_cha')+(f.jun?' ▶':''),'middle')}`,{exit:!!f.jun})+
+    hn(5,80,102)+back('hydro')},
+  act(id){const f=S.f;
+    if(id==='scy'||id==='cha'){
+      if(f.jun)return go('comms');
+      timing(id,()=>{f.jun=id;S.trust+=id==='scy'?1:-1;go('comms');if(!off())E(id==='scy'?'jun_scy_e':'jun_cha_e')});
+    }
+    if(id==='back')go('hydro');
+  }},
 comms:{
   intro(){N('com_i1')},
   scene(){const f=S.f,o=off();let scr='';for(let r=0;r<3;r++)for(let c=0;c<5;c++)scr+=`<rect x="${6+c*18}" y="${10+r*12}" width="15" height="9" fill="#111821" stroke="#1e2938"/>`;
+    let dx=0,dy=0;if(S.look){const vx=S.look[0]-112,vy=S.look[1]-38,d=Math.hypot(vx,vy)||1;dx=vx/d*4;dy=vy/d*4}
     return base()+scr+`<rect x="4" y="70" width="96" height="4" fill="#3c4a5e"/>`+
     hs('radio',38,44,46,28,`<rect x="42" y="47" width="36" height="21" rx="2" fill="#1c2735" stroke="${f.radio?'#30d158':'#ffb340'}"/><path d="M45 58l3-5 3 9 3-8 3 6 3-4 3 5 3-7 3 6 3-3 3 2" stroke="${f.radio?'#30d158':'#ffb340'}" stroke-width="1" fill="none"${f.radio?'':' class="flicker"'}/>`)+
     hs('rec',8,74,30,16,`<rect x="14" y="76" width="20" height="9" rx="1.5" fill="#2a3646"/><circle cx="20" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/><circle cx="28" cy="80.5" r="2.5" fill="#0d131d" stroke="#8a8a8e"/>`)+
-    hs('echo',96,22,32,36,o?`<circle cx="112" cy="38" r="11" fill="#151515" stroke="#3a3a3c" stroke-width="2"/><path d="M104 50l-3 5M120 49l4 4" stroke="#ffb340" stroke-width="1"/>`:`<circle cx="112" cy="38" r="14" fill="#5ac8fa" opacity=".14" class="blink"/><circle cx="112" cy="38" r="11" fill="#0a1a24" stroke="#5ac8fa" stroke-width="2"/><circle cx="112" cy="38" r="4.5" fill="#5ac8fa"/>`)+
+    hs('echo',96,22,32,36,o?`<circle cx="112" cy="38" r="11" fill="#151515" stroke="#3a3a3c" stroke-width="2"/><path d="M104 50l-3 5M120 49l4 4" stroke="#ffb340" stroke-width="1"/>`:`<circle cx="112" cy="38" r="14" fill="#5ac8fa" opacity=".14" class="blink"/><circle cx="112" cy="38" r="11" fill="#0a1a24" stroke="#5ac8fa" stroke-width="2"/><circle cx="${(112+dx).toFixed(1)}" cy="${(38+dy).toFixed(1)}" r="4.5" fill="#5ac8fa"/>`)+
     hs('door',130,14,28,82,`<rect x="134" y="34" width="22" height="62" fill="${f.choice?'#22364d':'#18212e'}" stroke="#3c4a5e" stroke-width="1.5"/><circle cx="145" cy="30" r="2" fill="${f.choice?'#30d158':'#ff453a'}"/>${f.choice?lbl(158,22,t('r_pod')+' ▶','end'):''}`,{exit:!!f.choice})+
-    back('hydro')},
+    hn(6,84,32)+back('junction')},
   act(id){const f=S.f;
     if(id==='radio'){if(f.radio)read('earth_title','earth');else radio(()=>{f.radio=1;read('earth_title','earth')})}
     if(id==='rec'){f.heardRec=1;read('rec_title','rec')}
-    if(id==='echo'){if(f.choice==='trust')E('echo_trust');else if(off())N('echo_dead');else if(!f.radio||!f.heardRec)E('echo_nothing');else confront()}
-    if(id==='door'){if(f.choice)return go('pod');N('com_door');E('com_door_e')}
-    if(id==='back')go('hydro');
+    if(id==='echo'){
+      if(f.choice==='nobody')E('echo_nb');
+      else if(f.choice==='trust')E('echo_trust');
+      else if(off())N('echo_dead');
+      else if(!f.radio||!f.heardRec){if(!f.talked)talk();else El('echo_nothing')}
+      else confront();
+    }
+    if(id==='door'){
+      if(!f.choice){N('com_door');E('com_door_e');return}
+      if(f.siren)return go('pod');
+      siren(()=>{f.siren=1;go('pod');if(off())N('siren_off');else El('siren_e')});
+    }
+    if(id==='back')go('junction');
   }},
 pod:{
-  intro(){N('pod_i1');if(off())N('pod_i_off');else E('pod_i_e')},
+  intro(){N('pod_i1');if(off())N('pod_i_off');else if(S.f.choice==='nobody')E('pod_i_nb');else E('pod_i_e')},
   scene(){const f=S.f,o=off();return base()+
     `<rect x="8" y="8" width="144" height="36" rx="6" fill="#02040a" stroke="#1e2938"/><g fill="#fff" opacity=".7"><circle cx="20" cy="18" r=".6"/><circle cx="48" cy="30" r=".5"/><circle cx="80" cy="14" r=".7"/><circle cx="100" cy="34" r=".5"/><circle cx="62" cy="22" r=".4"/></g><circle cx="130" cy="26" r="9" fill="#2f7fd6"/><path d="M124 23q4-3 7 0t6 2" stroke="#30d158" stroke-width="2" fill="none"/>`+
-    hs('hatch',40,44,64,38,`<rect x="42" y="46" width="60" height="44" rx="20" fill="#c9d3de"/><rect x="61" y="53" width="22" height="20" rx="6" fill="#0b1018"/>${f.podOpen?'<rect x="61" y="53" width="22" height="20" rx="6" fill="none" stroke="#30d158" stroke-width="1.5"/>':''}`)+
+    hs('hatch',40,44,64,38,`<rect x="42" y="46" width="60" height="44" rx="20" fill="#c9d3de"/><rect x="61" y="53" width="22" height="20" rx="6" fill="#0b1018"/>${f.podOpen?'<rect x="61" y="53" width="22" height="20" rx="6" fill="none" stroke="#30d158" stroke-width="1.5"/>':''}${f.choice==='nobody'?'<circle cx="72" cy="63" r="4" fill="#5ac8fa" class="blink"/>':''}`)+
     hs('shield',40,82,64,14,`<rect x="44" y="84" width="56" height="7" rx="3.5" fill="#6b4a2b"/><path d="M52 85l5 3 4-2 5 4 4-3 6 2" stroke="${o?'#000':'#5ac8fa'}" stroke-width="1" fill="none"${o?'':' class="blink"'}/>`)+
     hs('console',112,50,30,28,`<rect x="116" y="56" width="20" height="16" rx="2" fill="#111" stroke="${f.podOpen?'#30d158':'#ff453a'}"/><g fill="#3c4a5e"><rect x="119" y="59" width="3" height="2"/><rect x="124" y="59" width="3" height="2"/><rect x="129" y="59" width="3" height="2"/><rect x="119" y="63" width="3" height="2"/><rect x="124" y="63" width="3" height="2"/><rect x="129" y="63" width="3" height="2"/></g>`)+
     hs('sleep',96,100,64,20,lbl(156,114,t('x_sleep'),'end'),{exit:1,nodot:1})+
@@ -409,39 +602,83 @@ pod:{
   }}
 };
 
+/* ================= CLOSE-UP ART ================= */
+function artTally(){
+  let s='<rect width="160" height="80" rx="10" fill="#1c2735"/><rect x="8" y="8" width="144" height="64" rx="8" fill="#2a3646"/>';
+  for(let g=0;g<9;g++){const x=16+(g%5)*28,y=g<5?16:44;s+=`<path d="M${x} ${y}v20M${x+5} ${y}v20M${x+10} ${y}v20M${x+15} ${y}v20M${x-3} ${y+16}L${x+18} ${y+4}" stroke="#cfe9ff" stroke-width="1.6" opacity=".8"/>`}
+  return s+`<path d="M128 44v20" stroke="#fff" stroke-width="2"/>`;
+}
+function artPhoto(){
+  const skin=['#ffd8b0','#8d5a3b','#ffd8b0','#e8c39e'],cr=t('crew');
+  let s='<rect width="160" height="96" rx="4" fill="#8a8a8e"/><rect x="6" y="6" width="148" height="84" fill="#1c3a5a"/>';
+  cr.forEach((n,i)=>{const x=24+i*37;s+=`<circle cx="${x}" cy="32" r="9" fill="${skin[i]}"/><rect x="${x-14}" y="44" width="28" height="40" rx="8" fill="#0a84ff"/><rect x="${x-16}" y="54" width="32" height="12" rx="2" fill="#fff"/><text x="${x}" y="62.5" text-anchor="middle" font-size="5.3" font-weight="700" fill="#111">${n}</text>`});
+  return s;
+}
+function artNote(){return '<rect x="20" y="4" width="120" height="76" fill="#f5f0e1" transform="rotate(-3 80 42)"/><g stroke="#5a5a8a" stroke-width="1.2" opacity=".7" transform="rotate(-3 80 42)"><path d="M30 18q20-3 40 0t40 0"/><path d="M30 30q25 2 50-1t30 1"/><path d="M30 42q18-2 36 0t44-1"/><path d="M30 54q30 2 60 0"/></g><text x="112" y="72" font-size="11" fill="#c0392b" font-weight="700" transform="rotate(-3 80 42)">#46</text>'}
+function artPots(on){
+  const hb=t('herbs');let s='<rect width="160" height="84" rx="6" fill="#0d131d"/><rect x="4" y="66" width="152" height="5" fill="#3c4a5e"/>';
+  hb.forEach((n,i)=>{const x=6+i*38;s+=`<rect x="${x}" y="40" width="34" height="26" rx="2" fill="#8b5a2b"/><rect x="${x+2}" y="48" width="30" height="10" fill="#f5f0e1"/><text x="${x+17}" y="55.5" text-anchor="middle" font-size="${n.length>8?4.4:n.length>6?5:6.5}" font-weight="700" fill="#333">${n}</text>${on?`<circle cx="${x+10}" cy="30" r="8" fill="#30d158"/><circle cx="${x+22}" cy="27" r="9" fill="#34c759"/>`:`<path d="M${x+17} 40q-4-16-14-18M${x+17} 40q4-14 12-12" stroke="#7a6a3a" stroke-width="2" fill="none"/>`}`});
+  return s;
+}
+function artSched(){const l=t('sched');return `<rect width="160" height="80" rx="6" fill="#062014" stroke="#30d158"/><text x="80" y="16" text-anchor="middle" font-size="8" font-weight="700" fill="#30d158">${t('sched_t')}</text>${l.map((x,i)=>`<text x="30" y="${32+i*12}" font-size="9" font-weight="700" fill="#30d158">${x}</text>`).join('')}`}
+function artHidden(i){const c=t('letters')[i-1];return `<rect x="16" y="4" width="128" height="72" fill="#e9e2cf" transform="rotate(${i%2?2:-2} 80 40)"/><g stroke="#6a5a4a" stroke-width="1.1" opacity=".6"><path d="M26 18h70M26 28h60M26 38h76M26 48h52M26 58h66"/></g><circle cx="122" cy="40" r="13" fill="none" stroke="#c0392b" stroke-width="2"/><text x="122" y="46" text-anchor="middle" font-size="17" font-weight="800" fill="#222">${c}</text>`}
+function artItem(i){
+  const A={rod:'<line x1="20" y1="60" x2="140" y2="24" stroke="#9aa7b8" stroke-width="7" stroke-linecap="round"/><path d="M134 26q8-4 10 4" stroke="#9aa7b8" stroke-width="7" fill="none" stroke-linecap="round"/>',
+    card:'<rect x="34" y="12" width="92" height="58" rx="6" fill="#d9e1ea"/><rect x="34" y="22" width="92" height="10" fill="#3c4a5e"/><rect x="44" y="42" width="30" height="20" rx="2" fill="#ffd60a" opacity=".7"/><path d="M84 46h32M84 54h24" stroke="#8a8a8e" stroke-width="2"/>',
+    tube:'<path d="M30 40c0-30 40-30 40 0s40 30 40 0 40-30 40 0" stroke="#ffb3a7" stroke-width="7" fill="none" opacity=".85"/>',
+    ties:'<g stroke="#e8e8e8" stroke-width="3" fill="none"><path d="M30 20l100 10M30 34l100 10M30 48l100 10"/></g><g fill="#e8e8e8"><rect x="126" y="26" width="8" height="8"/><rect x="126" y="40" width="8" height="8"/><rect x="126" y="54" width="8" height="8"/></g>',
+    kit:'<path d="M20 40h120" stroke="#ffb3a7" stroke-width="10"/><g fill="#e8e8e8"><rect x="50" y="32" width="5" height="16"/><rect x="78" y="32" width="5" height="16"/><rect x="106" y="32" width="5" height="16"/></g>'};
+  return `<rect width="160" height="80" rx="8" fill="#0d131d"/>${A[i]||''}`;
+}
+
 /* ================= STORY DIALOGS ================= */
 function riddle(){
   const bad=()=>{msg=[];E('riddle_bad')};
   choice(`<p class="e">${t('med_riddle_e')}</p><p>${t('riddle_q')}</p>`,[[t('r_a1'),bad],[t('r_a2'),bad],[t('r_a3'),()=>{S.f.login=1;msg=[];read('logs_title','logs')}]]);
 }
-function confront(){
-  choice(`<p class="e">${t('conf1')}</p><p class="e">${t('conf2')}</p>`,[
-    [t('c_truth'),()=>{msg=[];setTimeout(lastQ,0)}],
-    [t('c_pull'),()=>{S.f.choice='off';msg=[];N('pull1');E('pull2');N('pull3')}]
+function talk(){
+  const f=S.f;
+  choice(`<p class="e">${t('talk1')}</p>`,[
+    [t('t_a1'),()=>{f.talked=1;S.trust++;msg=[];E('t_r1')}],
+    [t('t_a2'),()=>{f.talked=1;S.trust--;msg=[];El('t_r2')}],
+    [t('t_a3'),()=>{f.talked=1;msg=[];E('t_r3')}]
   ]);
+}
+function confront(){
+  const tr=S.trust,extra=tr>=2?`<p class="e">${t('conf_hi')}</p>`:tr<=-1?`<p class="e">${t('conf_lo')}</p>`:'';
+  const opts=[[t('c_truth'),()=>{msg=[];setTimeout(lastQ,0)}],[t('c_pull'),()=>{S.f.choice='off';msg=[];N('pull1');E('pull2');N('pull3')}]];
+  if(notesN()===6)opts.push([t('c_name'),()=>{S.f.choice='nobody';msg=[];E('nb1');E('nb2');E('nb3');N('nb4')}]);
+  choice(`<p class="e">${t('conf1')}</p>${extra}<p class="e">${t('conf2')}</p>`,opts);
 }
 function lastQ(){
   const wrong=()=>{msg=[];E('lq_wrong')};
   choice(`<p class="e">${t('lq1')}</p><p>${t('lq2')}</p>`,[[t('lq_a1'),wrong],[t('lq_a2'),()=>{S.f.choice='trust';msg=[];E('lq_ok1');E('lq_ok2')}],[t('lq_a3'),wrong]]);
 }
-function launchQ(){choice(`<p>${t('launch_q')}</p>`,[[t('launch'),()=>ending(off()?'silence':'home')],[t('notyet'),()=>{msg=[];N('breath')}]])}
+function launchQ(){choice(`<p>${t('launch_q')}</p>`,[[t('launch'),()=>ending(S.f.choice==='nobody'?'nobody':off()?'silence':'home')],[t('notyet'),()=>{msg=[];N('breath')}]])}
 function combine(a,b){
   msg=[];S.sel=null;
   if([a,b].sort().join('+')==='ties+tube'){take('ties');take('tube');give('kit');N('combine_ok')}
   else N('nocombine');
 }
+function foundNote(i){
+  S.f['hn'+i]=1;
+  read(null,'hn'+i,()=>{msg=[];N('hn_got',notesN())},artHidden(i),t('hn_title',ATT[i-1]),[t('hn_circle')]);
+}
 function ending(k){
   if(!FOUND.includes(k))FOUND.push(k);
   store('kal_end',FOUND);drop(SAVE);
-  END={k,ch:S.f.choice};mode='end';
+  const total=used(),best=load('kal_best');let rec=false;
+  if(!S.cp&&(best==null||total<best)){store('kal_best',total);rec=true}
+  END={k,ch:S.f.choice,trust:S.trust,total,h:S.h,rec,cp:S.cp};mode='end';
 }
 
 /* ================= OVERLAYS ================= */
-function ovClose(){ov.style.display='none';ov.innerHTML='';ov.onclick=null}
+function ovClose(){ov.style.display='none';ov.innerHTML='';ov.onclick=null;ov.onscroll=null}
 function ovOpen(h){ov.innerHTML=h;ov.style.display='block'}
 function finish(done){ovClose();done();render();scrollUp()}
-function read(tk,ak,after){
-  ovOpen(`<h1>${t(tk)}</h1>${t(ak).map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
+function read(tk,ak,after,art,title,extra){
+  const v=t(ak),ps=(Array.isArray(v)?v:[v]).concat(extra||[]);
+  ovOpen(`<h1>${title||t(tk)}</h1>${art?`<svg viewBox="0 0 160 ${art.includes('height="96"')?96:art.includes('height="84"')?84:80}" class="mg">${art}</svg>`:''}${ps.map(p=>`<p>${p}</p>`).join('')}<button class="pri" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
   ov.onclick=e=>{if(!e.target.closest('button'))return;ovClose();if(after)after();render();scrollUp()};
 }
 function choice(html,opts){
@@ -459,6 +696,30 @@ function keypad(tk,check){
     if(k==='✓'){if(c.length<4)return;if(check(c)){ovClose();render();scrollUp()}else{c='';draw(true)}return}
     if(c.length<4){c+=k;draw()}
   };
+}
+function mapView(){
+  const P={cryo:[6,8],corridor:[58,8],medbay:[110,8],hydro:[110,46],junction:[58,46],comms:[6,46],pod:[6,84]};
+  const links=[['cryo','corridor'],['corridor','medbay'],['medbay','hydro'],['hydro','junction'],['junction','comms'],['comms','pod']];
+  let s='<svg viewBox="0 0 160 110" class="mg">';
+  links.forEach(([a,b])=>{const A=P[a],Bp=P[b];s+=`<line x1="${A[0]+22}" y1="${A[1]+10}" x2="${Bp[0]+22}" y2="${Bp[1]+10}" stroke="${S.seen[a]&&S.seen[b]?'#5ac8fa':'#2a3646'}" stroke-width="2"/>`});
+  ORDER.forEach(r=>{const[x,y]=P[r],seen=S.seen[r],cur=r===S.room;
+    s+=`<g data-r="${r}"><rect x="${x}" y="${y}" width="44" height="20" rx="4" fill="${cur?'#0a84ff':seen?'#1c2735':'#0d0d0f'}" stroke="${seen?'#5ac8fa':'#2a3646'}"/><text x="${x+22}" y="${y+13}" text-anchor="middle" font-size="6.3" font-weight="700" fill="${seen?'#fff':'#555'}">${seen?t('m_'+r):'?'}</text></g>`});
+  return s+'</svg>';
+}
+function showMap(){
+  ovOpen(`<h1>${t('map')}</h1>${mapView()}<p class="hint">${t('map_hint')}</p><button class="cx" data-x="1">${t('close')}</button>`);ov.scrollTop=0;
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){ovClose();return}
+    const g=e.target.closest('[data-r]');if(!g)return;const r=g.getAttribute('data-r');
+    if(!S.seen[r]||r===S.room)return;
+    ovClose();go(r);render();scrollUp();
+  };
+}
+function menu(){
+  const l=t('letters').split('').map((c,i)=>S.f['hn'+(i+1)]?c:'_').join(' ');
+  const dots=Math.max(0,Math.min(5,S.trust+2));
+  choice(`<h1>${t('menu')}</h1><p class="info">${t('notes_found',notesN(),l)}</p><p class="info">${t('trust_lbl')}: <span class="e2">${'●'.repeat(dots)}${'○'.repeat(5-dots)}</span></p>`,
+    [[t('resume'),()=>{}],[t('map'),()=>setTimeout(showMap,0)],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
 /* ================= MINIGAMES ================= */
@@ -539,53 +800,101 @@ function pipes(done){
   };
 }
 function radio(done){
-  const TG=147;let f=100,locked=false;
+  const TG=147,STEP=14;let f=100,locked=false,iv=null;
   const str=()=>Math.max(0,1-Math.abs(f-TG)/40);
   const wave=()=>{const s=str();let d='M0 28';for(let x=0;x<=160;x+=4){const n=(Math.random()*2-1)*(1-s)*20;d+=`L${x} ${(28+Math.sin(x/7)*11*s+n).toFixed(1)}`}return d};
-  const draw=()=>{const s=str();
-    const bars=[.15,.4,.65,.9].map((th,i)=>`<rect x="${128+i*7}" y="${52-(i+1)*6}" width="5" height="${(i+1)*6}" fill="${s>=th?'#30d158':'#2a3646'}"/>`).join('');
-    ovOpen(`<h1>${t('radio_title')}</h1><p class="hint">${locked?`<span style="color:var(--ok)">${t('radio_lock')}</span>`:t('radio_hint')}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" d="${wave()}" stroke="${locked?'#30d158':'#ffb340'}" stroke-width="1.6" fill="none"/>${bars}</svg><div class="freq">${(f/10).toFixed(1)} <small>MHz</small></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><button data-x="1" class="cx">${t('cancel')}</button>`);
+  ovOpen(`<div class="stick"><h1>${t('radio_title')}</h1><p class="hint" id="rh">${t('radio_hint')}</p><svg viewBox="0 0 160 56" class="mg"><rect width="160" height="56" rx="6" fill="#06090e"/><path id="wv" stroke="#ffb340" stroke-width="1.6" fill="none"/><g id="bars"></g></svg><div class="freq" id="fq"></div><div class="tune"><button data-f="-10">«</button><button data-f="-1">‹</button><button data-f="1">›</button><button data-f="10">»</button></div><p class="hint c">${t('radio_crown')}</p><button data-x="1" class="cx">${t('cancel')}</button></div><div style="height:${99*STEP+600}px"></div>`);
+  ov.scrollTop=0;
+  const upd=()=>{const s=str();
+    document.getElementById('fq').innerHTML=`${(f/10).toFixed(1)} <small>MHz</small>`;
+    document.getElementById('bars').innerHTML=[.15,.4,.65,.9].map((th,i)=>`<rect x="${128+i*7}" y="${52-(i+1)*6}" width="5" height="${(i+1)*6}" fill="${s>=th?'#30d158':'#2a3646'}"/>`).join('');
+    const wv=document.getElementById('wv');wv.setAttribute('d',wave());wv.setAttribute('stroke',locked?'#30d158':'#ffb340');
+    if(locked)document.getElementById('rh').innerHTML=`<span style="color:var(--ok)">${t('radio_lock')}</span>`;
   };
-  draw();ov.scrollTop=0;
-  const iv=setInterval(()=>{const p=document.getElementById('wv');if(!p||ov.style.display!=='block'){clearInterval(iv);return}if(!locked)p.setAttribute('d',wave())},300);
+  const check=()=>{if(f===TG&&!locked){locked=true;upd();clearInterval(iv);ov.onclick=null;ov.onscroll=null;setTimeout(()=>finish(done),900)}};
+  const setF=nf=>{nf=Math.min(199,Math.max(100,nf));if(nf===f)return;f=nf;upd();check()};
+  upd();
+  iv=setInterval(()=>{const p=document.getElementById('wv');if(!p||ov.style.display!=='block'){clearInterval(iv);return}if(!locked)p.setAttribute('d',wave())},300);
+  ov.onscroll=()=>{if(!locked)setF(100+Math.round(ov.scrollTop/STEP))};
   ov.onclick=e=>{
     if(e.target.closest('[data-x]')){clearInterval(iv);ovClose();render();return}
     const b=e.target.closest('[data-f]');if(!b||locked)return;
-    f=Math.min(199,Math.max(100,f+ +b.dataset.f));
-    if(f===TG){locked=true;draw();clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),900);return}
-    draw();
+    const nf=Math.min(199,Math.max(100,f+ +b.dataset.f));
+    const onscroll=ov.onscroll;ov.onscroll=null;ov.scrollTop=(nf-100)*STEP;setTimeout(()=>{if(!locked)ov.onscroll=onscroll},50);
+    setF(nf);
+  };
+}
+function siren(done){
+  const DUR=8000;let w=.6,t0=Date.now(),li=0,over=false;
+  const lines=t('siren_lines');
+  ovOpen(`<h1>${t('siren_title')}</h1><p class="hint t">${t('siren_intro')}</p><p id="sl" class="e2 c" style="min-height:38px">${lines[0]}</p><div class="wbar"><div id="wb" style="width:60%"></div></div><p id="sm" class="err" style="min-height:16px"></p><button class="pri big" data-r="1">${t('resist')}</button>`);
+  ov.scrollTop=0;
+  const iv=setInterval(()=>{
+    if(over)return;
+    const el=Date.now()-t0;w-=.018;
+    const nl=Math.min(lines.length-1,Math.floor(el/2000));if(nl!==li){li=nl;const sl=document.getElementById('sl');if(sl)sl.textContent=lines[li]}
+    const wb=document.getElementById('wb');if(wb)wb.style.width=Math.max(0,w*100)+'%';
+    if(w<=0){over=true;S.pen+=120;const sm=document.getElementById('sm');if(sm)sm.textContent=t('siren_fail');
+      setTimeout(()=>{w=.6;t0=Date.now();li=0;over=false;if(sm)sm.textContent=''},1600);return}
+    if(el>=DUR){over=true;clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),300)}
+  },100);
+  ov.onclick=e=>{if(e.target.closest('[data-r]')&&!over){w=Math.min(1,w+.09);const wb=document.getElementById('wb');if(wb)wb.style.width=w*100+'%'}};
+}
+function timing(kind,done){
+  const cfg=kind==='scy'?{need:3,zone:30,period:1600,pen:60,miss:'scy_miss',title:'scy_title'}:{need:1,zone:12,period:1000,pen:180,miss:'cha_miss',title:'cha_title'};
+  let hits=0,t0=Date.now(),zx=0,pos=0,run=true;
+  const newZone=()=>{zx=10+Math.random()*(140-cfg.zone)};
+  newZone();
+  ovOpen(`<h1>${t(cfg.title)}</h1><p class="hint" id="th">${t('tim_hint')}</p><svg viewBox="0 0 160 30" class="mg"><rect width="160" height="30" rx="6" fill="#06090e"/><rect id="tz" x="${zx}" y="4" width="${cfg.zone}" height="22" rx="3" fill="#30d158" opacity=".55"/><rect id="tmk" x="0" y="2" width="4" height="26" fill="#fff"/></svg><p class="hint c" id="tp">${t('tim_prog',0,cfg.need)}</p><button class="pri big" data-n="1">${t('tim_now')}</button><button data-x="1" class="cx">${t('cancel')}</button>`);
+  ov.scrollTop=0;
+  const iv=setInterval(()=>{
+    if(!run)return;
+    const ph=((Date.now()-t0)%cfg.period)/cfg.period;pos=(ph<.5?ph*2:2-ph*2)*156;
+    const m=document.getElementById('tmk');if(!m){clearInterval(iv);return}m.setAttribute('x',pos.toFixed(1));
+  },30);
+  ov.onclick=e=>{
+    if(e.target.closest('[data-x]')){clearInterval(iv);ovClose();render();return}
+    if(!e.target.closest('[data-n]')||!run)return;
+    const th=document.getElementById('th');
+    if(pos+2>=zx&&pos+2<=zx+cfg.zone){
+      hits++;document.getElementById('tp').textContent=t('tim_prog',hits,cfg.need);th.innerHTML=t('tim_hint');
+      if(hits>=cfg.need){run=false;clearInterval(iv);ov.onclick=null;setTimeout(()=>finish(done),400);return}
+      newZone();document.getElementById('tz').setAttribute('x',zx.toFixed(1));
+    }else{S.pen+=cfg.pen;th.innerHTML=`<span class="err">${t(cfg.miss)}</span>`}
   };
 }
 
 /* ================= VIEWS ================= */
 function titleView(){
-  const sv=load(SAVE);
-  app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
+  const sv=load(SAVE),best=load('kal_best');
+  app.innerHTML=`<div class="title"><svg viewBox="0 0 160 46" class="mg"><g fill="#fff" opacity=".7"><circle cx="20" cy="10" r=".7"/><circle cx="45" cy="30" r=".5"/><circle cx="140" cy="36" r=".6"/><circle cx="150" cy="8" r=".5"/></g><circle cx="80" cy="26" r="15" fill="#c98b5a"/><path d="M66.5 22h27M65 27h30M67.5 32h25" stroke="#8a5a3a" stroke-width="2"/><ellipse cx="80" cy="26" rx="30" ry="5" fill="none" stroke="#5ac8fa" stroke-opacity=".5"/><rect x="112" y="9" width="12" height="3" fill="#d9e1ea"/><rect x="117" y="5" width="2" height="11" fill="#d9e1ea"/></svg><div class="big2">${t('title_big')}</div><p class="sub">${t('title_sub')}</p></div>`+
     (sv?`<button class="pri" data-t="cont">${t('cont')}</button>`:'')+
-    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button><button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)} · ${VER}</p>`;
+    `<button${sv?'':' class="pri"'} data-t="new">${t('new')}</button><button data-t="code">${t('code')}</button><button data-t="lang">${t('langBtn')}</button><p class="hint c">${t('found',FOUND.length)}${best!=null?' · '+t('best',fmt(best)):''} · ${VER}</p>`;
 }
 function endArt(k){
   const st='<g fill="#fff" opacity=".7"><circle cx="15" cy="10" r=".6"/><circle cx="60" cy="20" r=".5"/><circle cx="120" cy="8" r=".7"/><circle cx="145" cy="30" r=".5"/><circle cx="30" cy="40" r=".4"/></g>';
-  if(k==='home')return `<rect width="160" height="70" fill="#02040a"/>${st}<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/><path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>`;
-  if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
+  const earth='<circle cx="80" cy="130" r="72" fill="#2f7fd6"/><path d="M40 66q20-10 40-4t40-2" stroke="#30d158" stroke-width="5" fill="none" opacity=".8"/>';
+  if(k==='home'||k==='nobody')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<path d="M98 12L86 34" stroke="#ff9f0a" stroke-width="4" stroke-linecap="round" opacity=".85"/><circle cx="85" cy="36" r="3.5" fill="#c9d3de"/>${k==='nobody'?'<circle cx="85" cy="36" r="7" fill="#5ac8fa" opacity=".35" class="blink"/>':''}`;
+  if(k==='silence')return `<rect width="160" height="70" fill="#02040a"/>${st}${earth}<rect x="118" y="10" width="18" height="5" fill="#1e2938"/><rect x="126" y="4" width="2" height="17" fill="#1e2938"/><path d="M60 30v10" stroke="#d9e1ea" stroke-width="1"/><path d="M53 30q7-9 14 0z" fill="#d9e1ea"/><circle cx="60" cy="43" r="2.5" fill="#c9d3de"/>`;
   return `<rect width="160" height="70" fill="#0d131d"/><rect width="160" height="70" fill="#ff453a" class="redglow"/><rect x="40" y="16" width="80" height="42" rx="21" fill="#1c2735" stroke="#3c4a5e" stroke-width="2"/><rect x="52" y="23" width="56" height="28" rx="13" fill="#9fd8ff" fill-opacity=".2" stroke="#5ac8fa" stroke-opacity=".5"/>`;
 }
 function endView(){
-  const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3]}[END.k];
-  app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end_label',m[2])}<br><span>${t(m[0])}</span></p>${t(m[1]).map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('found',FOUND.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;
+  const m={home:['end_home_t','end_home',1],silence:['end_sil_t','end_sil',2],stay:['end_stay_t',END.ch==='off'?'stay_off':'stay_on',3],nobody:['end_nb_t','end_nb',4]}[END.k];
+  const ps=t(m[1]).slice();
+  if(END.trust>=2&&END.k==='home')ps.push(t('end_home_hi'));
+  if(END.trust>=2&&END.k==='silence')ps.push(t('end_sil_hi'));
+  app.innerHTML=`<svg class="scene" viewBox="0 0 160 70">${endArt(END.k)}</svg><p class="end">${t('end_label',m[2])}<br><span>${t(m[0])}</span></p>${ps.map(p=>`<p>${p}</p>`).join('')}<p class="hint c">${t('time_res',fmt(END.total),END.h)}</p>${END.rec?`<p class="rec">${t('newrec')}</p>`:''}${END.cp?`<p class="hint c">${t('cp_norec')}</p>`:''}<p class="hint c">${t('found',FOUND.length)}</p><button class="pri" data-t="title">${t('titleScr')}</button>`;
 }
 function render(){
   if(mode==='title')return titleView();
   if(mode==='end')return endView();
-  let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><button class="mbtn" data-m="1">☰</button></div><svg class="scene" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
-  if(S.inv.length)h+=`<div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${t('it_'+i)}</button>`).join('')}</div>`;
+  const enter=S.room!==lastRoom;lastRoom=S.room;
+  let h=`<div class="hdr"><h1>${t('r_'+S.room)}</h1><span id="tm" class="tm${used()>LIMIT?' over':''}">${timerTxt()}</span><button class="ib" data-h="1">💡</button><button class="ib" data-m="1">☰</button></div><svg class="scene${enter?' enter':''}" viewBox="0 0 160 120">${R[S.room].scene()}</svg>`;
+  if(S.inv.length)h+=`<div class="chips">${S.inv.map(i=>`<button class="chip${S.sel===i?' on':''}" data-i="${i}">${t('it_'+i)}</button>`).join('')}${S.sel?`<button class="chip" data-z="1">🔍</button>`:''}</div>`;
   h+=`<div class="hint">${S.sel?t('hint_sel',S.sel):t('hint_tap')}</div>`;
   if(msg.length)h+=`<div class="card" data-card="1">${msg.map(m=>`<p class="${m[0]}">${t(m[1],...m[2])}</p>`).join('')}<div class="cardx">▾ ${t('close_card')}</div></div>`;
   app.innerHTML=h;
   store(SAVE,S);
-}
-function menu(){
-  choice(`<h1>${t('menu')}</h1>`,[[t('resume'),()=>{}],[t('langBtn'),()=>setLang(lang==='en'?'el':'en')],[t('titleScr'),()=>{mode='title';msg=[]}]]);
 }
 
 /* ================= INPUT ================= */
@@ -595,15 +904,15 @@ app.addEventListener('click',e=>{
   const b=el.closest('button');
   if(b){const d=b.dataset;
     if(d.t){
-      if(d.t==='new'){S=fresh();mode='game';go('cryo')}
-      else if(d.t==='cont'){S=load(SAVE);if(S){if(!S.x)S.x={};mode='game';msg=[]}}
+      if(d.t==='new'){S=fresh();mode='game';lastRoom=null;go('cryo')}
+      else if(d.t==='cont'){S=load(SAVE);if(S){S=Object.assign(fresh(),S);mode='game';msg=[];lastRoom=null}}
       else if(d.t==='lang')setLang(lang==='en'?'el':'en');
       else if(d.t==='code'){
         keypad('access_title',c=>{
           const cp=CP[c];if(!cp)return false;
-          S=Object.assign(fresh(),JSON.parse(JSON.stringify(cp)));
+          S=Object.assign(fresh(),JSON.parse(JSON.stringify(cp)),{cp:1});
           ORDER.slice(0,ORDER.indexOf(S.room)).forEach(r=>S.seen[r]=1);
-          mode='game';go(S.room);return true;
+          mode='game';lastRoom=null;go(S.room);return true;
         });
         return;
       }
@@ -611,13 +920,17 @@ app.addEventListener('click',e=>{
       render();scrollUp();return;
     }
     if(d.m){menu();return}
+    if(d.h){hintAsk();return}
+    if(d.z&&S.sel){const i=S.sel;read(null,'it_'+i+'_d',null,artItem(i),t('it_'+i));return}
     if(d.i){const i=d.i;if(!S.sel)S.sel=i;else if(S.sel===i)S.sel=null;else combine(S.sel,i);render();return}
     return;
   }
   const g=el.closest('[data-o]');
   if(g&&mode==='game'){
     const id=g.getAttribute('data-o'),exit=g.hasAttribute('data-g'),r=R[S.room];
+    if(S.room==='comms'){const sv=app.querySelector('svg.scene'),rc=sv&&sv.getBoundingClientRect();if(rc&&rc.width)S.look=[(e.clientX-rc.left)/rc.width*160,(e.clientY-rc.top)/rc.height*120]}
     S.x[S.room+'.'+id]=1;msg=[];
+    if(/^hn\d$/.test(id)){foundNote(+id[2]);render();return}
     if(S.sel&&!exit){const it=S.sel;S.sel=null;if(!(r.use&&r.use(id,it)))N('nothing',it)}
     else{S.sel=null;r.act(id)}
     render();
