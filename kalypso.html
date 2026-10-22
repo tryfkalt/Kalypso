@@ -9,7 +9,8 @@
 :root{--bg:#000;--fg:#e8e8e8;--dim:#8a8a8e;--echo:#5ac8fa;--code:#ffb340;--btn:#1c1c1e;--btn2:#2c2c2e;--sel:#0a84ff;--ok:#30d158;--bad:#ff453a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.35 -apple-system,system-ui,sans-serif}
-body{padding:6px 6px 16px}
+html,body{height:100%;overflow:hidden}
+#app{position:fixed;top:0;left:0;right:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 6px 16px}
 h1{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin:2px 0 6px;font-weight:600}
 p{margin:0 0 7px}
 .e{color:var(--echo)}
@@ -75,7 +76,7 @@ function give(i){if(!has(i))S.inv.push(i)}
 function take(i){S.inv=S.inv.filter(x=>x!==i);if(S.sel===i)S.sel=null}
 const T=t=>msg.push(['t',t]),N=t=>msg.push(['n',t]),E=t=>msg.push(['e',t]),SY=t=>msg.push(['s',t]);
 const off=()=>S.f.choice==='off';
-function scrollUp(){window.scrollTo(0,0)}
+function scrollUp(){app.scrollTop=0;window.scrollTo(0,0)}
 
 function cpCode(room){if(room==='pod')return S.f.choice==='trust'?'7071':'7072';return ROOMCODE[room]}
 function go(room){
@@ -233,7 +234,7 @@ function keypad(title,check){
 /* ---------- views ---------- */
 function titleView(){
   const sv=load('kal_save');
-  app.innerHTML=`<div class="title"><div class="s">◈ ◈ ◈</div><div class="big">KALYPSO<br>STATION</div><p style="color:var(--dim);font-size:12px">A mystery in orbit</p><p class="hint">v3</p></div>`+
+  app.innerHTML=`<div class="title"><div class="s">◈ ◈ ◈</div><div class="big">KALYPSO<br>STATION</div><p style="color:var(--dim);font-size:12px">A mystery in orbit</p><p class="hint">v4</p></div>`+
     (sv?'<button class="pri" data-t="cont">Continue</button>':'')+
     `<button class="${sv?'':'pri'}" data-t="new">New game</button><button data-t="code">Enter access code</button>`+
     `<p class="hint" style="text-align:center">Endings found: ${FOUND.length}/3</p>`;
